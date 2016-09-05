@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="dogya\MyMVCAppCS" />
+  <setParameter name="walkingDEV-Web.config Connection String" value="Data Source=PLLPC4004\SQLEXPRESS2014;Initial Catalog=walkingDB_DEV;Integrated Security=True" />
+  <setParameter name="walkingLIVE-Web.config Connection String" value="Data Source=PLLPC4004\SQLEXPRESS2014;Initial Catalog=walkingDB;Integrated Security=True" />
+</parameters>

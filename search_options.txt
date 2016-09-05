@@ -1,0 +1,52 @@
+Walking search
+==============
+
+Image search
+------------
+
+Image captions -> list of matching images with caption, name, thumbnail and link to walk
+
+Line: thumbnail, walk title, walk date, image caption (first n chars)
+Click on thumnail to view full size image
+Clink on walk title to go to walk
+
+Walk search
+----------
+
+Walk title -> list of matching walks
+
+Walk description -> list of matching walks
+
+Walk with image caption search -> list of walks with image caption containin text
+
+Walk conditions search -> list of walks with matching conditions
+
+Ascent search -> list of walks with matching hill ascended names
+
+Walk length search -> list of walks in specified length range
+
+Walk metres of ascent search -> list of walks with ascent in specified range.
+
+Walk time search -> list of walks with time in specified range
+
+Walk overall speed search -> list of walks with time in specified range
+
+Walk date search -> list of walks in date range
+
+
+
+Results will show one line per walk similar to the BrowseWalks view
+
+Marker Search
+--------------
+
+Marker search -> list of markers matching the search with link to associated walk
+
+Results will show one marker per line similar to browse markers view
+
+Hill saerch
+-----------
+
+Hill search -> list of hills matching the search text
+
+Results similar to 

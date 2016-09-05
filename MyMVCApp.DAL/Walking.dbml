@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="walkingDB" Class="WalkingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=PLLPC4004\OI;Initial Catalog=walkingDB;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="walkingLIVE" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Arealink" Member="Arealinks">
+    <Type Name="Arealink">
+      <Column Name="Hillnumber" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Arearef" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Alt_Area" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="AreaLinkID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Hill_Arealink" Member="Hill" ThisKey="Hillnumber" OtherKey="Hillnumber" Type="Hill" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WalkTypes" Member="WalkTypes">
+    <Type Name="WalkType">
+      <Column Name="WalkTypeString" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="WalkType_Walk" Member="Walks" ThisKey="WalkTypeString" OtherKey="WalkType" Type="Walk" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Areas" Member="Areas">
+    <Type Name="Area">
+      <Column Name="Country" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="Arearef" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Shortname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Areaname" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AreaType" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Association Name="Area_Walk" Member="Walks" ThisKey="Areaname" OtherKey="WalkAreaName" Type="Walk" />
+      <Association Name="AreaType_Area" Member="AreaType1" ThisKey="AreaType" OtherKey="AreaType1" Type="AreaType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AreaTypes" Member="AreaTypes">
+    <Type Name="AreaType">
+      <Column Name="AreaType" Member="AreaType1" Type="System.Char" DbType="Char(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AreaTypeName" Type="System.String" DbType="NChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="AreaType_Area" Member="Areas" ThisKey="AreaType1" OtherKey="AreaType" Type="Area" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Class" Member="Classes">
+    <Type Name="Class">
+      <Column Name="SortSeq" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Classref" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Classname" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ClassType" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Association Name="Class_Classlink" Member="Classlinks" ThisKey="Classref" OtherKey="Classref" Type="Classlink" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Classlink" Member="Classlinks">
+    <Type Name="Classlink">
+      <Column Name="Hillnumber" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Classref" Type="System.String" DbType="VarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="ClasslinkID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Class_Classlink" Member="Class" ThisKey="Classref" OtherKey="Classref" Type="Class" IsForeignKey="true" />
+      <Association Name="Hill_Classlink" Member="Hill" ThisKey="Hillnumber" OtherKey="Hillnumber" Type="Hill" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HillAscent" Member="HillAscents">
+    <Type Name="HillAscent">
+      <Column Name="AscentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AscentDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Hillnumber" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="WalkID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Hill_HillAscent" Member="Hill" ThisKey="Hillnumber" OtherKey="Hillnumber" Type="Hill" IsForeignKey="true" />
+      <Association Name="Walk_HillAscent" Member="Walk" ThisKey="WalkID" OtherKey="WalkID" Type="Walk" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Hills" Member="Hills">
+    <Type Name="Hill">
+      <Column Name="Hillnumber" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Hillname" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="[_Section]" Member="_Section" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Classification" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Metres" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Feet" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Gridref" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="Gridref10" Type="System.String" DbType="NVarChar(14)" CanBeNull="true" />
+      <Column Name="Colgridref" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Colheight" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="[Drop]" Member="Drop" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Feature" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Observations" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Survey" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Revision" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Comments" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Map25" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Xcoord" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ycoord" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Longitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="NumberOfAscents" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="FirstClimbedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Hill_Arealink" Member="Arealinks" ThisKey="Hillnumber" OtherKey="Hillnumber" Type="Arealink" />
+      <Association Name="Hill_Classlink" Member="Classlinks" ThisKey="Hillnumber" OtherKey="Hillnumber" Type="Classlink" />
+      <Association Name="Hill_HillAscent" Member="HillAscents" ThisKey="Hillnumber" OtherKey="Hillnumber" Type="HillAscent" />
+      <Association Name="Hill_Marker" Member="Markers" ThisKey="Hillnumber" OtherKey="Hillnumber" Type="Marker" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Marker" Member="Markers">
+    <Type Name="Marker">
+      <Column Name="MarkerID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MarkerTitle" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Hillnumber" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="GPS_Reference" Type="System.String" DbType="NChar(14)" CanBeNull="true" />
+      <Column Name="Location_Description" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="WalkID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateLeft" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="NChar(40) NOT NULL" CanBeNull="false" />
+      <Association Name="Marker_Marker_Observation" Member="Marker_Observations" ThisKey="MarkerID" OtherKey="MarkerID" Type="Marker_Observation" />
+      <Association Name="Marker_Walk_AssociatedFile" Member="Walk_AssociatedFiles" ThisKey="MarkerID" OtherKey="Walk_AssociatedFile_MarkerID" Type="Walk_AssociatedFile" />
+      <Association Name="Hill_Marker" Member="Hill" ThisKey="Hillnumber" OtherKey="Hillnumber" Type="Hill" IsForeignKey="true" />
+      <Association Name="Marker_Status_Marker" Member="Marker_Status" ThisKey="Status" OtherKey="Marker_Status1" Type="Marker_Status" IsForeignKey="true" />
+      <Association Name="Walk_Marker" Member="Walk" ThisKey="WalkID" OtherKey="WalkID" Type="Walk" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Marker_Observation" Member="Marker_Observations">
+    <Type Name="Marker_Observation">
+      <Column Name="MarkerObservationID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MarkerID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FoundFlag" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="WalkID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ObservationText" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="DateOfObservation" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Marker_Marker_Observation" Member="Marker" ThisKey="MarkerID" OtherKey="MarkerID" Type="Marker" IsForeignKey="true" />
+      <Association Name="Walk_Marker_Observation" Member="Walk" ThisKey="WalkID" OtherKey="WalkID" Type="Walk" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Marker_Status" Member="Marker_Status">
+    <Type Name="Marker_Status">
+      <Column Name="Marker_Status" Member="Marker_Status1" Type="System.String" DbType="NChar(40) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Marker_Status_Marker" Member="Markers" ThisKey="Marker_Status1" OtherKey="Status" Type="Marker" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MarylynParentChild" Member="MarylynParentChilds">
+    <Type Name="MarylynParentChild">
+      <Column Name="MarlylnParentChildID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ParentRegionAreaRef" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="ChildRegionAreaRef" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Walk_AssociatedFile_Types" Member="Walk_AssociatedFile_Types">
+    <Type Name="Walk_AssociatedFile_Type">
+      <Column Name="Walk_AssociatedFile_Type" Member="Walk_AssociatedFile_Type1" Type="System.String" DbType="VarChar(40) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Walk_AssociatedFile_Type_Walk_AssociatedFile" Member="Walk_AssociatedFiles" ThisKey="Walk_AssociatedFile_Type1" OtherKey="Walk_AssociatedFile_Type" Type="Walk_AssociatedFile" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Walk_AssociatedFiles" Member="Walk_AssociatedFiles">
+    <Type Name="Walk_AssociatedFile">
+      <Column Name="Walk_AssociatedFileID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="WalkID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Walk_AssociatedFile_Name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Walk_AssociatedFile_Type" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="Walk_AssociatedFile_Sequence" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Walk_AssociatedFile_Caption" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Walk_AssociatedFile_MarkerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Marker_Walk_AssociatedFile" Member="Marker" ThisKey="Walk_AssociatedFile_MarkerID" OtherKey="MarkerID" Type="Marker" IsForeignKey="true" />
+      <Association Name="Walk_AssociatedFile_Type_Walk_AssociatedFile" Member="Walk_AssociatedFile_Type1" ThisKey="Walk_AssociatedFile_Type" OtherKey="Walk_AssociatedFile_Type1" Type="Walk_AssociatedFile_Type" IsForeignKey="true" />
+      <Association Name="Walk_Walk_AssociatedFile" Member="Walk" ThisKey="WalkID" OtherKey="WalkID" Type="Walk" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Walks" Member="Walks">
+    <Type Name="Walk">
+      <Column Name="WalkID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="WalkDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="WalkDescription" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="WalkTitle" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="WalkSummary" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="WalkStartPoint" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="WalkEndPoint" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="WalkType" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="WalkAreaName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CartographicLength" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="MetresOfAscent" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="WalkCompanions" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="WalkTotalTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="WalkAverageSpeedKmh" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="MovingAverageKmh" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="WalkConditions" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="Walk_HillAscent" Member="HillAscents" ThisKey="WalkID" OtherKey="WalkID" Type="HillAscent" />
+      <Association Name="Walk_Marker" Member="Markers" ThisKey="WalkID" OtherKey="WalkID" Type="Marker" />
+      <Association Name="Walk_Marker_Observation" Member="Marker_Observations" ThisKey="WalkID" OtherKey="WalkID" Type="Marker_Observation" />
+      <Association Name="Walk_Walk_AssociatedFile" Member="Walk_AssociatedFiles" ThisKey="WalkID" OtherKey="WalkID" Type="Walk_AssociatedFile" />
+      <Association Name="Area_Walk" Member="Area" ThisKey="WalkAreaName" OtherKey="Areaname" Type="Area" IsForeignKey="true" />
+      <Association Name="WalkType_Walk" Member="WalkType1" ThisKey="WalkType" OtherKey="WalkTypeString" Type="WalkType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="MyProgresses">
+    <Type Name="MyProgress" Id="ID1">
+      <Column Name="NumberClimbed" Type="System.Int32" CanBeNull="false" />
+      <Column Name="TotalHills" Type="System.Int32" CanBeNull="false" />
+      <Column Name="ClassRef" Type="System.String" CanBeNull="false" />
+      <Column Name="ClassName" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Function Name="dbo.sp_GetMyProgress" Method="sp_GetMyProgress">
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.sp_GetMyProgressByClassType" Method="sp_GetMyProgressByClassType">
+    <Parameter Name="ClassType" Parameter="classType" Type="System.Char" DbType="Char(1)" />
+    <ElementType IdRef="ID1" />
+  </Function>
+</Database>

@@ -1,0 +1,11 @@
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\bin\Debug\SeleniumTests.dll
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\bin\Debug\SeleniumTests.pdb
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\bin\Debug\nunit.framework.dll
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\bin\Debug\WebDriver.dll
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\bin\Debug\WebDriver.Support.dll
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\bin\Debug\nunit.framework.xml
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\bin\Debug\WebDriver.xml
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\bin\Debug\WebDriver.Support.xml
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\obj\Debug\SeleniumTests.csprojResolveAssemblyReference.cache
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\obj\Debug\SeleniumTests.dll
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\obj\Debug\SeleniumTests.pdb

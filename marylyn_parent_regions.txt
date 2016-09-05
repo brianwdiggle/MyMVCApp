@@ -1,0 +1,23 @@
+Marylyn parent/child regions
+----------------------------
+
+There are a number of parent/child marylyn regions. Where there is a child, hills are linked to the
+child region - no hills are linked to the parent region.
+
+There are some parent only regions. Here, hills are linked to the parent region.
+
+Want to be able to select a parent region and if there are child regions, to get the hills associated
+with all the children.
+
+
+Created table MarylynParentChild
+Added parent/children for M17
+
+
+select * from arealink where arearef in
+    ( select childregionarearef from marylynparentchild where parentregionarearef='M17')
+
+gives 179 rows  - correct.
+
+Much simpler solution is to use  Where hillarealink.Arearef.Contains(strAreaRef) - so this will
+get "children" anyway.

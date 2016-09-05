@@ -1,0 +1,28 @@
+﻿CREATE TABLE [dbo].[Hills] (
+    [Hillnumber]       SMALLINT       NOT NULL,
+    [Hillname]         NVARCHAR (100) NOT NULL,
+    [_Section]         FLOAT (53)     NULL,
+    [Classification]   NVARCHAR (50)  NULL,
+    [Metres]           FLOAT (53)     NOT NULL,
+    [Feet]             FLOAT (53)     NULL,
+    [Gridref]          NVARCHAR (8)   NULL,
+    [Gridref10]        NVARCHAR (14)  NULL,
+    [Colgridref]       NVARCHAR (40)  NULL,
+    [Colheight]        FLOAT (53)     NULL,
+    [Drop]             FLOAT (53)     NULL,
+    [Feature]          NVARCHAR (255) NULL,
+    [Observations]     NVARCHAR (255) NULL,
+    [Survey]           NVARCHAR (255) NULL,
+    [Revision]         DATETIME       NULL,
+    [Comments]         NVARCHAR (255) NULL,
+    [Map]              NVARCHAR (15)  NULL,
+    [Map25]            NVARCHAR (20)  NULL,
+    [Xcoord]           INT            NULL,
+    [Ycoord]           INT            NULL,
+    [Latitude]         FLOAT (53)     NULL,
+    [Longitude]        FLOAT (53)     NULL,
+    [NumberOfAscents]  SMALLINT       CONSTRAINT [DF_Hills_NumberOfAscents] DEFAULT ((0)) NOT NULL,
+    [FirstClimbedDate] DATETIME       NULL,
+    CONSTRAINT [PK_Hills] PRIMARY KEY CLUSTERED ([Hillnumber] ASC)
+);
+

@@ -1,0 +1,3 @@
+﻿GRANT CONNECT TO [IIS APPPOOL\ASP.NET v4.0]
+    AS [dbo];
+

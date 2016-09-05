@@ -1,0 +1,174 @@
+Mymvc data
+
+Done:
+=====
+
+Documented walks in site
+------------------------
+Dalespennines/34
+Dalespennines/35
+Dalespennines/39
+Dalespennines/52
+Dalespennines/70
+Dalespennines/blubberhousesharrogate
+dalespennines\burntyates
+dalespennines\burtonleonard
+dalespennines\fountains
+dalespennines\greenhow
+dalespennines\HarewoodPannal
+dalespennines/highcragridge
+dalespennines/IlkleyMoor
+dalespennines/KirkyOverblowBlackmoorCourt
+dalespennines/pannal
+dalespennines/PannalToHaverahFeb2009
+dalespennines/ripleyripon
+dalespennines/ripleysummerbridge
+dalespennines/RoughHaw
+dalespennines/SimonsSeat
+dalespennines/Westofripon
+Lakes/19
+Lakes/22
+Lakes/23
+Lakes/24
+Lakes/25
+Lakes/26
+Lakes/27
+Lakes/29
+Lakes/31
+Lakes/38
+Lakes/39
+Lakes/40
+Lakes/41
+Lakes/43/23July2005
+Lakes/43/12 december 2009
+Lakes/46
+Lakes/47
+Lakes/48
+Lakes/49
+Lakes/50
+Lakes/53
+Lakes/55
+Lakes/56
+Lakes/59
+Lakes/60 Dec_24_1992
+Lakes/61
+Lakes/66
+Lakes/68
+Lakes/69
+Lakes/71
+Lakes/72
+Lakes/76
+Lakes/77
+Lakes/85
+Lakes/86
+Lakes/90
+Lakes/92
+Lakes/102
+Lakes/103
+Lakes/104
+Lakes/108
+Lakes/111
+Lakes/113
+Lakes/118
+Lakes/120
+Lakes/124
+Lakes/125
+Lakes/129
+Lakes/133
+Lakes/135
+Lakes/137
+Lakes/139
+Lakes/142
+Lakes/143
+Lakes/144
+Lakes/146
+Lakes/149
+Lakes/151
+Lakes/154
+Lakes/157
+Lakes/161
+Lakes/162
+Lakes/165
+Lakes/166
+Lakes/170
+Lakes/172
+Lakes/176
+Lakes/177
+Lakes/178 
+Lakes/180
+Lakes/184 26 december 2000
+Lakes/184 30 November 2010
+Lakes/184 4 December 2010
+Lakes/189
+Lakes/192
+Lakes/194
+Lakes/195
+Lakes/198
+Lakes/201
+Lakes/202
+Lakes/206
+Lakes/212
+
+Undocumented walks in old wainwright index
+Birketts/AdamSeat
+Birketts/BirkettFell
+Birketts/BrackenHow
+Birketts/BroadCrag
+Birketts/BrownHills
+Birketts/BrownthwaiteCrag
+Birketts/BruntKnott
+Birketts/CalfhowPike
+Birketts/Caw (WhiteMaiden)
+Birketts/CommonFell
+Birketts/CocklawFell
+Birketts/FoxHawDunnerdale#
+Birketts/GavelPike
+Birketts/GowkHill
+Birketts/GreatHowe
+Birketts/HollowMoor
+Birketts/IllCrag
+Birketts/LambPasture
+Birketts/LittleDoddStJohnsCommon
+Birketts/Pikes
+Birketts/RavensCragDunnerdale
+Birketts/RoughCragBirkerFell (Whitfell)
+Birketts/Round How
+Birketts/Seat How
+Birketts/Stainton Pike
+Birketts/SticklePikeDunnerdale
+Birketts/SwarthFell
+Birketts/SwinesideKnott
+Birketts/TarnHill
+Birketts/WalnaScar
+Birketts/WansfellPike
+Birketts/WaterCrag
+Birketts/WhiteMaiden
+Birketts/WhitePikeBirkbyFell
+Birketts/WhitePikeSeathwaite
+birketts/WhiteStonesOnGreenSide
+birketts\Whitfell
+birketts\WoodendHeight
+birketts\Yoadcastle
+
+Doing:
+======
+Lakes/3 (todo: gpx files, maps, stats, journal)
+Swindale walk (map overlay from anquet)
+Darley Walk 3 april 2011 - map overlay from anquet, GPX and stats)
+Did I climb codale head? need to examine GPX file of the walk on 25 March 2009
+
+Birketts index: up to Helm Crag
+Final Checks
+------------
+
+Cross check markers with doc
+Do all the walks without files (look on wainwrights lakes index, sub indexes etc)
+
+To Do after data entry
+----------------------
+bowfell map overlay
+brunt knott nameless?
+otley chevin
+Look through journal and check that text is in DB
+26 December 2003 Little Scoat Fell photos scan
+Ben more map and gpx, finish description
