@@ -15,7 +15,7 @@
 <script type="text/javascript" src="~/Scripts/CreateEditWalk.js"></script>
 
     <h2>Add Walk</h2>
-@Server.MapPath("~/Content/images/")
+
 
     @using (Html.BeginForm("Create", "Walks", FormMethod.Post, new {id = "walkform", name = "walkform"}))
      {
@@ -86,10 +86,10 @@
 <!-- Section: Add Walk Images---------------------------------------------------------------------->
 
             <div class="editor-label">
-               <label for="images_path"><strong>Walk images</strong><br />Absolute path from web root with name prefix of images </label>E.g. <pre>\Content\images\lakes\202\SilverHow_8December2009_</pre>
+               <label for="images_path"><strong>Walk images</strong><br />RELATIVE path underneath the images directory </label>E.g. <pre>lakes\202\SilverHow_8December2009_</pre>
            </div>
            <div class="editor-field">
-                <input type="text" name="images_path" id="images_path" size="80" maxlength="160" value="\Content\images\dalespennines\EccupRound\EccupRound_7January2010_"/>
+                <input type="text" name="images_path" id="images_path" size="80" maxlength="160" value="lakes\202\SilverHow_8December2009_"/>
                 <input type="button" name="getimages" id="getimages" value="Get images" />
            </div>       
            <div class="editor-field" id="walkimages">

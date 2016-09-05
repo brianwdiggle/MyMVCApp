@@ -1,6 +1,5 @@
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\bin\Debug\MyMVCApp.DAL.dll.config
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\bin\Debug\MyMVCApp.DAL.dll
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\bin\Debug\MyMVCApp.DAL.pdb
-C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\obj\Debug\MyMVCApp.DAL.csprojResolveAssemblyReference.cache
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\obj\Debug\MyMVCApp.DAL.dll
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\obj\Debug\MyMVCApp.DAL.pdb

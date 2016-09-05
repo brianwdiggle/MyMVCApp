@@ -1,9 +1,5 @@
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\bin\Debug\walkingDB.dacpac
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\bin\Debug\walkingDB.dll
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\bin\Debug\walkingDB.pdb
-C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\obj\Debug\Model.xml
-C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\obj\Debug\refactor.xml
-C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\obj\Debug\postdeploy.sql
-C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\obj\Debug\predeploy.sql
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\obj\Debug\walkingDB.dll
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\walkingDB\obj\Debug\walkingDB.pdb
