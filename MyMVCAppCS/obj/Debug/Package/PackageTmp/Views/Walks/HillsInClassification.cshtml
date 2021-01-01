@@ -1,0 +1,123 @@
+﻿@using MyMVCApp.DAL
+@model MyMVCAppCS.Models.PaginatedListMVC<Hill>
+
+@{ ViewBag.Title = "Hills in Classification " + ViewData["HillClassName"];}
+ 
+    <h2>@ViewData["HillClassName"]s <em>(@ViewData["NumberClimbed"] of @Model.TotalCount climbed)</em></h2>
+    
+    <table class="hiddentable">
+    <tr> 
+        <td>
+            @Html.Raw(Model.PageNavigationLinks)
+        </td>
+        <td>Page Size: <input type="text" name="pagesize" size="3" /></td>
+        <td align="right">Showing @Model.RecordsShowing Hills</td>
+    </tr>
+    </table>
+    <table class="datatable">   
+    <tr>
+            <th>No.</th>
+            <th>
+            @if ( ViewData["OrderBy"].Equals("Name")) {
+                <strong>
+                    @if ( ViewData["OrderAscDesc"].Equals("Asc")) {
+                        @Html.ActionLink("Name <Asc>", "HillsInClassification", new {OrderBy = "NameDesc"})
+                    } else {
+                        @Html.ActionLink("Name <Desc>", "HillsInClassification", new {OrderBy = "NameAsc"})
+                    }
+                    </strong>
+                } else {
+                    @Html.ActionLink("Name", "HillsInClassification", new {OrderBy = "NameDesc"})
+                } 
+            </th>
+            <th>Classes</th>
+            <th class="heightcell">
+            @if ( ViewData["OrderBy"].Equals("Metres")) {
+                    <strong>
+                    @if ( ViewData["OrderAscDesc"].Equals("Asc")) {
+                        @Html.ActionLink("Metres <Asc>", "HillsInClassification", new {OrderBy = "MetresDesc"})
+                    } else {
+                        @Html.ActionLink("Metres <Desc>", "HillsInClassification", new {OrderBy = "MetresAsc"})
+                    } 
+                    </strong>
+                } else {
+                    @Html.ActionLink("Metres", "HillsInClassification", new {OrderBy = "MetresDesc"})
+                } 
+            </th>
+            <th class="heightcell">Feet</th>
+            <th>Gridref</th>
+            <th class="heightcell">Drop</th>
+            <th class="heightcell">
+               @if ( ViewData["OrderBy"].Equals("FirstAscent")) {
+                       <strong>
+                       @if ( ViewData["OrderAscDesc"].Equals("Asc")) {
+                           @Html.ActionLink("Date Climbed <Asc>", "HillsInClassification", new {OrderBy = "FirstAscentDesc"})
+                       } else {
+                           @Html.ActionLink("Date Climbed <Desc>", "HillsInClassification", new {OrderBy = "FirstAscentAsc"})
+                       }
+                       </strong>
+                   } else {
+                       @Html.ActionLink("Date Climbed", "HillsInClassification", new {OrderBy = "FirstAscentDesc"})
+                   }
+            </th>
+          <th class="heightcell">
+               @if ( ViewData["OrderBy"].Equals("NumberAscent")){
+                       <strong>
+                       @if ( ViewData["OrderAscDesc"].Equals("Asc")) {
+                           @Html.ActionLink("Ascents <Asc>", "HillsInClassification", new {OrderBy = "NumberAscentDesc"})
+                       } else {
+                           @Html.ActionLink("Ascents <Desc>", "HillsInClassification", new {OrderBy = "NumberAscentAsc"})
+                       }
+                       </strong>
+                   } else {
+                       @Html.ActionLink("Ascents", "HillsInClassification", new {OrderBy = "NumberAscentDesc"})
+                   }
+            </th>
+        </tr>
+
+     @{
+         int iHillNumberInClassification = ((Model.PageIndex - 1) * Model.PageSize) + 1;
+
+         foreach (Hill item in Model)
+         {
+    
+         <tr style="background-color:@Html.Raw(WalkingStick.NumberOfAscentsAsColour(item.NumberOfAscents))">
+             <td class="hilllistnumber">@iHillNumberInClassification</td>
+             <td class="hillname">@Html.ActionLink(item.Hillname, "HillDetails", new { id = item.Hillnumber }) </td>
+             <td class="hillclasses">@Html.Raw(WalkingStick.HillClassesToLinks(item.Classification, VirtualPathUtility.ToAbsolute("~/")))</td>
+             <td>@Html.Encode(String.Format("{0:#}", item.Metres))</td>
+             <td>@String.Format("{0:#}", item.Feet)</td>
+             <td class="gridref">
+             @if (!string.IsNullOrEmpty(item.Gridref10))
+             {
+                 @item.Gridref10
+             }
+             else
+             {
+                 @item.Gridref
+             }
+             </td>
+             <td>@String.Format("{0:#}", item.Drop)</td>
+             <td class="firstclimbeddate">@String.Format("{0:D}", item.FirstClimbedDate)</td>
+             <td>@String.Format("{0:#}", item.NumberOfAscents)</td>
+          </tr>
+            
+            iHillNumberInClassification = iHillNumberInClassification + 1;
+             
+         }
+     }
+    <tr>
+        <td colspan="7">&nbsp;</td>    
+    </tr>
+   </table>
+   <table class="hiddentable">
+    <tr> 
+        <td>
+            @Html.Raw(Model.PageNavigationLinks)
+        </td>
+        <td>Page Size: <input type="text" name="pagesize" size="3" /></td>
+        <td align="right">Showing @Model.RecordsShowing Hills</td>
+    </tr>
+    </table>
+
+

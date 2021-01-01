@@ -15,6 +15,9 @@ C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\bin\Debug\Syste
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\bin\Debug\System.Web.WebPages.xml
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\bin\Debug\System.Web.WebPages.Razor.xml
-C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.csprojResolveAssemblyReference.cache
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.dll
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.pdb
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\bin\Debug\MyMVCApp.DAL.dll.config
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.csproj.CoreCompileInputs.cache
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.csproj.CopyComplete
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.csprojAssemblyReference.cache

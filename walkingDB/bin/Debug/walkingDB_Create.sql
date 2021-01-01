@@ -53,6 +53,10 @@ PRINT N'Creating $(DatabaseName)...'
 GO
 CREATE DATABASE [$(DatabaseName)] COLLATE Latin1_General_CI_AS
 GO
+USE [$(DatabaseName)];
+
+
+GO
 IF EXISTS (SELECT 1
            FROM   [master].[dbo].[sysdatabases]
            WHERE  [name] = N'$(DatabaseName)')
@@ -73,9 +77,6 @@ IF EXISTS (SELECT 1
                 AUTO_SHRINK OFF,
                 AUTO_UPDATE_STATISTICS ON,
                 RECURSIVE_TRIGGERS OFF 
-            WITH ROLLBACK IMMEDIATE;
-        ALTER DATABASE [$(DatabaseName)]
-            SET AUTO_CLOSE OFF 
             WITH ROLLBACK IMMEDIATE;
     END
 
@@ -170,10 +171,6 @@ IF EXISTS (SELECT 1
                 CONTAINMENT = NONE 
             WITH ROLLBACK IMMEDIATE;
     END
-
-
-GO
-USE [$(DatabaseName)];
 
 
 GO
@@ -808,6 +805,15 @@ GO
 GRANT EXECUTE
     ON OBJECT::[dbo].[sp_GetMyProgressByClassType] TO [guest]
     AS [dbo];
+
+
+GO
+PRINT N'Creating Permission...';
+
+
+GO
+GRANT EXECUTE
+    ON OBJECT::[dbo].[sp_GetMyProgressByClassType] TO [IIS APPPOOL\DefaultAppPool];
 
 
 GO

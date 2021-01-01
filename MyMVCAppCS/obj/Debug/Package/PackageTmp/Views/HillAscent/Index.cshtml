@@ -1,0 +1,89 @@
+﻿@model MyMVCAppCS.Models.PaginatedListMVC<MyMVCApp.DAL.HillAscent>
+
+@{ ViewBag.Title = "Browse Hill Ascents"; }
+
+<h2>Browse Hill Ascents</h2>
+
+<table class="datatable">
+    <tr><td colspan="5">@Html.Raw(Model.PageNavigationLinks)</td></tr>
+    <tr>
+        <th>No.</th>
+        <th>
+            @if (ViewData["OrderBy"].Equals("Date"))
+             {
+                    <strong>
+                    @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                    {
+                        @Html.ActionLink("Date <Asc>", "Index", new { OrderBy = "DateDesc" });
+                    } else {
+                        @Html.ActionLink("Date <Asc>", "Index", new { OrderBy = "DateAsc" });
+                    }
+                    </strong>
+                } else {
+                    @Html.ActionLink("Date", "Index", new { OrderBy = "DateAsc" });
+                }
+        </th>
+        <th>
+            @if (ViewData["OrderBy"].Equals("Hill"))
+            {
+                <strong>
+                @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                {
+                    @Html.ActionLink("Hill <Asc>", "Index", new {OrderBy = "HillDesc"});
+                } else {
+                    @Html.ActionLink("Hill <Asc>", "Index", new {OrderBy = "HillAsc"});                        
+                }
+                </strong>
+            } else {
+                @Html.ActionLink("Hill", "Index", new {OrderBy = "HillAsc"});         
+            }
+        </th>
+        <th>
+              @if (ViewData["OrderBy"].Equals("Metres"))
+               {
+                   <strong>
+                   @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                   {
+                       @Html.ActionLink("Metres <Asc>", "Index", new {OrderBy = "MetresDesc"});
+                   } else {
+                       @Html.ActionLink("Metres <Asc>", "Index", new {OrderBy = "MetresAsc"});                        
+                   }
+                   </strong>
+                } else {
+                   @Html.ActionLink("Metres", "Index", new {OrderBy = "MetresAsc"});         
+                }
+        </th>
+        <th>
+            @if (ViewData["OrderBy"].Equals("Walk"))
+            {
+                <strong>
+                 @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                 {
+                      @Html.ActionLink("Walk <Asc>", "Index", new {OrderBy = "WalkDesc"});
+                 } else {
+                      @Html.ActionLink("Walk <Asc>", "Index", new {OrderBy = "WalkAsc"});                        
+                 }
+                 </strong>
+            } else {
+                 @Html.ActionLink("Walk", "Index", new {OrderBy = "WalkAsc"});         
+            }
+        </th>
+    </tr>
+
+@{
+    int itemNumber = ((Model.PageIndex - 1) * Model.PageSize);
+    foreach (var item in Model)
+    {
+        itemNumber++;
+        <tr>
+            <td>@itemNumber.ToString()</td>
+            <td>@String.Format("{0:D}", item.AscentDate)</td>
+            <td>@Html.ActionLink(item.Hill.Hillname, "HillDetails", "Walks", new {id = item.Hillnumber}, new {dummy=1})</td>
+            <td>@item.Hill.Metres.ToString()</td>
+            <td>@Html.ActionLink(item.Walk.WalkTitle, "Details", "Walks", new {id = item.WalkID}, new {dummy=1})
+            </td>
+        </tr>
+
+    }
+}
+</table>

@@ -421,7 +421,7 @@
                             && (oForm[("imagerelpath" + iCounter)]).Length > 0)) {
                     var oHillAssociateFile = new Walk_AssociatedFile();
                     oHillAssociateFile.WalkID = iWalkID;
-                    oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(oForm[("imagerelpath" + iCounter)], "/Content/images/");
+                    oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(oForm[("imagerelpath" + iCounter)], "Content/images/");
                     oHillAssociateFile.Walk_AssociatedFile_Type = "Image";
                     oHillAssociateFile.Walk_AssociatedFile_Caption = oForm[("imagecaption" + iCounter)];
                     oHillAssociateFile.Walk_AssociatedFile_Sequence = (short)(iCounter);
@@ -445,7 +445,7 @@
                 {
                     Walk_AssociatedFile oHillAssociateFile = new Walk_AssociatedFile();
                     oHillAssociateFile.WalkID = iWalkID;
-                    oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(oForm[("auxilliary_file" + iCounter)], "/Content/images/");
+                    oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(oForm[("auxilliary_file" + iCounter)], "Content/images/");
                     oHillAssociateFile.Walk_AssociatedFile_Type = oForm[("auxilliary_filetype" + iCounter)];
                     oHillAssociateFile.Walk_AssociatedFile_Sequence = (short)(iCounter + iNumImages);
                     oHillAssociateFile.Walk_AssociatedFile_Caption = oForm[("auxilliary_caption" + iCounter)];
@@ -460,7 +460,7 @@
         }
 
         /// <summary>
-        /// The associated file path must start with the /Content/images/ (in strPathToImges
+        /// The associated file path must start with the contents of strPathToImges, which will be the section of the full url after the web app root, to the images directory
         /// </summary>
         /// <param name="strPathToClean"></param>
         /// <param name="strPathToImages"></param>
@@ -473,7 +473,7 @@
             strCleanedPath = strCleanedPath.Replace('\\','/');
             strCleanedPath = strCleanedPath.Replace("//", "/");
 
-            // Remove anything which is found before /Content/images/
+            // Remove anything which is found before Content/images/  (the historic content of strPathImages
             int iLoc = strCleanedPath.IndexOf(strPathToImages);
             if (iLoc > 0)
             {

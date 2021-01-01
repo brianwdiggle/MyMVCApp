@@ -1,0 +1,526 @@
+﻿
+/*--------------------------------------------------------------------------------------------------------------
+|   File:    Site.cs
+|
+|   Main stylesheet for walking application
+-----------------------------------------------------------------------------------------------------------------*/
+body
+{
+    background-color: #ffffff;
+    font-size: .65em;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    margin: 0;
+    padding: 0;
+    color: #797779;
+}
+
+a:link
+{
+    color:#797779;
+    text-decoration: none;
+}
+a:visited
+{
+       color:#797779;
+    text-decoration: none;
+}
+a:hover
+{
+       color:#555555;
+    text-decoration: underline;
+}
+a:active
+{
+      color:#797779;
+    text-decoration: none;
+}
+
+p, ul
+{
+    margin-bottom: 20px;
+    line-height: 1.6em;
+}
+
+/*------------------HEADINGS----------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6
+{
+    font-size: 1.5em;
+    color: #293955;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+h1
+{
+    font-size: 2em;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+h2
+{
+    padding: 0 0 5px 0;
+}
+h3
+{
+    font-size: 1.2em;
+}
+h4
+{
+    font-size: 1.1em;
+}
+h5, h6
+{
+    font-size: 1em;
+}
+
+/* this rule styles <h2> tags that are the 
+first child of the left and right table columns */
+.rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
+{
+    margin-top: 0;
+}
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+/* you can specify a greater or lesser percentage for the 
+page width. Or, you can specify an exact pixel width. */
+.page
+{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header
+{
+    position: relative;
+    margin-bottom: 0;
+    margin-top: 0;
+    color: #293955;
+    padding: 0;
+}
+
+#header h1
+{
+    font-weight: bold;
+    padding: 5px 0;
+    margin: 0;
+    color: #000;
+    border: none;
+    line-height: 1em;
+    font-family: Verdana,Arial, Helvetica, sans-serif;
+    font-size: 20px !important;
+}
+
+#main
+{
+    padding: 10px 0px 0px 0px;
+    background-color: #fff;
+    margin-bottom: 30px;
+	min-height: 550px;
+}
+
+#footer
+{
+    color: #cccccc;
+    padding: 20px 0;
+    text-align: center;
+    line-height: normal;
+    margin: 0;
+    font-size: .9em;
+}
+
+#footer a
+{
+	color: #aaaaaa;
+}
+
+/*--------------TAB MENU----------------------------------------------------------*/
+ul#menu
+{
+    border-bottom: 1px #5C87B2 dotted;
+    padding: 0 0 2px;
+    position: relative;
+    margin: 0;
+    text-align: right;
+}
+
+ul#menu li
+{
+    display: inline;
+    list-style: none;
+}
+
+ul#menu li#greeting
+{
+    padding: 5px 5px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2.8em;
+    color: #fff;
+}
+
+ul#menu li a
+{
+    padding: 5px 5px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2.8em;
+    background-color: #ffffff;
+    color: #293955;
+}
+
+ul#menu li a:hover
+{
+    background-color: #f3f3f3;
+    text-decoration: none;
+}
+
+ul#menu li a:active
+{
+	background-color: #fff;
+    text-decoration: none;
+}
+
+ul#menu li.selected a
+{
+    background-color: #ccc;
+    color: #000;
+}
+
+/*----------FORM LAYOUT ELEMENTS----------------------------------------------------------*/
+
+fieldset 
+{
+    margin: 1em 0;
+    padding: 1em;
+    border: 1px solid #CCC;
+}
+
+fieldset p 
+{
+    margin: 2px 12px 10px 10px;
+}
+
+legend 
+{
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 2px 4px 8px 4px;
+}
+
+input[type="text"] 
+{
+    border: 1px solid #CCC;
+}
+
+/*--------TABLE----------------------------------------------------------*/
+
+table 
+{
+  border: solid 1px #e8eef4;
+  border-collapse: collapse;
+}
+
+table td 
+{
+  padding: 5px;   
+  border: solid 1px #e8eef4;
+}
+
+table th
+{
+  padding: 6px 5px;
+  text-align: left;
+  background-color: #e8eef4; 
+  border: solid 1px #e8eef4;   
+}
+
+/*----------MISC--------------------------------------------------------------------*/
+.clear
+{
+    clear: both;
+}
+
+.error
+{
+    color:Red;
+}
+
+#menucontainer
+{
+    margin-top:20px;
+}
+
+div#title
+{
+    display:block;
+    float:left;
+    text-align:left;
+}
+
+
+/*-----------Styles for validation helpers
+    -----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+/*---------Styles for editor and display helpers-----------------------------------------------*/
+.display-label,
+.editor-label,
+.display-field,
+.editor-field
+{
+    margin: 0.5em 0;
+    font-weight: bold;
+}
+
+.text-box
+{
+    width: 30em;
+}
+
+.text-box.multi-line
+{
+    height: 6.5em;
+}
+
+.tri-state
+{
+    width: 6em;
+}
+
+table.hiddentable 
+{
+	width: 100%;
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: none;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+
+table.hiddentable td
+{
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: none;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+
+
+table.datatable
+{
+	width: 100%;
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: outset;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+
+table.datatable th 
+{
+	line-height: 2em;
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: solid;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+
+.datatable th
+
+{	border-width: 1px;
+	padding: 1px;
+	border-style: none;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: 0 0 0 0;
+	background-color:#d1d6f4;
+}
+
+table.optionstable
+{
+	width: 100%;
+	border-width: 1px;
+	border-spacing: 0;
+	border-style: none;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+
+table.optionstable th 
+{
+	line-height: 2em;
+	border-width: 0px;
+	border-spacing: 2px;
+	border-style: none;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+
+table.optionstable th
+
+{	border-width: 0px;
+	padding: 1px;
+	border-style: none;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: 0px 0px 0px 0px;
+	background-color:#d1d6f4;
+}
+
+.heightcell
+{
+	width: 50px;	
+}
+
+.climbed_hill_colour
+{
+	
+	background-color: #ebebeb;
+}
+.big_title
+{
+	 font-size: 1.2em;
+	 font-weight:bold;
+}
+.main_title
+{
+	 font-size: 1.5em;
+	 font-weight:bold;
+}
+
+.markertable
+{
+	font-size: 11px;
+    margin: 4px;
+	background-color: #ebebeb;
+	border: 1px;
+    border-color: #555555;
+}
+
+.markertable td
+{
+    border: 1px solid #555555;
+	height:12px;
+}
+
+.alignright
+{
+	text-align: right;
+}
+
+.aligntop
+{
+	  vertical-align: top;
+}
+
+.aligncenter {
+    text-align: center;
+}
+
+.hilldetailstat 
+{
+	width: 25%;
+}
+
+
+td.ascentnumber
+{
+	width: 30px;
+}
+
+td.walktitle
+{
+	width: 350px;	
+}
+
+td.walkdate
+{
+	width:120px;
+}
+
+td.hillname
+{
+	width:400px;	
+}
+
+td.hillclasses
+{
+	width: 170px;	
+}
+
+td.firstclimbeddate
+{
+	width:120px;	
+}
+
+td.hilllistnumber
+{
+	width: 50px;
+}
+
+td.gridref
+{
+	width: 120px;
+}
+
+td.searchform 
+{
+     border-left: 0px;
+    border-right: 0px;
+ border-top: 1px solid #CCC;
+ border-bottom: 1px solid #CCC;
+}
+
+.verysmall {
+    font-size: 0.7em;
+}
+
+.walkimage
+{
+    border: 1px solid #CCC;
+}
+
+/*------------Classes for identification of groups of elements, with no associated style. In Create/Edit Walk--------------------------*/
+
+.validateMarkerFormTips {}
+.auxilliaryfileclass {}
+.existingimagemarkerdetails {}
+.markersuggestions {}
+.imageismarker {}
+.formtextarea {}
+

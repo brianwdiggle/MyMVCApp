@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Default Web Site\MyMVCApp" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\WalkingWebSite\\MyMVCApp-master\\MyMVCApp-master\\MyMVCAppCS\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\WalkingWebSite\\MyMVCApp-master\\MyMVCApp-master\\MyMVCAppCS\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="walkingDEV-Web.config Connection String" description="" value="Data Source=DESKTOP-114EQ46\SQL2014EXPRESS;Initial Catalog=walkingDB_DEV;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\WalkingWebSite\\MyMVCApp-master\\MyMVCApp-master\\MyMVCAppCS\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='walkingDEV']/@connectionString" />
+  </parameter>
+  <parameter name="walkingLIVE-Web.config Connection String" description="" value="Data Source=DESKTOP-114EQ46\SQL2014EXPRESS;Initial Catalog=walkingDB;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\WalkingWebSite\\MyMVCApp-master\\MyMVCApp-master\\MyMVCAppCS\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='walkingLIVE']/@connectionString" />
+  </parameter>
+</parameters>

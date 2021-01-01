@@ -1,0 +1,44 @@
+﻿@using MyMVCApp.DAL
+@model IEnumerable<Area>
+
+@{ ViewBag.Title = "Walking Areas in " + ViewData["CountryName"]; }
+
+<h2>@if (!ViewData["AreaTypeName"].Equals(String.Empty))
+    {
+        @ViewData["AreaTypeName"] 
+        @: Walking Areas In 
+        @ViewData["CountryName"]
+    } 
+</h2>
+    <table>
+        <tr>
+            <th>Area ref</th>
+ 
+            <th>
+                Area name
+            </th>
+            <th>
+                Area Type
+            </th>
+   
+        </tr>
+
+    @foreach (Area hillArea in Model)
+    {
+    
+        <tr>
+           <td>
+                @Html.Encode(hillArea.Arearef)
+            </td>        
+            <td>
+                @Html.ActionLink(hillArea.Areaname, "HillsByArea", new {id = hillArea.Arearef.Trim()})
+            </td>
+            <td>
+                @Html.Encode(hillArea.AreaType)
+            </td>
+        </tr>
+    
+     } 
+
+    </table>
+

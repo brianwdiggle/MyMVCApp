@@ -1,0 +1,161 @@
+﻿@model MyMVCAppCS.Models.PaginatedListMVC<MyMVCApp.DAL.Marker>
+@{
+    ViewBag.Title = "Pilgrims Progress";
+}
+<h2>Browse Markers</h2>
+
+ <p>@Html.ActionLink("Create New Marker", "Create")</p>
+    
+    <table class="datatable">
+        <tr>
+            <td colspan="6">@Html.Raw(Model.PageNavigationLinks)</td>
+            <td colspan="2">@Model.RecordsShowing Markers</td>
+        </tr>        
+        <tr>
+            <th>No.</th>
+            
+            <th>Action</th>
+  
+            <th>
+                @if (ViewData["OrderBy"].Equals("Title"))
+                {
+                    <strong>
+                        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                        {
+                            @Html.ActionLink("Title <Asc>", "Index", new { OrderBy = "TitleDesc" })
+                        } else {
+                            @Html.ActionLink("Title <Desc>", "Index", new { OrderBy = "TitleAsc" })
+                        }
+                    </strong>
+                } else {
+                    @Html.ActionLink("Title", "Index", new { OrderBy = "TitleAsc" })
+                }
+            </th>
+            <th width="30%">
+                Description
+            </th>
+            <th>
+                @if (ViewData["OrderBy"].Equals("Walk"))
+                {
+                    <strong>
+                        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                        {
+                            @Html.ActionLink("Walk <Asc>", "Index", new { OrderBy = "WalkDesc" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Walk <Desc>", "Index", new { OrderBy = "WalkAsc" })
+                        }
+                    </strong>
+                }
+                else
+                {
+                    @Html.ActionLink("Walk", "Index", new { OrderBy = "WalkAsc" })
+                }
+            </th>
+             <th>
+                 @if (ViewData["OrderBy"].Equals("WalkArea"))
+                 {
+                     <strong>
+                         @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                         {
+                             @Html.ActionLink("WalkArea <Asc>", "Index", new { OrderBy = "WalkAreaDesc" })
+                         }
+                         else
+                         {
+                             @Html.ActionLink("WalkArea <Desc>", "Index", new { OrderBy = "WalkAreaAsc" })
+                         }
+                     </strong>
+                 }
+                 else
+                 {
+                     @Html.ActionLink("WalkArea", "Index", new { OrderBy = "WalkAreaAsc" })
+                 }
+            </th>
+                     
+
+            <th>
+                @if (ViewData["OrderBy"].Equals("Date"))
+                {
+                    <strong>
+                        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                        {
+                            @Html.ActionLink("Date <Asc>", "Index", new { OrderBy = "DateDesc" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Date <Desc>", "Index", new { OrderBy = "DateAsc" })
+                        }
+                    </strong>
+                }
+                else
+                {
+                    @Html.ActionLink("Date", "Index", new { OrderBy = "DateAsc" });
+                }
+            </th>
+            <th>
+                @if (ViewData["OrderBy"].Equals("Status"))
+                {
+                    <strong>
+                        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                        {
+                            @Html.ActionLink("Status <Asc>", "Index", new { OrderBy = "StatusDesc" })
+                        }
+                        else
+                        { 
+                            @Html.ActionLink("Status <Desc>", "Index", new { OrderBy = "StatusAsc" })
+                        }
+                    </strong>
+                }
+                else
+                {
+                    @Html.ActionLink("Status", "Index", new { OrderBy = "StatusAsc" })
+                }
+            </th>
+        </tr>
+
+ @{
+     int itemNumber = ((Model.PageIndex - 1) * Model.PageSize);
+     foreach (var item in Model)
+     {
+         itemNumber = itemNumber + 1;
+         <tr>
+             <td>@itemNumber.ToString()</td>          
+             <td>@Html.ActionLink("Edit", "Edit", new { id = item.MarkerID })</td>
+             <td>@Html.ActionLink(item.MarkerTitle, "Details", new { id = item.MarkerID })</td>
+
+             <td>
+                 @if (item.Location_Description.Length > 200)
+                 {
+                     @(item.Location_Description.Substring(0, 200) + "...")
+                 }
+                 else
+                 {
+                     @item.Location_Description
+                 }
+             </td>
+             <td>
+                 @if (item.Walk != null)
+                 {
+                     @Html.ActionLink(item.Walk.WalkTitle, "Details", "Walks", new{ id = item.Walk.WalkID}, null)
+                     @item.Walk.WalkTitle
+                 }
+             </td>
+             <td>
+                 @if (item.Walk != null)
+                 {
+                     @item.Walk.Area.Areaname
+                 }
+             </td>
+             <td>
+                 @String.Format("{0:D}", item.DateLeft)
+             </td>
+             <td>
+                 @item.Status
+             </td>
+         </tr>
+
+     }
+ }
+    </table>
+

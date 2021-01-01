@@ -1,0 +1,67 @@
+﻿@using MyMVCApp.Model
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>@ViewBag.Title</title>
+        <link rel="home" id="ApplicationRoot" href="@VirtualPathUtility.ToAbsolute("~/")" />
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        @RenderSection("ViewSpecificHead", false)
+    </head>
+
+    <body>
+        <div class="page">
+
+            <div id="header">
+                <div id="title">
+                    <h1>
+                        @if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME)) 
+                        { 
+                              @Html.ActionLink("Brian's Walking Site", "Index", "Walks")
+                        } else { 
+                              @Html.ActionLink("MVC5/jQuery2.1.1/Razor1.2", "Index", "Walks")
+                        } 
+                    </h1>
+                </div>
+
+                <div id="menucontainer">
+                    <ul id="menu">
+                        <li>@Html.ActionLink("Progress", "Index", "Progress")</li>
+                        <li>@Html.ActionLink("Ascents", "Index", "HillAscent", new {OrderBy = "DateDesc"}, new {dummy = 0})</li>
+                        <li>@Html.ActionLink("Markers", "Index", "Marker")</li>
+                        <li>@Html.ActionLink("Hill Classes", "HillClasses", "Walks")</li>
+                        <li>@Html.ActionLink("Hill Areas", "Index", "Walks")</li>
+                        <li>@Html.ActionLink("Wainwrights", "HillsInClassification", "Walks", new {id = "W"}, new {dummy = 0})</li>
+                        <li>@Html.ActionLink("Outlying", "HillsInClassification", "Walks", new {id = "WO"}, new {dummy = 0}) </li>
+                        <li>@Html.ActionLink("Birketts", "HillsInClassification", "Walks", new {id = "B"}, new {dummy = 0})</li>
+                        <li>@Html.ActionLink("Walks", "WalksByDate", "Walks", new {OrderBy = "DateDesc"}, new {dummy = 0})</li>
+                        <li>@Html.ActionLink("Add Walk", "Create", "Walks")</li>
+                        <li>@Html.ActionLink("Search", "Index", "Search")</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="main">
+                @RenderBody()
+            </div>
+
+            <div id="footer">
+                @Html.ActionLink("Progress", "Index", "Progress") |
+                @Html.ActionLink("Ascents", "Index", "HillAscent", new {OrderBy = "DateAsc"}, new {dummy = 0}) |
+                @Html.ActionLink("Walking Areas", "Index", "Walks") |
+                @Html.ActionLink("Walks", "WalksByDate", "Walks", new {OrderBy = "DateAsc"}, new {dummy = 0}) |
+                @Html.ActionLink("Hill Classifications", "HillClasses", "Walks") |
+                @Html.ActionLink("Wainwrights", "HillsInClassification", "Walks", new {id = "W"}, new {dummy = 0}) |
+                @Html.ActionLink("Birketts", "HillsInClassification", "Walks", new {id = "B"}, new {dummy = 0}) |
+                @Html.ActionLink("Wainwright Outlying", "HillsInClassification", "Walks", new {id = "WO"}, new {dummy = 0}) |
+                @Html.ActionLink("All Hills", "HillsInClassification", "Walks", new {id = String.Empty}, new {dummy = 0}) |
+                @Html.ActionLink("Markers","Index","Marker")  |
+                @Html.ActionLink("Search", "Index", "Search") |
+                @Html.ActionLink("Config", "Index", "Config")
+
+                <p>&copy;2010,2011 BWD, C# version 2013, 2014<br/>
+                    Usage Location= @SessionSingleton.Current.UsageLocation<br/>
+                    Data Tier Target = @SessionSingleton.Current.DataTierTarget</p>
+            </div>
+    </div>
+    </body>
+</html>

@@ -54,6 +54,9 @@ C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\bin\WebMatrix.WebDa
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\bin\Org.Mentalis.Security.Cryptography.xml
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\bin\Mono.Math.xml
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.App.config
-C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csprojResolveAssemblyReference.cache
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.dll
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.pdb
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\bin\MyMVCApp.DAL.dll.config
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.CoreCompileInputs.cache
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.CopyComplete
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csprojAssemblyReference.cache

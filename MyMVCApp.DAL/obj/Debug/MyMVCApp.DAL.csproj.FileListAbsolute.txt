@@ -3,3 +3,5 @@ C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\bin\Debug\MyMVCAp
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\bin\Debug\MyMVCApp.DAL.pdb
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\obj\Debug\MyMVCApp.DAL.dll
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\obj\Debug\MyMVCApp.DAL.pdb
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\obj\Debug\MyMVCApp.DAL.csproj.CoreCompileInputs.cache
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.DAL\obj\Debug\MyMVCApp.DAL.csprojAssemblyReference.cache
