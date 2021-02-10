@@ -50,8 +50,6 @@ namespace MyMVCAppCS
 
             // Register the razor view engine only
             ViewEngines.Engines.Add(new RazorViewEngine());
-
-
         }
 
         protected void Session_Start(object sender, EventArgs e)

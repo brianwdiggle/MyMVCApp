@@ -462,6 +462,57 @@ namespace MyMVCAppCS.Controllers
 
 
         // -------------------------------------------------------------------------------------
+        //  Function: CreateAuto  (GET)
+        //  URL     : /Walks/CreateAuto
+        //  Descr   : Create Walk form
+        // --------------------------------------------------------------------------------------
+        public ActionResult CreateAuto()
+        {
+            Walk oWalk = new Walk();
+            var oAssociatedFileTypes = this.repository.GetAssociatedFileTypes();
+            var oWalkTypes = this.repository.GetWalkTypes();
+
+            ViewData["WalkTypes"] = new SelectList(oWalkTypes, "WalkTypeString", "WalkTypeString");
+            ViewData["Associated_File_Types"] = new SelectList(oAssociatedFileTypes, "Walk_AssociatedFile_Type1", "Walk_AssociatedFile_Type1").ToList();
+            ViewData["Model"] = oWalk;
+
+            return this.View();
+
+        }
+
+
+        // -------------------------------------------------------------------------------------
+        //  Function: CreateAuto  (POST)
+        //  URL     : /Walks/CreateAuto
+        //  Descr   : Create Walk form
+        // --------------------------------------------------------------------------------------
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateAuto(Walk walk)
+        {
+            // ----This should really be done by a customised Model Binder-----------
+            Walk oWalk = new Walk();
+            WalkingStick.FillWalkFromFormVariables(ref oWalk, Request.Form);
+            int iWalkID = this.repository.AddWalk(oWalk);
+
+            // ---Add hill ascents-----------------
+            List<HillAscent> arHillAscents = WalkingStick.FillHillAscentsFromFormVariables(iWalkID, this.Request.Form);
+            repository.AddWalkSummitsVisited(arHillAscents);
+
+            // ---Add the associated files-----
+            // --TODO - this needs to change to pull files from disk rather than form variable
+            List<Walk_AssociatedFile> arWalkAssociatedFiles = WalkingStick.FillWalkAssociatedFilesByExaminingDirectory(
+                iWalkID,
+                this.Request.Form,
+                this.Server.MapPath("~/Content/images/").Replace("\\", "/"));
+            repository.AddWalkAssociatedFiles(arWalkAssociatedFiles);
+
+            //---Redirect to the newly created walk to continue editing
+            return RedirectToAction("Details", new { id = iWalkID });
+        }
+
+
+
+        // -------------------------------------------------------------------------------------
         //  Function: Edit  (POST)
         //  URL     : /Walks/Edit/Id
         //  Descr   : 1. Get the existing id into a walk object

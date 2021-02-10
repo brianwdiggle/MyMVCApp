@@ -460,6 +460,179 @@
         }
 
         /// <summary>
+        /// Given the walk details form, prepare the DAL objects for insertion
+        /// TODO: In particular, given a directory in which the walk associated files have been prepared, examine the directory and add the files 
+        /// found to the walk
+        /// </summary>
+        /// <param name="iWalkID"></param>
+        /// <param name="oForm"></param>
+        /// <param name="strRootpath"></param>
+        /// <returns></returns>
+        public static List<Walk_AssociatedFile> FillWalkAssociatedFilesByExaminingDirectory(int iWalkID, NameValueCollection oForm, string strRootPath)
+        {
+
+            var collWalkAssociatedFiles = new List<Walk_AssociatedFile>();
+ 
+            short siFileSequenceCounter = 1;
+
+            string walkfiles_fullpathprefix = oForm["walkfiles_reldir"];
+            string walkfiles_nameprefix;
+
+            if (walkfiles_fullpathprefix.Trim().Length==0)
+            {
+                return collWalkAssociatedFiles;
+            }
+
+            walkfiles_fullpathprefix = walkfiles_fullpathprefix.Replace("\\", "/");
+            int iLoc;
+
+            try
+            {
+                iLoc = walkfiles_fullpathprefix.LastIndexOf("/", StringComparison.Ordinal);
+            }
+            catch (Exception)
+            {
+                iLoc = 0;
+            }
+
+            string strRelPath = walkfiles_fullpathprefix.Substring(0, iLoc);
+            walkfiles_nameprefix = walkfiles_fullpathprefix.Substring(iLoc + 1, walkfiles_fullpathprefix.Length - iLoc - 1);
+
+            // -----Check that the path specified is valid------------------------
+            if (!WalkingStick.DetermineIfDirectoryExists(strRootPath + strRelPath))
+            {
+                   // couldn;t find directory
+            }
+
+            //-----First add all the walk image files----
+            string[] filesindir= Directory.GetFiles(strRootPath + strRelPath, walkfiles_nameprefix + "_*");
+            
+            // go through looking for each number, assigning an order number to the unsorted list
+            for (int imageNumber =1; imageNumber< filesindir.Length+1; imageNumber++)
+            {
+                // Look for image number imageNumber in the unordered list
+                for (int iCount = 0; iCount < filesindir.Length; iCount++)
+                {
+                    // Construct full file name to look for
+                    if (filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".jpg"))
+                    {
+                      //  order[iCount] = imageNumber;
+                        filesindir[iCount] = filesindir[iCount].Replace("\\","/");
+
+                        var oHillAssociateFile = new Walk_AssociatedFile();
+                        oHillAssociateFile.WalkID = iWalkID;
+                        oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".jpg", "Content/images/");
+                        oHillAssociateFile.Walk_AssociatedFile_Type = "Image";
+                        oHillAssociateFile.Walk_AssociatedFile_Sequence = siFileSequenceCounter++;
+      
+                        collWalkAssociatedFiles.Add(oHillAssociateFile);
+                        break;
+                    }
+                }
+            }
+
+            // Look for any auxilliary files (not walk images) present matching the nameprefix.
+
+            filesindir = Directory.GetFiles(strRootPath + strRelPath, walkfiles_nameprefix + "-*");
+
+   
+            // for each aux file, create object and add to result list.
+            for (int iCount = 0; iCount < filesindir.Length; iCount++)
+            {
+  
+                filesindir[iCount] = filesindir[iCount].Replace("\\", "/");
+
+                int iLocNamePrefix = filesindir[iCount].IndexOf(walkfiles_nameprefix);
+                filesindir[iCount] = filesindir[iCount].Substring(iLocNamePrefix);
+
+                string strDesc = "";
+
+                var oHillAssociateFile = new Walk_AssociatedFile();
+                oHillAssociateFile.WalkID = iWalkID;
+                oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + filesindir[iCount], "Content/images/");
+                oHillAssociateFile.Walk_AssociatedFile_Type = DetermineAuxFileType(filesindir[iCount], walkfiles_nameprefix, ref strDesc);
+                oHillAssociateFile.Walk_AssociatedFile_Sequence = siFileSequenceCounter++;
+                oHillAssociateFile.Walk_AssociatedFile_Caption = strDesc;
+
+                collWalkAssociatedFiles.Add(oHillAssociateFile);
+            }
+            
+            return collWalkAssociatedFiles;
+        }
+
+        public static string DetermineAuxFileType(string filename, string name_prefix, ref string strDescription)
+        {
+            string strAuxFileType = "";
+            int iLoc = 0;
+            // create a string enum from the types in the database, if one does not exist.
+
+            if (filename.Contains(name_prefix + "-Track"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-Track");
+                return "GPX File";
+            }
+
+            if (filename.Contains(name_prefix + "-RouteTrack"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-RouteTrack");
+                return "GPX File with Route and Track";
+            }
+
+            if (filename.Contains(name_prefix + "-Route"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-Route");
+                return "GPX File with Route";
+            }
+
+            if (filename.Contains(name_prefix + "-Marker"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-Marker");
+                return "GPX File with Marker";
+            }
+
+            if (filename.Contains(name_prefix + "-Vid"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-Vid");
+                return "MOV file";
+            }
+
+            if (filename.Contains(name_prefix + "-AltitudeProfile"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-AltitudeProfile");
+                return "Image - Altitude Profile";
+            }
+
+            if (filename.Contains(name_prefix + "-MapRoute"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-MapRoute");
+                return "Image  - Map with Route"; // note extra space after Image
+            }
+
+            if (filename.Contains(name_prefix + "-MapTrack"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-MapTrack");
+                return "Image - Map with track";
+            }
+
+            if (filename.Contains(name_prefix + "-Stats"))
+            {
+                strDescription = ExtractDescFromAuxFileName(filename, "-Stats");
+                return "Image - Stats";
+            }
+            return strAuxFileType;
+        }
+
+        public static string ExtractDescFromAuxFileName(string strAuxFilename, string strAuxFiletype)
+        {
+            int iLocStart = 0;
+            int iLocEnd = 0;
+            iLocStart = strAuxFilename.IndexOf(strAuxFiletype)+ strAuxFiletype.Length;
+            iLocEnd = strAuxFilename.IndexOf(".", iLocStart);
+
+            return strAuxFilename.Substring(iLocStart, iLocEnd - iLocStart);
+        }
+
+        /// <summary>
         /// The associated file path must start with the contents of strPathToImges, which will be the section of the full url after the web app root, to the images directory
         /// </summary>
         /// <param name="strPathToClean"></param>
