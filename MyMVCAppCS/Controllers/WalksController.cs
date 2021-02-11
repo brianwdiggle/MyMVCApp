@@ -629,6 +629,44 @@ namespace MyMVCAppCS.Controllers
             return Json(oRes, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult CreateAutoCheckFiles(string reldir)
+        {
+            string strPathToRoot = Server.MapPath("~/Content/images/");
+            string strFullPathToNamePrefix = strPathToRoot + reldir;
+            int iLoc = strFullPathToNamePrefix.LastIndexOf('\\');
+            string strFullPathToDir = strFullPathToNamePrefix.Substring(0, iLoc);
+            
+            bool bIsInPath = System.IO.Directory.Exists(strFullPathToDir);
+            if (!bIsInPath)
+            {
+                var oRes = new { error = "The directory could not be found or does not exist in the website root" };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }
+
+            //-----Are there any files in the directory matching the specified name prefix?----
+
+            string[] filesindir;
+
+            try
+            {
+                filesindir = Directory.GetFiles(strFullPathToDir, strFullPathToNamePrefix.Substring(iLoc + 1, strFullPathToNamePrefix.Length - iLoc - 1) + "*");
+            }
+            catch (Exception e)
+            {
+                var oRes = new { error = "An error occurred when checking directory" + e.Message };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }
+            
+             if (filesindir.Length==0)
+            {
+                var oRes = new { error = "No files matching the name prefix were found in the directory." };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }else
+            {
+                var oRes = new { error = "" };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         /// <summary>
         /// Called from Create walk and Edit walk jQuery UI autocomplete widget

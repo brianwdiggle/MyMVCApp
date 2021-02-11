@@ -8,7 +8,7 @@
 }
     <table class="datatable">
    <tr>
-        <td colspan="2"> <div class="main_title">@Model.WalkTitle, @String.Format("{0:D}", Model.WalkDate)</div></td>
+       <td colspan="2"> <div class="main_title">@Model.WalkTitle, @String.Format("{0:D}", Model.WalkDate)</div>  @Html.ActionLink("Edit this walk", "Edit", new { id = Model.WalkID })</td>
    </tr>
  <tr><td colspan="2">&nbsp;</td></tr>
     <tr>
@@ -210,13 +210,21 @@
             {
                 <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Route <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
             }
+            else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Marker"))
+            {
+                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file with marker">GPX file with Marker Location <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+            }
             else if (oFile.Walk_AssociatedFile_Type.Equals("GTM File for GPS Trackmaker"))
             {
                 <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GTM File for GPS Trackmaker <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
             }
             else if (oFile.Walk_AssociatedFile_Type.Equals("MOV file"))
             {
-                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="MOV file">MOV file <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="MOV file">Video from walk <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+            }
+            else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Stats"))
+            {
+                <div>&nbsp;<br /><strong>Stats from the walk<em>@oFile.Walk_AssociatedFile_Caption </em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Stats from the walk" /></div>
             }
         }
 

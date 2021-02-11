@@ -154,6 +154,18 @@ $(function () {
         return "";
     }
 
+    //---Function used in CreateAuto to check that files exist in the specified directory
+    $('#walkfiles_reldir').change(function (e) {
+
+        $.getJSON(getHome() + 'Walks/CreateAutoCheckFiles', { reldir: $('#walkfiles_reldir').val() }, function (oResults) {
+            if (oResults.error.length > 0) {
+                alert(oResults.error);
+                $('#walkfiles_reldir').focus();
+            }
+        });
+
+    });
+
     /*----Associate a AJAX call (AJAJ in fact as it returns JSON) with the blur event of the auxilliary_file1 */
     /*----How to write a generic handler?------------------------------*/
 
