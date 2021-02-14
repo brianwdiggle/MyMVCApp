@@ -1,6 +1,6 @@
 ﻿
 @using System.Threading
-@Model MyMVCApp.DAL.Walk
+@model MyMVCApp.DAL.Walk
 
 @{ ViewBag.Title = "Add New Walk";}
 
@@ -14,10 +14,10 @@
 
 <script type="text/javascript" src="~/Scripts/CreateEditWalk.js"></script>
 
-<h2>Add Walk</h2>
+<h2>Add Walk- add associated files automatically</h2>
 
 
-@using (Html.BeginForm("Create", "Walks", FormMethod.Post, new { id = "walkform", name = "walkform" }))
+@using (Html.BeginForm("CreateAuto", "Walks", FormMethod.Post, new { id = "walkform", name = "walkform" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
@@ -83,38 +83,35 @@
             @Html.TextAreaFor(walk => walk.WalkDescription, 8, 100, new { @class = "formtextarea" })
         </div>&nbsp;
 
-        <!-- Section: Add Walk Images---------------------------------------------------------------------->
+        <!-- Section: Add Walk Files---------------------------------------------------------------------->
 
         <div class="editor-label">
-            <label for="images_path"><strong>Walk images</strong><br />RELATIVE path underneath the images directory </label>E.g. <pre>dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006_</pre>
+            <label for="images_path"><strong>Walk Files</strong><br />RELATIVE path underneath the images directory where all the files exist followed by a standard name prefix</label>
+            as follows: 
+            <pre>
+           This works on configuration by convention. Arrange the files in the directory before using this form as follows:
+
+           Images:                  {directories}/{WalkName}_{DDMMMYYYY}_{N}  (underscore)
+           GPX Route:               {directories}/{WalkName}_{DDMMMYYYY}-Track{desc}.gpx
+           GPX Track:               {directories}/{WalkName}_{DDMMMYYYY}-Route{desc}.gpx
+           GPX Route and Track:     {directories}/{WalkName}_{DDMMMYYYY}-RouteTrack{desc}.gpx
+           GPX Marker Waypoint:     {directories}/{WalkName}_{DDMMMYYYY}-Marker{desc}.gpx
+           Route Map:               {directories}/{WalkName}_{DDMMMYYYY}-MapRoute{desc}.jpg
+           Track Map:               {directories}/{WalkName}_{DDMMMYYYY}-MapTrack{desc}.jpg
+           Stats image:             {directories}/{WalkName}_{DDMMMYYYY}-Stats{desc}.jpg
+           Altitude profile image:  {directories}/{WalkName}_{DDMMMYYYY}-AltitudeProfile{desc}.jpg
+           Video:                   {directories}/{WalkName}_{DDMMMYYYY}-Vid{desc}.mov
+
+           E.g. enter:
+           dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006
+
+           a GPX route file would be called dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006-Route.gpx is a GPX route
+</pre>
         </div>
         <div class="editor-field">
-            <input type="text" name="images_path" id="images_path" size="80" maxlength="160" value="dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006_" />
-            <input type="button" name="getimages" id="getimages" value="Get images" />
+            <input type="text" name="walkfiles_reldir" id="walkfiles_reldir" size="80" maxlength="160" value="" />
         </div>
-        <div class="editor-field" id="walkimages">
-        </div>&nbsp;
-
-        <!-- Section: Add Additional (Auxilliary) Files----------------------------------------------------->
-
-        <div class="editor-label">
-            <strong>Additional Files</strong>
-            <br />Relative path from web root including file name E.g. <pre>dalespennines\blubberhousesharrogate\blubbertest.gpx</pre>
-        </div>
-
-        @{
-            var selectlist = (List<SelectListItem>)ViewData["Associated_File_Types"];
-            for (int iAuxCounter = 1; iAuxCounter <= 6; iAuxCounter++)
-            {
-                <div class="editor-field" id="auxilliary_filesdiv@(iAuxCounter)">
-                    <strong>@iAuxCounter</strong>
-                    <input type="text" id="auxilliary_file@(iAuxCounter)" name="auxilliary_file@(iAuxCounter)" size="80" class="auxilliaryfileclass" />
-                    @Html.DropDownList("auxilliary_filetype" + iAuxCounter, selectlist)
-                    Caption: <input type="text" id="auxilliary_caption@(iAuxCounter)" name="auxilliary_caption@(iAuxCounter)" size="40" /><br />
-                </div>
-            }
-        }
-
+ 
         <!-- Section: Walk Type------------------------------------------------------------------------------>
         &nbsp;
         <div class="editor-label">

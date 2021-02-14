@@ -10,22 +10,29 @@
 
     <body>
         <div class="page">
-
             <div id="header">
                 <div id="title">
                     <h1>
-                        @if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME)) 
-                        { 
-                              @Html.ActionLink("Brian's Walking Site", "Index", "Walks")
-                        } else { 
-                              @Html.ActionLink("MVC5/jQuery2.1.1/Razor1.2", "Index", "Walks")
-                        } 
+                    @if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
+                    {
+                        @Html.ActionLink("Brians Walking Site", "Create", "Walks")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("MVC5/jQuery2.1.1/Razor1.2", "Index", "Walks")
+                    }
                     </h1>
                 </div>
-
                 <div id="menucontainer">
+                    @if (SessionSingleton.Current.DataTierTarget.Equals(WalkingConstants.LIVE_DB_TIER))
+                    {
+                        <span>LIVE</span>
+                    }else {
+                        <span>DEV</span>
+                    }
                     <ul id="menu">
-                        <li>@Html.ActionLink("Config", "Index", "Config")</li>
+                        <li>@Html.ActionLink("Add-Auto", "CreateAuto", "Walks")</li>
+                        <li>@Html.ActionLink("Switch", "Index", "Config")</li>
                         <li>@Html.ActionLink("Progress", "Index", "Progress")</li>
                         <li>@Html.ActionLink("Ascents", "Index", "HillAscent", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
                         <li>@Html.ActionLink("Markers", "Index", "Marker")</li>
@@ -59,9 +66,8 @@
                 @Html.ActionLink("Search", "Index", "Search") |
                 @Html.ActionLink("Config", "Index", "Config")
 
-                <p>&copy;2010,2011 BWD, C# version 2013, 2014<br/>
+                <p>&copy;2010,2011,2021 BWD, C# version 2013, 2014<br/>
                     Usage Location= @SessionSingleton.Current.UsageLocation<br/>
-                    Data Tier Target = @SessionSingleton.Current.DataTierTarget</p>
             </div>
     </div>
     </body>

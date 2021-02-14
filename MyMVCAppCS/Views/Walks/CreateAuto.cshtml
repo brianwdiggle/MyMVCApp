@@ -26,14 +26,14 @@
             @Html.LabelFor(walk => walk.WalkDate)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(walk => walk.WalkDate, new { size = 40, @Value = "09 February 2021" })
+            @Html.TextBoxFor(walk => walk.WalkDate, new { size = 40 })
         </div>&nbsp;
 
         <div class="editor-label">
             @Html.LabelFor(walk => walk.WalkTitle)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(walk => walk.WalkTitle, new { size = 80, @Value = "Test walk created at  " +  DateTime.Now.ToLocalTime() })
+            @Html.TextBoxFor(walk => walk.WalkTitle, new { size = 80 })
         </div>&nbsp;
 
         <!--- Section: Walk Area with jQuery Autocomplete ----------------------------------------------------------------------------->
@@ -54,7 +54,7 @@
             @Html.LabelFor(walk => walk.WalkConditions)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(walk => walk.WalkConditions, new { size = 80, @Value = "Sunny periods" })
+            @Html.TextBoxFor(walk => walk.WalkConditions, new { size = 80 })
         </div>&nbsp;
 
         <!-- Section: Summits Visited --------------------------------------------------------------------------------------------------->
@@ -109,7 +109,7 @@
 </pre>
         </div>
         <div class="editor-field">
-            <input type="text" name="walkfiles_reldir" id="walkfiles_reldir" size="80" maxlength="160" value="dalespennines\greenhow\GreenhowHill_4Nov2020" />
+            <input type="text" name="walkfiles_reldir" id="walkfiles_reldir" size="80" maxlength="160" value="" />
         </div>
  
         <!-- Section: Walk Type------------------------------------------------------------------------------>
@@ -125,13 +125,13 @@
             @Html.LabelFor(walk => walk.WalkStartPoint)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(walk => walk.WalkStartPoint, new { size = 80, maxlength = 100, @Value="Test Car park" })
+            @Html.TextBoxFor(walk => walk.WalkStartPoint, new { size = 80, maxlength = 100 })
         </div>&nbsp;
         <div class="editor-label">
             @Html.LabelFor(walk => walk.WalkEndPoint)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(walk => walk.WalkEndPoint, new { size = 80, maxlength = 100, @Value="Test Car park" })
+            @Html.TextBoxFor(walk => walk.WalkEndPoint, new { size = 80, maxlength = 100 })
         </div>&nbsp;
         <div class="editor-label">
             @Html.LabelFor(walk => walk.WalkCompanions)

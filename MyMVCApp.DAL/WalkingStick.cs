@@ -470,7 +470,6 @@
         /// <returns></returns>
         public static List<Walk_AssociatedFile> FillWalkAssociatedFilesByExaminingDirectory(int iWalkID, NameValueCollection oForm, string strRootPath)
         {
-
             var collWalkAssociatedFiles = new List<Walk_AssociatedFile>();
  
             short siFileSequenceCounter = 1;
@@ -501,7 +500,7 @@
             // -----Check that the path specified is valid------------------------
             if (!WalkingStick.DetermineIfDirectoryExists(strRootPath + strRelPath))
             {
-                   // couldn;t find directory
+                throw new Exception("Could not find directory when looking for image files: dir:[" + strRootPath + strRelPath + "]" + " strRootPath = [" + strRootPath + "]");
             }
 
             //-----First add all the walk image files----
@@ -513,15 +512,20 @@
                 // Look for image number imageNumber in the unordered list
                 for (int iCount = 0; iCount < filesindir.Length; iCount++)
                 {
-                    // Construct full file name to look for
-                    if (filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".jpg"))
+                    // Construct full file name to look for - jpgs and pngs are allowed, either case
+                    if (filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".jpg") ||
+                        filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".JPG") ||
+                        filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".png") ||
+                        filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".PNG"))
                     {
-                      //  order[iCount] = imageNumber;
-                        filesindir[iCount] = filesindir[iCount].Replace("\\","/");
+                        // filesindir[iCount] = filesindir[iCount].Replace("\\","/");
+                        int iLocFileExtStart = 0;
+                        iLocFileExtStart = filesindir[iCount].LastIndexOf(".");
+                        string strImageFileExt = filesindir[iCount].Substring(iLocFileExtStart, 4);
 
                         var oHillAssociateFile = new Walk_AssociatedFile();
                         oHillAssociateFile.WalkID = iWalkID;
-                        oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".jpg", "Content/images/");
+                        oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + walkfiles_nameprefix + "_" + imageNumber.ToString() + strImageFileExt, "Content/images/");
                         oHillAssociateFile.Walk_AssociatedFile_Type = "Image";
                         oHillAssociateFile.Walk_AssociatedFile_Sequence = siFileSequenceCounter++;
       

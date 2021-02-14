@@ -507,7 +507,7 @@ namespace MyMVCAppCS.Controllers
             repository.AddWalkAssociatedFiles(arWalkAssociatedFiles);
 
             //---Redirect to the newly created walk to continue editing
-            return RedirectToAction("Details", new { id = iWalkID });
+            return RedirectToAction("Edit", new { id = iWalkID });
         }
 
 
