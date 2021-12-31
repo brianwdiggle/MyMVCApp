@@ -73,11 +73,22 @@ namespace MyMVCAppCS.Controllers
             {
                 return this.View(imageSearchViewModel);
             }
-            ViewBag.ImagesDirectory = Server.MapPath("~/Content/images/");
-            ViewBag.ApplicationRoot = VirtualPathUtility.ToAbsolute("~/");
-            List<Walk_AssociatedFile> allImages = this.repository.GetAllImages().ToList();
 
             var imageSearchEngine = new ImageSearchEngine(new ImageSelector());
+
+            ViewBag.ImagesDirectory = Server.MapPath("~/Content/images/");
+            ViewBag.ApplicationRoot = VirtualPathUtility.ToAbsolute("~/");
+            List<Walk_AssociatedFile> allImages;
+            
+            if (Request.Form["SearchImageCaption"].Length > 0 )
+            {
+                allImages = this.repository.GetAllImagesWithCaptions().ToList();
+            } else {
+                allImages = this.repository.GetAllImages().ToList();
+            }
+            
+
+    
 
             ImageSearchResults searchResults = imageSearchEngine.PerformSearch(allImages, Request.Form);
 

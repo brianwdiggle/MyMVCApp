@@ -355,6 +355,9 @@ namespace MyMVCAppCS.Controllers
             int pageSize = Int32.Parse(WebConfigurationManager.AppSettings["PAGINATION_PAGE_SIZE"]);
             int maxPageLinks = Int32.Parse(WebConfigurationManager.AppSettings["PAGINATION_MAX_PAGE_LINKS"]);
 
+            ViewData["page"] = page;
+            ViewData["pagesize"] = pageSize;
+
             // ----Create a paginated list of the walks----------------
             var IQPaginatedWalks = new PaginatedListMVC<Walk>(iqWalks, page, pageSize, Url.Action("WalksByDate", "Walks", new {OrderBy = ViewData["OrderBy"].ToString() + ViewData["OrderAscDesc"].ToString()}), maxPageLinks, "");
 

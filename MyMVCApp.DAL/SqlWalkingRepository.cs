@@ -774,11 +774,20 @@
             return wts;
         }
 
-        public IQueryable<Walk_AssociatedFile> GetAllImages()
+        public IQueryable<Walk_AssociatedFile> GetAllImagesWithCaptions()
         {
             IQueryable <Walk_AssociatedFile> walkImages= from walkImage in this.myWalkingDB.Walk_AssociatedFiles
-                                                 where walkImage.Walk_AssociatedFile_Type == "Image"
+                                                 where walkImage.Walk_AssociatedFile_Type == "Image" && walkImage.Walk_AssociatedFile_Caption.Length>0
                                                  select walkImage;
+
+            return walkImages;
+        }
+
+        public IQueryable<Walk_AssociatedFile> GetAllImages()
+        {
+            IQueryable<Walk_AssociatedFile> walkImages = from walkImage in this.myWalkingDB.Walk_AssociatedFiles
+                                                         where walkImage.Walk_AssociatedFile_Type == "Image"
+                                                         select walkImage;
 
             return walkImages;
         }

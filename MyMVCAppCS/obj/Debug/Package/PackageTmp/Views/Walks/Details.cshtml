@@ -220,7 +220,8 @@
             }
             else if (oFile.Walk_AssociatedFile_Type.Equals("MOV file"))
             {
-                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="MOV file">Video from walk <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+                <div><br/><strong>Video : <em>@oFile.Walk_AssociatedFile_Caption</em><strong></strong></div>
+                <div><video width="900" controls="controls" name="@oFile.Walk_AssociatedFile_Caption" src="~/@oFile.Walk_AssociatedFile_Name"></video></div>
             }
             else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Stats"))
             {

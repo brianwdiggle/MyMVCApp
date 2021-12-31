@@ -18,7 +18,8 @@ namespace MyMVCAppCS.Models
                 case SearchTermSelection.ImageCaption:
                       selectedImages= sourceImages.FindAll(image => image.Walk_AssociatedFile_Caption.ToLower().StartsWith(searchTerm.StringVals[0] + " ") ||
                                          image.Walk_AssociatedFile_Caption.ToLower().EndsWith(" " + searchTerm.StringVals[0]) ||
-                                         image.Walk_AssociatedFile_Caption.ToLower().Contains(" " + searchTerm.StringVals[0] + " "));
+                                         image.Walk_AssociatedFile_Caption.ToLower().Contains(" " + searchTerm.StringVals[0] + " ") ||
+                                         image.Walk_AssociatedFile_Caption.ToLower().Equals(searchTerm.StringVals[0]));
 
                     for (int iSearchWord=1; iSearchWord < searchTerm.StringVals.Length; iSearchWord++ )
                     {

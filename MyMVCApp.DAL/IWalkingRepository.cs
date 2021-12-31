@@ -86,7 +86,7 @@ namespace MyMVCApp.DAL
 
         //------Associated files------------------------------
         IQueryable<Walk_AssociatedFile> GetAllImages();
-            
+        IQueryable<Walk_AssociatedFile> GetAllImagesWithCaptions();
         //------Associated File types--------------------------
         IQueryable<Walk_AssociatedFile_Type> GetAssociatedFileTypes();
 
