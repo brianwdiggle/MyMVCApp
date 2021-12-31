@@ -495,6 +495,7 @@
                 }
             }
             int iImageCounter = 1;
+
             // ----Now write any marker observations necessary for newly added images either in create or edit-----------------------------
             while ((oForm[("imagerelpath" + iImageCounter)] != null
                         && (oForm[("imagerelpath" + iImageCounter)].Length > 0)))
@@ -505,16 +506,22 @@
                     try
                     {
                         int iMarkerId = int.Parse(oForm[("imagemarkerid" + iImageCounter)]);
+
+                        // Retrieve the details of the marker from the db
                         Marker oMarker = this.myWalkingDB.Markers.SingleOrDefault(m => m.MarkerID == iMarkerId);
-                        // ----Write any found/not found observation. Only do so if the walk is not the walk on which the marker was created--------
+
+                        // ----Write any found/not found observations. Only do so if the walk is not the walk on which the marker was created--------
                         if ((oMarker.WalkID != iWalkID))
                         {
+                            //We know that the marker already exists - it is either not found or found again
                             Marker_Observation oMarkerObs = new Marker_Observation();
+
                             // ---If the marker is not yet associated with a walk then associate it with this walk
                             if ((oMarker.WalkID == null))
                             {
                                 oMarker.WalkID = iWalkID;
                             }
+
                             oMarkerObs.MarkerID = iMarkerId;
                             oMarkerObs.WalkID = iWalkID;
                             if ((oForm[("imagemarkernotfound" + iImageCounter)] == "on"))
@@ -537,6 +544,7 @@
                             {
                                 oMarkerObs.DateOfObservation = DateTime.MinValue;
                             }
+
                             // ----Need to test that this observation has not already been inserted------
                             bool bAlreadyAdded = this.FindMarkerObservationLike(oMarkerObs);
                             if (!bAlreadyAdded)
@@ -562,6 +570,9 @@
             {
             }
             // ----Now write any marker observations necessary for existing images in edit walk-----------------------------
+
+            List<int> observationsAdded = new List<int>();
+
             for (int iExistingImageCount = 1; (iExistingImageCount <= iNumExistingImages); iExistingImageCount++)
             {
                 if ((oForm[("existingimageismarker" + iExistingImageCount)] == "on")
@@ -606,7 +617,13 @@
                             bool bAlreadyAdded = this.FindMarkerObservationLike(oMarkerObs);
                             if (!bAlreadyAdded)
                             {
-                                this.myWalkingDB.Marker_Observations.InsertOnSubmit(oMarkerObs);
+                                //-- Additional check to stop adding multiple observations for the same marker--
+                                if (!observationsAdded.Contains(oMarkerObs.MarkerID))
+                                {
+                                    this.myWalkingDB.Marker_Observations.InsertOnSubmit(oMarkerObs);
+                                    observationsAdded.Add(oMarkerObs.MarkerID);
+                                }
+
                             }
                         }
                     }
