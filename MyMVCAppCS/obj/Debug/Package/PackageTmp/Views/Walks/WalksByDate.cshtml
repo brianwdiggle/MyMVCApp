@@ -14,6 +14,7 @@
     </table>
     <table class="datatable">
         <tr>
+            <th>No</th>
             <th></th>
             <th>    @if (ViewData["OrderBy"].Equals("Date"))
                     {
@@ -135,10 +136,11 @@
                     }
             </th>
         </tr>
-
+    @{  int walknum = (int)ViewData["StartWalkNumber"]; }   
     @foreach (Walk item in Model)
-       {
+    {
         <tr>
+            <td>@walknum</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.WalkID }) 
              </td>
@@ -164,6 +166,7 @@
                 @item.WalkAverageSpeedKmh
             </td>                                 
         </tr>
+         walknum++;
      }  
        <tr>
             <td colspan="8"></td>

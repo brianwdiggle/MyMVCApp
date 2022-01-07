@@ -247,7 +247,7 @@ namespace MyMVCAppCS.Controllers
                                                                             pageSize,
                                                                             Url.RouteUrl("Default", new { action="HillsInClassification", controller="Walks"}),
                                                                             maxPageLinks,
-                                                                            "?OrderBy" + orderBy); 
+                                                                            "?OrderBy=" + orderBy); 
      
      
         // -----Pass the paginated list of hills to the view. The view expects a paginated list as its model-----
@@ -357,6 +357,7 @@ namespace MyMVCAppCS.Controllers
 
             ViewData["page"] = page;
             ViewData["pagesize"] = pageSize;
+            ViewData["StartWalkNumber"] = ((page-1) * pageSize) + 1;
 
             // ----Create a paginated list of the walks----------------
             var IQPaginatedWalks = new PaginatedListMVC<Walk>(iqWalks, page, pageSize, Url.Action("WalksByDate", "Walks", new {OrderBy = ViewData["OrderBy"].ToString() + ViewData["OrderAscDesc"].ToString()}), maxPageLinks, "");
@@ -387,7 +388,6 @@ namespace MyMVCAppCS.Controllers
             var oWalkMarkers = this.repository.GetMarkersCreatedOnWalk(id);
 
             ViewBag.WalkTypes = new SelectList(oWalkTypes, "WalkTypeString", "WalkTypeString", oWalk.WalkType);
-         //   ViewData["WalkTypes"] = new SelectList(oWalkTypes, "WalkTypeString", "WalkTypeString");
             ViewBag.Associated_File_Types = new SelectList(oAssociatedFileTypes, "Walk_AssociatedFile_Type1", "Walk_AssociatedFile_Type1");
             ViewData["Model"] = oWalk;
             ViewBag.Auxilliary_Files = oAuxilliaryFiles.AsEnumerable().ToList();
@@ -404,7 +404,7 @@ namespace MyMVCAppCS.Controllers
                 ViewBag.WalkMinutes = 0;
             }
   
-     
+            ViewBag.PreviousUrl = System.Web.HttpContext.Current.Request.UrlReferrer;
 
             return this.View(oWalk);
         }
@@ -530,12 +530,8 @@ namespace MyMVCAppCS.Controllers
             // ---update any markers created by ajax call with walk id, and add any marker observations----------------
             // iRetval = _repository.AssociateMarkersWithWalk(Request.Form, iWalkID)
 
-            if ((oWalk.HillAscents.Count > 0))
-            {
-                return RedirectToAction("HillsByArea", new { id = oWalk.Area.Arearef.Trim(), page = 1 });
-            }
+            return Redirect(formValues["previousUrl"]);
 
-            return RedirectToAction("WalksByDate", new { OrderBy = "DateDesc" });
         }
 
 #endregion

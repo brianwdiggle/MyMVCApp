@@ -91,6 +91,7 @@
 
 @using (Html.BeginForm("Edit", "Marker", FormMethod.Post, new { id = "editmarkerform", name = "editmarkerform"}))
 {
+       @Html.Hidden("previousUrl")
        @Html.ValidationSummary(true)
         <fieldset>
             <div class="editor-field">

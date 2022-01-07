@@ -137,6 +137,7 @@ namespace MyMVCAppCS.Controllers
             var markerStatii = this.repository.GetAllMarkerStatusOptions().AsEnumerable();
 
             ViewData["Marker_Status"] = markerStatii;
+            ViewBag.PreviousUrl = System.Web.HttpContext.Current.Request.UrlReferrer;
 
             return this.View(oMarker);
         }
@@ -149,7 +150,7 @@ namespace MyMVCAppCS.Controllers
                 Marker oMarker = this.repository.GetMarkerDetails(id);
                 this.repository.UpdateMarkerDetails(oMarker, Request.Form);
 
-                return RedirectToAction("Index");
+                return Redirect(formCollection["previousUrl"]);
             }
             catch (Exception)
             {

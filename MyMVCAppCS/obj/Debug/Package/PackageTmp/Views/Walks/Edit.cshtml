@@ -19,7 +19,7 @@
 
     @using (Html.BeginForm("Edit", "Walks", FormMethod.Post, new { id = "walkform", name = "walkform" }))
     {
-      
+      @Html.Hidden("previousUrl")
         @Html.ValidationSummary(true)
         <fieldset>
 
