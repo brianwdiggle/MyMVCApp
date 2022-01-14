@@ -131,9 +131,23 @@
                         <td>@oHillAscent.Hill.Metres.ToString(Thread.CurrentThread.CurrentCulture) m, @oHillAscent.Hill.Feet.ToString() ft</td>
                         <td>@oHillAscent.Hill.Classification </td>
                         <td>
-                            @if (oHillAscent.Hill.HillAscents.Count == 1)
+                            @switch (oHillAscent.Hill.HillAscents.Count)
                             {
-                                <em>First Ascent</em>
+                                case 1:
+                                    <em>First ascent</em>
+                                    break;
+                                case 2:
+                                    <em>Second ascent</em>
+                                    break;
+                                case 3:
+                                    <em>Third ascent</em>
+                                    break;
+                                case 4:
+                                    <em>Fourth ascent</em>
+                                    break;
+                                default:
+                                    <em>@oHillAscent.Hill.HillAscents.Count.ToString()th ascent</em>
+                                    break;
                             }
                             &nbsp;
                         </td>
@@ -145,82 +159,85 @@
         }
 
 
-        @foreach (Walk_AssociatedFile oFile in Model.Walk_AssociatedFiles)
+                            @foreach (Walk_AssociatedFile oFile in Model.Walk_AssociatedFiles)
         {
 
-            if (oFile.Walk_AssociatedFile_Type.Equals("Image - Altitude Profile"))
-            {
+                                if (oFile.Walk_AssociatedFile_Type.Equals("Image - Altitude Profile"))
+                                {
 
-                if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                {
+                                    if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
+                                    {
 
                     <div>&nbsp;<br /><strong>Altitude Profile <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Altitude Profile" /></div>
-                }
-                else
-                {
+                                    }
+                                    else
+                                    {
                     <div>&nbsp;<br /><strong>Altitude Profile <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
-                }
+                                    }
 
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Map"))
-            {
-                if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                {
+                                }
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Map"))
+                                {
+                                    if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
+                                    {
                     <div>&nbsp;<br /><strong>Map of Walk Area <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Map of walk area" /></div>
-                }
-                else
-                {
+                                    }
+                                    else
+                                    {
                     <div>&nbsp;<br /><strong>Map of Walk Area <em>@oFile.Walk_AssociatedFile_Caption </em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
-                }
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Map with track"))
-            {
-                if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                {
+                                    }
+                                }
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Map with track"))
+                                {
+                                    if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
+                                    {
                     <div>&nbsp;<br /><strong>Map with track overlay <em>@oFile.Walk_AssociatedFile_Caption </em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Map with track overlay" /></div>
-                }
-                else
-                {
+                                    }
+                                    else
+                                    {
                     <div>&nbsp;<br /><strong>Map with track overlay <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
 
+
                 }
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("Image  - Map with Route"))  // Note extra space after Image!
-            {
-                if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                {
+                                }
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("Image  - Map with Route"))  // Note extra space after Image!
+                                {
+                                    if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
+                                    {
                     <div>&nbsp;<br /><strong>Map with route overlay <em>@oFile.Walk_AssociatedFile_Caption </em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Map with route overlay" /></div>
-                }
-                else
-                {
+                                    }
+                                    else
+                                    {
                     <div>&nbsp;<br /><strong>Map with route overlay <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
 
+
                 }
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File"))
-            {
+                                }
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File"))
+                                {
                 <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Track of the walk <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
 
+
             }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Route and Track"))
-            {
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Route and Track"))
+                                {
                 <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Route and Track of the walk <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Route"))
-            {
+                                }
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Route"))
+                                {
                 <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Route <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Marker"))
-            {
+                                }
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Marker"))
+                                {
                 <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file with marker">GPX file with Marker Location <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("GTM File for GPS Trackmaker"))
-            {
+                                }
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("GTM File for GPS Trackmaker"))
+                                {
                 <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GTM File for GPS Trackmaker <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("MOV file"))
-            {
-                <div><br/><strong>Video : <em>@oFile.Walk_AssociatedFile_Caption</em><strong></strong></div>
+                                }
+                                else if (oFile.Walk_AssociatedFile_Type.Equals("MOV file"))
+                                {
+                <div><br/><strong>Video : <em>@oFile.Walk_AssociatedFile_Caption</em></strong></div>
                 <div><video width="900" controls="controls" name="@oFile.Walk_AssociatedFile_Caption" src="~/@oFile.Walk_AssociatedFile_Name"></video></div>
             }
             else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Stats"))

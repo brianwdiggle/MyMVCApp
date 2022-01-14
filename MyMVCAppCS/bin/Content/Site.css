@@ -5,34 +5,34 @@
 |   Main stylesheet for walking application
 -----------------------------------------------------------------------------------------------------------------*/
 body {
-    background-color: #ffffff;
+    background-color: #c6c5cf;
     font-size: .65em;
     font-family: Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
-    color: #797779;
+    color: #111111;
     width: 100%;
     height: 100%;
 }
 
 a:link
 {
-    color:#797779;
+    color:#111111;
     text-decoration: none;
 }
 a:visited
 {
-       color:#797779;
+       color:#222222;
     text-decoration: none;
 }
 a:hover
 {
-       color:#555555;
+       color:#777777;
     text-decoration: underline;
 }
 a:active
 {
-      color:#797779;
+      color:#EEEEEE;
     text-decoration: none;
 }
 
@@ -97,12 +97,11 @@ page width. Or, you can specify an exact pixel width. */
     margin-right: auto;
 }
 
-#header
-{
+#header {
     position: relative;
     margin-bottom: 0;
     margin-top: 0;
-    color: #293955;
+    color: #55535f;
     padding: 0;
 }
 
@@ -118,18 +117,17 @@ page width. Or, you can specify an exact pixel width. */
     font-size: 20px !important;
 }
 
-#main
-{
+#main {
     padding: 10px 0px 0px 0px;
-    background-color: #fff;
+    background-color: #c6c5cf;
     margin-bottom: 30px;
-	min-height: 550px;
+    min-height: 550px;
 }
 
 #footer
 {
     color: #cccccc;
-    padding: 20px 0;
+    padding: 5px 0;
     text-align: center;
     line-height: normal;
     margin: 0;
@@ -138,7 +136,7 @@ page width. Or, you can specify an exact pixel width. */
 
 #footer a
 {
-	color: #aaaaaa;
+	color: #555555;
 }
 
 /*--------------TAB MENU----------------------------------------------------------*/
@@ -166,41 +164,37 @@ ul#menu li#greeting
     color: #fff;
 }
 
-ul#menu li a
-{
-    padding: 5px 5px;
-    font-weight: bold;
-    text-decoration: none;
-    line-height: 2.8em;
-    background-color: #ffffff;
-    color: #293955;
-}
+    ul#menu li a {
+        padding: 5px 5px;
+        font-weight: bold;
+        text-decoration: none;
+        line-height: 2.8em;
+        background-color: #c6c5cf;
+        color: #293955;
+    }
 
-ul#menu li a:hover
-{
-    background-color: #f3f3f3;
-    text-decoration: none;
-}
+        ul#menu li a:hover {
+            background-color: #e0dfe9;
+            text-decoration: none;
+        }
 
-ul#menu li a:active
-{
-	background-color: #fff;
-    text-decoration: none;
-}
+        ul#menu li a:active {
+            background-color: #c6c5cf;
+            text-decoration: none;
+        }
 
 ul#menu li.selected a
 {
-    background-color: #ccc;
+    background-color: #ffffff;
     color: #000;
 }
 
 /*----------FORM LAYOUT ELEMENTS----------------------------------------------------------*/
 
-fieldset 
-{
+fieldset {
     margin: 1em 0;
     padding: 1em;
-    border: 1px solid #CCC;
+    border: 0px;
 }
 
 fieldset p 
@@ -215,9 +209,8 @@ legend
     padding: 2px 4px 8px 4px;
 }
 
-input[type="text"] 
-{
-    border: 1px solid #CCC;
+input[type="text"] {
+    border: 1px solid #767676;
 }
 
 /*--------TABLE----------------------------------------------------------*/
@@ -320,93 +313,82 @@ div#title
     width: 6em;
 }
 
-table.hiddentable 
-{
-	width: 100%;
-	border-width: 1px;
-	border-spacing: 2px;
-	border-style: none;
-	border-color: gray;
-	border-collapse: separate;
-	background-color: white;
+table.hiddentable {
+    width: 100%;
+    border-width: 1px;
+    border-spacing: 2px;
+    border-style: none;
+    border-color: gray;
+    border-collapse: separate;
+    background-color: #c6c5cf;
 }
 
-table.hiddentable td
-{
-	border-width: 1px;
-	border-spacing: 2px;
-	border-style: none;
-	border-color: gray;
-	border-collapse: separate;
-	background-color: white;
+    table.hiddentable td {
+        border-width: 1px;
+        border-spacing: 2px;
+        border-style: none;
+        border-color: gray;
+        border-collapse: separate;
+        background-color: #c6c5cf;
+    }
+
+
+table.datatable {
+    width: 100%;
+    border-width: 1px;
+    border-spacing: 2px;
+    border-style: outset;
+    border-collapse: separate;
+    background-color: #c6c5cf;
 }
 
+    table.datatable th {
+        line-height: 2em;
+        border-width: 1px;
+        border-spacing: 2px;
+        border-style: solid;
+        border-collapse: separate;
+        background-color: #c6c5cf;
+    }
 
-table.datatable
-{
-	width: 100%;
-	border-width: 1px;
-	border-spacing: 2px;
-	border-style: outset;
-	border-color: gray;
-	border-collapse: separate;
-	background-color: white;
+.datatable th {
+    border-width: 1px;
+    padding: 1px;
+    border-style: none;
+    background-color: white;
+    -moz-border-radius: 0 0 0 0;
+    background-color: #c6c5cf;
 }
 
-table.datatable th 
-{
-	line-height: 2em;
-	border-width: 1px;
-	border-spacing: 2px;
-	border-style: solid;
-	border-color: gray;
-	border-collapse: separate;
-	background-color: white;
+table.optionstable {
+    width: 100%;
+    border-width: 1px;
+    border-spacing: 0;
+    border-style: none;
+    border-color: gray;
+    border-collapse: separate;
+    background-color: #c6c5cf;
 }
 
-.datatable th
+    table.optionstable th {
+        line-height: 2em;
+        border-width: 0px;
+        border-spacing: 2px;
+        border-style: none;
+        border-color: gray;
+        border-collapse: separate;
+        background-color: #c6c5cf;
+    }
 
-{	border-width: 1px;
-	padding: 1px;
-	border-style: none;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: 0 0 0 0;
-	background-color:#d1d6f4;
-}
-
-table.optionstable
-{
-	width: 100%;
-	border-width: 1px;
-	border-spacing: 0;
-	border-style: none;
-	border-color: gray;
-	border-collapse: separate;
-	background-color: white;
-}
-
-table.optionstable th 
-{
-	line-height: 2em;
-	border-width: 0px;
-	border-spacing: 2px;
-	border-style: none;
-	border-color: gray;
-	border-collapse: separate;
-	background-color: white;
-}
-
-table.optionstable th
-
-{	border-width: 0px;
-	padding: 1px;
-	border-style: none;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: 0px 0px 0px 0px;
-	background-color:#d1d6f4;
-}
+    table.optionstable th {
+        border-width: 0px;
+        padding: 1px;
+        border-style: none;
+        border-color: gray;
+        background-color: white;
+        -moz-border-radius: 0px 0px 0px 0px;
+        background-color: #c6c5cf;
+    }
 
 .heightcell
 {
@@ -519,6 +501,10 @@ td.searchform
 .walkimage
 {
     border: 1px solid #CCC;
+}
+
+textarea {
+    color: #767676;
 }
 
 /*------------Classes for identification of groups of elements, with no associated style. In Create/Edit Walk--------------------------*/

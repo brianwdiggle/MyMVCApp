@@ -49,15 +49,16 @@
      }
  }
          </table>
-        
+    
 }
-
+<p>&nbsp;</p>
      @using (Html.BeginForm()) 
      {
            
         @Html.ValidationSummary(true)
     
         <table>
+            <tr><td colspan="3"><strong>Modify your search:</strong></td></tr>
             <tr>
                 <td class="searchform">Title</td> 
                 <td class="searchform">@Html.TextBoxFor(model => model.SearchTitle, new { style="width:300px"})

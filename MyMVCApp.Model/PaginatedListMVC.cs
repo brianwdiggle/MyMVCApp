@@ -97,7 +97,7 @@ namespace MyMVCAppCS.Models
         private string GeneratePaginationLinks(string myUrlBase, string strOrderBy)
         {
 
-            string strNavlinks = "";
+            string strNavlinks = "<strong>Page:</strong> ";
             int iStartLinkPage = 0;
             int iEndLinkPage = 0;
 
