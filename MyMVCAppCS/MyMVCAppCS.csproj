@@ -288,6 +288,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Walks\CreateAuto.cshtml" />
     <Content Include="Views\Walks\HillDetails.cshtml" />
+    <Content Include="Views\Shared\_NewSiteLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
