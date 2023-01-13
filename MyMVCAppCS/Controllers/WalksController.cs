@@ -157,6 +157,11 @@ namespace MyMVCAppCS.Controllers
             return View(iqPaginatedHills);
         }
 
+        /// <summary>
+        /// Hill Details by Hillnumber
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult HillDetails(int id)
         {
             var oHillDetails = this.repository.GetHillDetails(id);
@@ -168,13 +173,14 @@ namespace MyMVCAppCS.Controllers
 
         }
 
-   // -------------------------------------------------------------------------------------
-    //  Function: HillInClassification
-    //  URL     : /Walks/HillsInClassification/Classref/[Pagenumber]
-    //  Descr   : Return a list of hills with classification as specified by id parameter
-    //            optional page parameter provides pagination.
-    // --------------------------------------------------------------------------------------
-    public ActionResult HillsInClassification(string id, string orderBy="NameAsc", int page=1) 
+
+        // -------------------------------------------------------------------------------------
+        //  Function: HillInClassification
+        //  URL     : /Walks/HillsInClassification/Classref/[Pagenumber]
+        //  Descr   : Return a list of hills with classification as specified by id parameter
+        //            optional page parameter provides pagination.
+        // --------------------------------------------------------------------------------------
+        public ActionResult HillsInClassification(string id, string orderBy="NameAsc", int page=1) 
     {
     
         if ((id == null)) 

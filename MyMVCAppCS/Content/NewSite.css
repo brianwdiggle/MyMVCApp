@@ -1,0 +1,146 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+/*----------Tag styling----------------------------------------------------*/
+
+body {
+    background-color: #8b8c90;
+    margin: 20px;
+    font-family: "Open Sans", sans-serif;
+    font-kerning: auto;
+    font-size: 17px;
+    color: #fff;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+    a:hover {
+        color: #63b6e5;
+    }
+
+/*------------CSS class definitions------------------------------------------*/
+/* navbar with list*/
+ul.navbarlist {
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+li {
+    margin: 0 10px; /* Gap between LI elements 20px */
+}
+
+    li.left {
+        float: left;
+    }
+
+    li.right {
+        float: right;
+    }
+
+    li a {
+        color: #fff;
+    }
+
+sup {
+    vertical-align: top;
+    font-size: 0.6em;
+    color: aqua;
+}
+
+/* Top nav bar background image*/
+.topnavbarbg-img {
+    /* The image used */
+    background-image: url("images/topnav.jpg");
+    border-radius: 15px;
+    min-height: 100px;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* Needed to position the navbar */
+    position: relative;
+}
+
+/* Top nav bar background image*/
+.footernavbarbg-img {
+    /* The image used */
+    background-image: url("images/footernav.jpg");
+    border-radius: 15px;
+    min-height: 100px;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* Needed to position the navbar */
+    position: relative;
+    margin-top: 20px;
+}
+
+
+/* Position the navbar container inside the image */
+.navbarcontainer {
+    position: absolute;
+    margin: 20px 10px 20px 10px;
+    width: 98%;
+}
+
+/* Any div which encapsulates top level details about something - walk, hill, etc*/
+.details {
+    border-radius: 15px;
+    background-color: #91949b;
+    margin-top: 12px;
+    margin-bottom: 12px
+}
+
+table {
+    width: 100%;  
+    padding-bottom: 10px;
+}
+
+td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+td.column1 {
+    width: 15%;
+    text-align:left;
+}
+
+td.column2 {
+    width: 48%;
+    text-align: left;
+}
+
+td.column3 {
+    width: 20%;
+    text-align: right;
+}
+
+td.column4 {
+    width: 25%;
+    text-align: right;
+}
+
+.heading2 {
+    font-size: 32px;
+    font-weight: bold;
+    padding-bottom: 25px;
+}
+
+.heading3 {
+    font-size: 26px;
+    font-weight: bold;
+    padding-bottom: 25px;
+}
+
+.gold {
+    color: gold;
+}

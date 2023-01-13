@@ -140,9 +140,8 @@ page width. Or, you can specify an exact pixel width. */
 }
 
 /*--------------TAB MENU----------------------------------------------------------*/
-ul#menu
-{
-    border-bottom: 1px #5C87B2 dotted;
+ul#menu {
+    border-bottom: 1px #767676 dashed;
     padding: 0 0 2px;
     position: relative;
     margin: 0;
@@ -227,13 +226,12 @@ table td
   border: solid 1px #e8eef4;
 }
 
-table th
-{
-  padding: 6px 5px;
-  text-align: left;
-  background-color: #e8eef4; 
-  border: solid 1px #e8eef4;   
-}
+    table th {
+        padding: 6px 5px;
+        text-align: left;
+        background-color: #bfbdcf;
+        border: solid 1px #ffffff;
+    }
 
 /*----------MISC--------------------------------------------------------------------*/
 .clear
