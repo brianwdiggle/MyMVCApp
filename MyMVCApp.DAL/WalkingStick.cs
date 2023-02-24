@@ -58,7 +58,7 @@
         {
             if ((iNumAscents == 0))
             {
-                return "#FFFFFF";
+                return "#8b8c90";
             }
             //  From CCCCFF to 666699 i.e. 
             int iMaxR = 240;
