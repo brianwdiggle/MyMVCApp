@@ -11,7 +11,7 @@
 /
 /-----------------------------------------------------------------------------------------------------------------------------*/
 function getHome() {
-    return document.getElementById("ApplicationRoot").href;
+    return document.getElementById("ApplicationRoot").getAttribute("href");
 }
 
 $(function () {
