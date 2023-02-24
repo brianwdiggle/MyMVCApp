@@ -129,6 +129,31 @@ td.column4 {
     text-align: right;
 }
 
+/* Used in HillsInClassification*/
+
+table.datatable {
+    border-radius: 1em;
+}
+    table.datatable th {
+        background-color: #91949b;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        border-radius: 6px;
+        text-align: left;
+    }
+
+    table.datatable td {
+        background-color: #91949b;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        border-radius: 6px;
+    }
+
+
 .heading2 {
     font-size: 32px;
     font-weight: bold;
