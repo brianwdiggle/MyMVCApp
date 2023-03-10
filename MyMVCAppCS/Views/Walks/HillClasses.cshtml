@@ -4,11 +4,7 @@
 
     <h2>Hill Classifications</h2>
     
-    <table>
-        <tr>
-            <th colspan="3">Hill Classification</th>
-        </tr>
-
+    <table class="datatable">
         @{
             int iCounter = 1;
 
@@ -23,7 +19,7 @@
                 @:</td>
 
                 iCounter++;
-                if (iCounter == 4)
+                if (iCounter == 5)
                 {
                     iCounter = 1;
                     @:</tr>

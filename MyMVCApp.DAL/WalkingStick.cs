@@ -58,15 +58,22 @@
         {
             if ((iNumAscents == 0))
             {
-                return "#8b8c90";
+                return "#91949b";
             }
-            //  From CCCCFF to 666699 i.e. 
-            int iMaxR = 240;
-            int iMaxG = 240;
-            int iMaxB = 255;
-            int iMinR = 122;
-            int iMinG = 122;
-            int iMinB = 173;
+           
+            int iMaxR = 139;
+            int iMaxG = 140;
+            int iMaxB = 144;
+            int iMinR = 21;
+            int iMinG = 22;
+            int iMinB = 62;
+
+            //int iMaxR = 240;
+            //int iMaxG = 240;
+            //int iMaxB = 255;
+            //int iMinR = 122;
+            //int iMinG = 122;
+            //int iMinB = 173;
             int iRVal = ((iMaxR 
                             - (((iMaxR - iMinR) 
                             / 20) 

@@ -97,7 +97,7 @@ namespace MyMVCAppCS.Models
         private string GeneratePaginationLinks(string myUrlBase, string strOrderBy)
         {
 
-            string strNavlinks = "<strong>Page:</strong> ";
+            string strNavlinks = "<b>Page:</b>";
             int iStartLinkPage = 0;
             int iEndLinkPage = 0;
 
@@ -139,35 +139,38 @@ namespace MyMVCAppCS.Models
 
             if (iStartLinkPage > 1)
             {
-                strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + "1" + strOrderBy + "\">First</a> ";
+                strNavlinks = strNavlinks + "&nbsp;<a href=\"" + myUrlBase + strPageLink + "1" + strOrderBy + "\">First</a>";
             }
 
             if (HasPreviousPage)
             {
-                strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + (PageIndex - 1).ToString() + strOrderBy + "\">Previous</a> ";
+                strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + (PageIndex - 1).ToString() + strOrderBy + "\">Previous</a>&nbsp;";
             }
 
             for (int iPageCount = iStartLinkPage; iPageCount <= iEndLinkPage; iPageCount++)
             {
                 if (iPageCount == PageIndex)
                 {
-                    strNavlinks = strNavlinks + "<b>" + iPageCount.ToString() + "</b> ";
+                    strNavlinks = strNavlinks + "&nbsp;<b>" + iPageCount.ToString() + "</b>";
+                }else if (iPageCount<10)
+                {
+                    strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + iPageCount.ToString() + strOrderBy + "\">&nbsp;" + iPageCount.ToString() + "</a>";
                 }
                 else
                 {
-                    strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + iPageCount.ToString() + strOrderBy + "\">" + iPageCount.ToString() + "</a> ";
+                    strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + iPageCount.ToString() + strOrderBy + "\">&nbsp;" + iPageCount.ToString() + "</a>";
                 }
             }
 
             if (HasNextPage)
             {
-                strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + (PageIndex + 1).ToString() + strOrderBy + "\">Next</a> ";
+                strNavlinks = strNavlinks + "&nbsp;<a href=\"" + myUrlBase + strPageLink + (PageIndex + 1).ToString() + strOrderBy + "\">Next</a>&nbsp;";
             }
 
             //----If the calculated end page for the numbered links is less than the total number of pages, then display a "Last" link----
             if (iEndLinkPage < TotalPages)
             {
-                strNavlinks = strNavlinks + " <a href=\"" + myUrlBase + strPageLink + TotalPages.ToString() + strOrderBy + "\">Last</a>";
+                strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + TotalPages.ToString() + strOrderBy + "\">Last</a>";
             }
 
             return strNavlinks;

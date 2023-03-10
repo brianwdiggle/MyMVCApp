@@ -15,7 +15,7 @@
     </tr>
     </table>
     <table class="datatable">   
-    <tr>
+    <tr class="heightcell">
             <th>No.</th>
             <th>
             @if ( ViewData["OrderBy"].Equals("Name")) {
@@ -31,7 +31,7 @@
                 } 
             </th>
             <th>Classes</th>
-            <th class="heightcell">
+            <th>
             @if ( ViewData["OrderBy"].Equals("Metres")) {
                     <strong>
                     @if ( ViewData["OrderAscDesc"].Equals("Asc")) {
@@ -44,10 +44,10 @@
                     @Html.ActionLink("Metres", "HillsInClassification", new {OrderBy = "MetresDesc"})
                 } 
             </th>
-            <th class="heightcell">Feet</th>
+            <th>Feet</th>
             <th>Gridref</th>
-            <th class="heightcell">Drop</th>
-            <th class="heightcell">
+            <th>Drop</th>
+            <th>
                @if ( ViewData["OrderBy"].Equals("FirstAscent")) {
                        <strong>
                        @if ( ViewData["OrderAscDesc"].Equals("Asc")) {
@@ -60,7 +60,7 @@
                        @Html.ActionLink("Date Climbed", "HillsInClassification", new {OrderBy = "FirstAscentDesc"})
                    }
             </th>
-          <th class="heightcell">
+          <th>
                @if ( ViewData["OrderBy"].Equals("NumberAscent")){
                        <strong>
                        @if ( ViewData["OrderAscDesc"].Equals("Asc")) {
@@ -106,18 +106,19 @@
              
          }
      }
-    <tr>
-        <td colspan="7">&nbsp;</td>    
-    </tr>
+
    </table>
-   <table class="hiddentable">
-    <tr> 
-        <td>
-            @Html.Raw(Model.PageNavigationLinks)
-        </td>
-        <td>Page Size: <input type="text" name="pagesize" size="3" /></td>
-        <td align="right">Showing @Model.RecordsShowing Hills</td>
-    </tr>
+    <table class="hiddentable">
+        <tr>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Raw(Model.PageNavigationLinks)
+            </td>
+            <td>Page Size: <input type="text" name="pagesize" size="3" /></td>
+            <td align="right">Showing @Model.RecordsShowing Hills</td>
+        </tr>
     </table>
 
 
