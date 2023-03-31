@@ -134,8 +134,12 @@ td.column4 {
 table.datatable {
     border-radius: 1em;
 }
-    table.datatable th {
+    table.datatable tr {
         background-color: #91949b;
+    }
+
+    table.datatable th {
+  
         padding-left: 10px;
         padding-right: 10px;
         padding-bottom: 5px;
@@ -145,13 +149,16 @@ table.datatable {
     }
 
     table.datatable td {
-        background-color: #91949b;
+  
         padding-left: 10px;
         padding-right: 10px;
         padding-bottom: 5px;
         padding-top: 5px;
         border-radius: 6px;
+        font-size: smaller;
     }
+
+/* Standalone classes*/
 
 
 .heading2 {
@@ -168,4 +175,24 @@ table.datatable {
 
 .gold {
     color: gold;
+}
+
+.alignright {
+    text-align: right;
+}
+
+.aligntop {
+    vertical-align: top;
+}
+
+.aligncenter {
+    text-align: center;
+}
+
+.heightcell {
+   height: 40px;
+}
+
+.smallertext {
+    font-size: smaller;
 }
