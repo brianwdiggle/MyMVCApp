@@ -22,6 +22,7 @@
     </table>
 </div>
 
+<div class="details">
     <table class="datatable">
         <tr>
             <td class="column1">Type:</td>
@@ -36,12 +37,22 @@
                     <td class="column1">Length:</td>
                     <td class="column2">@String.Format("{0:F}", Model.CartographicLength) Km</td>
                 }
+                else
+                {
+                    <td class="column1">Length:</td>
+                    <td class="column2"></td>
+                }
             }
             @{
                 if (Model.MetresOfAscent != null)
                 {
-                    <td>Ascent:</td>
-                    <td>@Model.MetresOfAscent m</td>
+                    <td class="column3">Ascent:</td>
+                    <td class="column4">@Model.MetresOfAscent m</td>
+                }
+                else
+                {
+                    <td class="column3">Ascent:</td>
+                    <td class="column4"></td>
                 }
             }
         </tr>
@@ -52,14 +63,22 @@
                     <td class="column1">Conditions:</td>
                     <td class="column2">@Model.WalkConditions</td>
                 }
+                else
+                {
+                    <td class="column1">Conditions:</td>
+                    <td class="column2"></td>
+                }
             }
             @{
                 if (!String.IsNullOrEmpty(Model.WalkCompanions) && Model.WalkCompanions.Length > 0)
                 {
-
-                    <td>With:</td>
-                    <td>@Model.WalkCompanions </td>
-
+                    <td class="column3">With:</td>
+                    <td class="column4">@Model.WalkCompanions </td>
+                }
+                else
+                {
+                    <td class="column3">With:</td>
+                    <td class="column4">Holy Spirit</td>
                 }
             }
         </tr>
@@ -68,7 +87,25 @@
                 if (ViewData["TotalTime"] != null && ViewData["TotalTime"].ToString().Length > 0)
                 {
                     <td class="column1">Total Time:</td>
-                    <td class="column1">@ViewData["TotalTime"]</td>
+                    <td class="column2">@ViewData["TotalTime"]</td>
+                }
+                else
+                {
+                    <td class="column1">Total Time:</td>
+                    <td class="column2"></td>
+                }
+            }
+
+            @{
+                if (Model.MovingAverageKmh != null)
+                {
+                    <td class="column3">Moving average (km/h):</td>
+                    <td class="column4">@Model.MovingAverageKmh Km/h</td>
+                }
+                else
+                {
+                    <td class="column3">Moving average (km/h):</td>
+                    <td class="column4"></td>
                 }
             }
         </tr>
@@ -78,37 +115,31 @@
                 {
                     <td class="column1">Overall speed (km/h):</td>
                     <td class="column2">@Model.WalkAverageSpeedKmh Km/h</td>
-
                 }
             }
 
-            @{
-                if (Model.MovingAverageKmh != null)
-                {
-                    <td>Moving average (km/h):</td>
-                    <td>@Model.MovingAverageKmh Km/h</td>
-                }
-            }
+
         </tr>
     </table>
-
-<div>
+</div>
+<div class="details">
     <table class="datatable">
         <tr>
             <td colspan="2">@Html.Raw(Model.WalkDescription.Replace(Environment.NewLine, "<br />")) </td>
         </tr>
     </table>
 </div>
-<div>
+
+<div class="details">
     @if (Model.Marker_Observations.Count > 0)
     {
         <table class="datatable">
-            <tr><td><strong>Markers</strong></td></tr>
+            <tr><td><span class="heading3">Markers</span></td></tr>
 
             @foreach (Marker_Observation oMarkerObs in Model.Marker_Observations)
             {
                 <tr>
-                    <td><em>@Html.ActionLink(oMarkerObs.Marker.MarkerTitle, "Details", "Marker", new { id = oMarkerObs.MarkerID }, null) </em> @oMarkerObs.ObservationText </td>
+                    <td><em>@Html.ActionLink(oMarkerObs.Marker.MarkerTitle, "Details", "Marker", new { id = oMarkerObs.MarkerID }, null) </em>  @oMarkerObs.ObservationText </td>
                 </tr>
             }
         </table>
@@ -126,7 +157,7 @@
     @if (Model.HillAscents.Count > 0)
     {
         <table class="datatable">
-            <tr><td colspan="4"><strong>Ascents on this walk</strong></td></tr>
+            <tr><td colspan="4"><span class="heading3">Ascents on this walk</span></td></tr>
             <tr>
                 <th class="hillname">Name</th>
                 <th class="hillname">Height</th>
@@ -264,7 +295,10 @@
             }
             else if (oFile.Walk_AssociatedFile_Type.Equals("Image") && SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
             {
-                <div>&nbsp;<br />@iCounter.ToString(). <em>@oFile.Walk_AssociatedFile_Caption</em><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="@oFile.Walk_AssociatedFile_Caption" /></div>
+                <div class="details">
+                    <div><img src="~/@oFile.Walk_AssociatedFile_Name" alt="@oFile.Walk_AssociatedFile_Caption" class="walkimage" /></div>
+                    <div>@iCounter.ToString(). <em>@oFile.Walk_AssociatedFile_Caption</em></div>
+                </div>
             }
             iCounter = iCounter + 1;
         }

@@ -99,6 +99,14 @@ sup {
     margin-bottom: 12px
 }
 
+.walkimage {
+    border-radius: 15px;
+    border-color: aqua;
+    margin-left:12px;
+    margin-top: 12px;
+    margin-bottom: 0px
+}
+
 table {
     width: 100%;  
 }
@@ -128,6 +136,7 @@ td.column4 {
     width: 25%;
     text-align: right;
 }
+
 
 /* Used in HillsInClassification*/
 
