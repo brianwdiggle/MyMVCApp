@@ -96,15 +96,30 @@ sup {
     border-radius: 15px;
     background-color: #91949b;
     margin-top: 12px;
-    margin-bottom: 12px
+    margin-bottom: 12px;
+}
+
+.walkdetails {
+    border-radius: 15px;
+    background-color: #91949b;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    display: table;
 }
 
 .walkimage {
     border-radius: 15px;
     border-color: aqua;
-    margin-left:12px;
     margin-top: 12px;
-    margin-bottom: 0px
+    margin-bottom: 12px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.imagecaption {
+    display: table-caption;
+    caption-side: bottom;
+    margin-left: 12px;
 }
 
 table {
@@ -114,6 +129,7 @@ table {
 td {
     padding-left: 10px;
     padding-right: 10px;
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 
@@ -164,22 +180,49 @@ table.datatable {
         padding-bottom: 5px;
         padding-top: 5px;
         border-radius: 6px;
-        font-size: smaller;
     }
 
-/* Standalone classes*/
 
+table.walksbydate {
+    border-radius: 1em;
+}
+
+    table.walksbydate tr {
+        background-color: #91949b;
+    }
+
+    table.walksbydate th {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        border-radius: 6px;
+        text-align: left;
+    }
+
+    table.walksbydate td {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        border-radius: 6px;
+        font-size: smaller;
+    }
+/* Standalone classes*/
 
 .heading2 {
     font-size: 32px;
     font-weight: bold;
-    padding-bottom: 25px;
 }
 
 .heading3 {
     font-size: 26px;
     font-weight: bold;
-    padding-bottom: 25px;
+}
+
+.heading4 {
+    font-size: 22px;
+    font-weight: bold;
 }
 
 .gold {
