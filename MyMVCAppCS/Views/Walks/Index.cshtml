@@ -1,14 +1,14 @@
 ﻿@{ ViewBag.Title = "Walking MVC Application - Home";}
-
-<table class="datatable">
+<div class="spacerdiv"></div>
+<table class="walksbydate">
 <tr>
     <td class="aligntop">
         <h3>Marylyns</h3>
-        <p>@Html.ActionLink("Marlyn Areas in England", "WalkingAreasByCountry", new { strCountryCode = "EN", strAreaType = "M" })</p>
-        <p>@Html.ActionLink("Marlyn Areas in Scotland", "WalkingAreasByCountry", new { strCountryCode = "SC", strAreaType = "M" })</p>
-        <p>@Html.ActionLink("Marlyn Areas in Ireland", "WalkingAreasByCountry", new { strCountryCode = "IR", strAreaType = "M" })</p>
-        <p>@Html.ActionLink("Marlyn Areas in Wales", "WalkingAreasByCountry", new { strCountryCode = "WA", strAreaType = "M" })</p>
-        <p>@Html.ActionLink("Marlyn Areas on the Isle of Man", "WalkingAreasByCountry", new { strCountryCode = "IM", strAreaType = "M" })</p>
+        <p>@Html.ActionLink("Marylyn Areas in England", "WalkingAreasByCountry", new { strCountryCode = "EN", strAreaType = "M" })</p>
+        <p>@Html.ActionLink("Marylyn Areas in Scotland", "WalkingAreasByCountry", new { strCountryCode = "SC", strAreaType = "M" })</p>
+        <p>@Html.ActionLink("Marylyn Areas in Ireland", "WalkingAreasByCountry", new { strCountryCode = "IR", strAreaType = "M" })</p>
+        <p>@Html.ActionLink("Marylyn Areas in Wales", "WalkingAreasByCountry", new { strCountryCode = "WA", strAreaType = "M" })</p>
+        <p>@Html.ActionLink("Marylyn Areas on the Isle of Man", "WalkingAreasByCountry", new { strCountryCode = "IM", strAreaType = "M" })</p>
         <p>&nbsp;</p>
 
         <h3>Nuttals</h3>
@@ -42,7 +42,7 @@
     </td>
     <td class="aligntop">
         <h3>Munros Areas</h3>
-        <p>@Html.ActionLink("The Munros Areas of Scotland", "WalkingAreasByCountry", new { strCountryCode = "SC", strAreaType = "M" })</p>
+        <p>@Html.ActionLink("The Marylyn Areas of Scotland", "WalkingAreasByCountry", new { strCountryCode = "SC", strAreaType = "M" })</p>
         <p>&nbsp;</p>
 
         <h3>County Tops</h3>
@@ -58,6 +58,4 @@
         <p>@Html.ActionLink("Islands of Isle of Man", "WalkingAreasByCountry", new { strCountryCode = "IM", strAreaType = "I" })</p>
     </td>
 </tr>
-<tr class="smallertext"><td colspan="3">MVC Version: @ViewBag.MVCVersion &nbsp;UsageLocation: @SessionSingleton.Current.UsageLocation</td></tr>
-
 </table>

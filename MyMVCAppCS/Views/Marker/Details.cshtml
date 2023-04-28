@@ -3,17 +3,11 @@
 
 @{ViewBag.Title = "Marker: " + Model.MarkerTitle; }
 
-<h2>Marker: <em>@Model.MarkerTitle</em></h2>
-
-
-<!--
-    <fieldset>
-        <legend>Details</legend>
-    -->
+<div class="spacerdiv"></div>
 <table class="datatable">
     <tr>
-        <td>MarkerID</td>
-        <td>@Model.MarkerID</td>
+        <td><h2>Marker Name:</h2></td>
+        <td><h2>@Model.MarkerTitle</h2></td>
     </tr>
     <tr>
         <td>Current Status</td>
@@ -39,7 +33,7 @@ else
         </td>
     </tr>
     <tr>
-        <td>GPS_Reference</td>
+        <td>OS Grid Reference</td>
         <td>@Model.GPS_Reference</td>
     </tr>
     <tr>
@@ -52,8 +46,11 @@ else
         <td>@Html.Raw(Model.Location_Description.Replace(Environment.NewLine, "<br />"))</td>
     </tr>
 </table>
-<h2>Observations</h2>
+<div class="spacerdiv"></div>
 <table class="datatable">
+    <tr>
+        <td colspan="4"><h2>Observations</h2></td>
+    </tr>
     <tr>
         <th>Date</th>
         <th>Found?</th>
@@ -76,39 +73,26 @@ else
     </td>
     <td>@Html.ActionLink(oMarkerObs.Walk.WalkTitle, "Details", "Walks", new { id = oMarkerObs.WalkID }, null)</td>
     <td>@oMarkerObs.ObservationText</td>
-</tr>}
+</tr>
+}
 </table>
-<h2>Images</h2>
+<div class="spacerdiv"></div>
 
     @if (Model.Walk_AssociatedFiles.Count == 0)
     {
-        @: <p>There are no images of the marker</p> 
-    }
-    else
-    {
-        foreach (MyMVCApp.DAL.Walk_AssociatedFile oAssocFile in Model.Walk_AssociatedFiles)
-        {
-<p>
-    @oAssocFile.Walk.WalkDate.Day.ToString() @oAssocFile.Walk.WalkDate.ToString("MMMM") @oAssocFile.Walk.WalkDate.Year.ToString() : <em>@oAssocFile.Walk_AssociatedFile_Caption</em>
-</p>
-<p>
+@: <p>There are no images of the marker</p>
+}
+else
+{
+foreach (MyMVCApp.DAL.Walk_AssociatedFile oAssocFile in Model.Walk_AssociatedFiles)
+{
 
-    @if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_WORK))
-    {
-@oAssocFile.Walk_AssociatedFile_Name }
-    else
-    {
-<img src="~/@oAssocFile.Walk_AssociatedFile_Name" width="900" />}
-
-</p>
-        }
-    }
-<!--
-     </fieldset>
-
--->
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MarkerID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="walkdetails">
+    <div><img src="~/@oAssocFile.Walk_AssociatedFile_Name" alt="@oAssocFile.Walk_AssociatedFile_Caption" class="walkimage" /></div>
+    <div class="imagecaption"><em>@oAssocFile.Walk_AssociatedFile_Caption</em><br />&nbsp;</div>
+</div>}
+            }
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MarkerID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

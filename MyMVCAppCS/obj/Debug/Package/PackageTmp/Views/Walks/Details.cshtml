@@ -4,265 +4,294 @@
 @using MyMVCApp.Model
 @model Walk
 @{
-    ViewBag.Title = Model.WalkTitle+ ", " + String.Format("{0:D}", Model.WalkDate);
+    ViewBag.Title = Model.WalkTitle + ", " + String.Format("{0:D}", Model.WalkDate);
 }
+<div class="details">
+    <table>
+        <tr>
+            <td colspan="3"><div class="heading2">@Model.WalkTitle, @String.Format("{0:D}", Model.WalkDate)</div></td>
+            <td class="column4 heading3">@Html.ActionLink("Edit walk", "Edit", new { id = Model.WalkID })</td>
+        </tr>
+    </table>
+</div>
+<div class="details">
     <table class="datatable">
-   <tr>
-       <td colspan="2"> <div class="main_title">@Model.WalkTitle, @String.Format("{0:D}", Model.WalkDate)</div>  @Html.ActionLink("Edit this walk", "Edit", new { id = Model.WalkID })</td>
-   </tr>
- <tr><td colspan="2">&nbsp;</td></tr>
-    <tr>
-        <td colspan="2" class="big_title">@Model.WalkSummary</td>
-    </tr>
-    <tr>
-        <td>Type:</td><td>@Model.WalkType</td>
-    </tr>
-    <tr>
-        <td>Walk Area:</td><td>@Html.ActionLink(Model.WalkAreaName, "HillsByArea", new { id = Model.Area.Arearef.Trim() }) </td>
-    </tr>
- 
-@{
+        <tr>
+            <td colspan="4" class="heading4">@Model.WalkSummary</td>
+        </tr>
+    </table>
+</div>
 
-    if (Model.CartographicLength != null)
-    {
+<div class="details">
+    <table class="datatable">
         <tr>
-            <td>Length:</td><td>@String.Format("{0:F}", Model.CartographicLength) Km</td>
+            <td class="column1"><b>Type:</b></td>
+            <td class="column2">@Model.WalkType</td>
+            <td class="column3"><b>Walk Area:</b></td>
+            <td class="column4">@Html.ActionLink(Model.WalkAreaName, "HillsByArea", new { id = Model.Area.Arearef.Trim() }) </td>
         </tr>
-    }
-}
-   
-@{
-    if (Model.MetresOfAscent != null)
-    {
         <tr>
-            <td>Ascent:</td><td>@Model.MetresOfAscent m</td>
-        </tr>
-    }
-}
-
-@{
-    if (!String.IsNullOrEmpty(Model.WalkConditions) && Model.WalkConditions.Length > 0)
-    {
-
-        <tr>
-            <td>Conditions:</td><td>@Model.WalkConditions </td>
-        </tr>
-    }
-}
-        
-@{
-    if (!String.IsNullOrEmpty(Model.WalkCompanions) && Model.WalkCompanions.Length > 0)
-    {
-        <tr>
-            <td>With:</td><td>@Model.WalkCompanions </td>
-        </tr>
-    }
-
-    if (ViewData["TotalTime"] != null && ViewData["TotalTime"].ToString().Length > 0)
-    {
-        <tr>
-            <td>Total Time:</td><td>@ViewData["TotalTime"]</td>
-        </tr>
-    }
-}
-        
-@{
-    if (Model.WalkAverageSpeedKmh != null)
-    {
-        <tr>
-            <td>Overall speed (km/h):</td><td>@Model.WalkAverageSpeedKmh Km/h</td>
-        </tr>
-    }
-}
-        
-@{
-    if (Model.MovingAverageKmh != null)
-    {
-        <tr>
-            <td>Moving average (km/h):</td><td>@Model.MovingAverageKmh Km/h</td>
-        </tr>
-    }
-}
-   <tr><td colspan="2">&nbsp;</td></tr>
-  <tr>
-        <td colspan="2">@Html.Raw(Model.WalkDescription.Replace(Environment.NewLine, "<br />")) </td>
-    </tr>
- <tr>
-        <td colspan="2">&nbsp;</td>
-    </tr>
-<tr>
-    <td colspan="2">
-
-        @if (Model.Marker_Observations.Count > 0)
-        {
-            <table class="datatable">
-                <tr><td><strong>Markers</strong></td></tr>
-
-                @foreach (Marker_Observation oMarkerObs in Model.Marker_Observations)
+            @{
+                if (Model.CartographicLength != null)
                 {
-                    <tr>
-                        <td><em>@Html.ActionLink(oMarkerObs.Marker.MarkerTitle, "Details", "Marker", new { id = oMarkerObs.MarkerID }, null) </em> @oMarkerObs.ObservationText </td>
-                    </tr>
-
+                    <td class="column1"><b>Length:</b></td>
+                    <td class="column2">@String.Format("{0:F}", Model.CartographicLength) Km</td>
                 }
-            </table>
-        }
-        else
-        {
-            <p>No Markers</p>
+                else
+                {
+                    <td class="column1"><b>Length:</b></td>
+                    <td class="column2"></td>
+                }
+            }
+            @{
+                if (Model.MetresOfAscent != null)
+                {
+                    <td class="column3"><b>Ascent:</b></td>
+                    <td class="column4">@Model.MetresOfAscent m</td>
+                }
+                else
+                {
+                    <td class="column3"><b>Ascent:</b></td>
+                    <td class="column4"></td>
+                }
+            }
+        </tr>
+        <tr>
+            @{
+                if (!String.IsNullOrEmpty(Model.WalkConditions) && Model.WalkConditions.Length > 0)
+                {
+                    <td class="column1"><b>Conditions:</b></td>
+                    <td class="column2"><b>@Model.WalkConditions</b></td>
+                }
+                else
+                {
+                    <td class="column1"><b>Conditions:</b></td>
+                    <td class="column2"></td>
+                }
+            }
+            @{
+                if (!String.IsNullOrEmpty(Model.WalkCompanions) && Model.WalkCompanions.Length > 0)
+                {
+                    <td class="column3"><b>With:</b></td>
+                    <td class="column4">@Model.WalkCompanions </td>
+                }
+                else
+                {
+                    <td class="column3"><b>With:</b></td>
+                    <td class="column4">Holy Spirit</td>
+                }
+            }
+        </tr>
+        <tr>
+            @{
+                if (ViewData["TotalTime"] != null && ViewData["TotalTime"].ToString().Length > 0)
+                {
+                    <td class="column1"><b>Total Time:</b></td>
+                    <td class="column2">@ViewData["TotalTime"]</td>
+                }
+                else
+                {
+                    <td class="column1"><b>Total Time:</b></td>
+                    <td class="column2"></td>
+                }
+            }
 
-        }
+            @{
+                if (Model.MovingAverageKmh != null)
+                {
+                    <td class="column3"><b>Moving average (km/h):</b></td>
+                    <td class="column4">@Model.MovingAverageKmh Km/h</td>
+                }
+                else
+                {
+                    <td class="column3"><b>Moving average (km/h):</b></td>
+                    <td class="column4"></td>
+                }
+            }
+        </tr>
+        <tr>
+            @{
+                if (Model.WalkAverageSpeedKmh != null)
+                {
+                    <td class="column1"><b>Overall speed (km/h):</b></td>
+                    <td class="column2">@Model.WalkAverageSpeedKmh Km/h</td>
+                }
+            }
 
-        @if (Model.HillAscents.Count > 0)
-        {
-            <table>
-                <tr><td colspan="4"><strong>Ascents on this walk</strong></td></tr>
+
+        </tr>
+    </table>
+</div>
+<div class="details">
+    <table class="datatable">
+        <tr>
+            <td colspan="2">@Html.Raw(Model.WalkDescription.Replace(Environment.NewLine, "<br />")) </td>
+        </tr>
+    </table>
+</div>
+
+<div class="details">
+    @if (Model.Marker_Observations.Count > 0)
+    {
+        <table class="datatable">
+            <tr><td><span class="heading3">Markers</span></td></tr>
+
+            @foreach (Marker_Observation oMarkerObs in Model.Marker_Observations)
+            {
                 <tr>
-                    <th class="hillname">Name</th>
-                    <th class="hillname">Height</th>
-                    <th class="hillname">Classes</th>
-                    <th class="hillname"></th>
+                    <td><em>@Html.ActionLink(oMarkerObs.Marker.MarkerTitle, "Details", "Marker", new { id = oMarkerObs.MarkerID }, null) </em>  @oMarkerObs.ObservationText </td>
                 </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <table class="datatable">
+            <tr>
+                <td>No Markers</td>
+            </tr>
+        </table>
+    }
+</div>
+<div>
+    @if (Model.HillAscents.Count > 0)
+    {
+        <table class="datatable">
+            <tr><td colspan="4"><span class="heading3">Ascents on this walk</span></td></tr>
+            <tr>
+                <th class="hillname">Name</th>
+                <th class="hillname">Height</th>
+                <th class="hillname">Classes</th>
+                <th class="hillname"></th>
+            </tr>
 
-                @foreach (HillAscent oHillAscent in Model.HillAscents)
-                {
-                    <tr>
-                        <td>@Html.ActionLink(oHillAscent.Hill.Hillname, "HillDetails", "Walks", new { id = oHillAscent.Hillnumber }, null) </td>
-                        <td>@oHillAscent.Hill.Metres.ToString(Thread.CurrentThread.CurrentCulture) m, @oHillAscent.Hill.Feet.ToString() ft</td>
-                        <td>@oHillAscent.Hill.Classification </td>
-                        <td>
-                            @switch (oHillAscent.Hill.HillAscents.Count)
-                            {
-                                case 1:
-                                    <em>First ascent</em>
-                                    break;
-                                case 2:
-                                    <em>Second ascent</em>
-                                    break;
-                                case 3:
-                                    <em>Third ascent</em>
-                                    break;
-                                case 4:
-                                    <em>Fourth ascent</em>
-                                    break;
-                                default:
-                                    <em>@oHillAscent.Hill.HillAscents.Count.ToString()th ascent</em>
-                                    break;
-                            }
-                            &nbsp;
-                        </td>
-                    </tr>
-                }
+            @foreach (HillAscent oHillAscent in Model.HillAscents)
+            {
+                <tr>
+                    <td>@Html.ActionLink(oHillAscent.Hill.Hillname, "HillDetails", "Walks", new { id = oHillAscent.Hillnumber }, null) </td>
+                    <td>@oHillAscent.Hill.Metres.ToString(Thread.CurrentThread.CurrentCulture) m, @oHillAscent.Hill.Feet.ToString() ft</td>
+                    <td>@oHillAscent.Hill.Classification </td>
+                    <td>
+                        @switch (oHillAscent.Hill.HillAscents.Count)
+                        {
+                            case 1:
+                                <em>First ascent</em>
+                                break;
+                            case 2:
+                                <em>Second ascent</em>
+                                break;
+                            case 3:
+                                <em>Third ascent</em>
+                                break;
+                            case 4:
+                                <em>Fourth ascent</em>
+                                break;
+                            default:
+                                <em>@oHillAscent.Hill.HillAscents.Count.ToString()th ascent</em>
+                                break;
+                        }
+                        &nbsp;
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+<div>
+    @foreach (Walk_AssociatedFile oFile in Model.Walk_AssociatedFiles)
+    {
 
-            </table>
-
-        }
-
-
-                            @foreach (Walk_AssociatedFile oFile in Model.Walk_AssociatedFiles)
+        if (oFile.Walk_AssociatedFile_Type.Equals("Image - Altitude Profile"))
         {
 
-                                if (oFile.Walk_AssociatedFile_Type.Equals("Image - Altitude Profile"))
-                                {
-
-                                    if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                                    {
-
-                    <div>&nbsp;<br /><strong>Altitude Profile <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Altitude Profile" /></div>
-                                    }
-                                    else
-                                    {
-                    <div>&nbsp;<br /><strong>Altitude Profile <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
-                                    }
-
-                                }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Map"))
-                                {
-                                    if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                                    {
-                    <div>&nbsp;<br /><strong>Map of Walk Area <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Map of walk area" /></div>
-                                    }
-                                    else
-                                    {
-                    <div>&nbsp;<br /><strong>Map of Walk Area <em>@oFile.Walk_AssociatedFile_Caption </em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
-                                    }
-                                }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Map with track"))
-                                {
-                                    if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                                    {
-                    <div>&nbsp;<br /><strong>Map with track overlay <em>@oFile.Walk_AssociatedFile_Caption </em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Map with track overlay" /></div>
-                                    }
-                                    else
-                                    {
-                    <div>&nbsp;<br /><strong>Map with track overlay <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
-
-
-                }
-                                }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("Image  - Map with Route"))  // Note extra space after Image!
-                                {
-                                    if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                                    {
-                    <div>&nbsp;<br /><strong>Map with route overlay <em>@oFile.Walk_AssociatedFile_Caption </em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Map with route overlay" /></div>
-                                    }
-                                    else
-                                    {
-                    <div>&nbsp;<br /><strong>Map with route overlay <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
-
-
-                }
-                                }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File"))
-                                {
-                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Track of the walk <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-
-
-            }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Route and Track"))
-                                {
-                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Route and Track of the walk <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-                                }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Route"))
-                                {
-                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Route <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-                                }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Marker"))
-                                {
-                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file with marker">GPX file with Marker Location <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-                                }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("GTM File for GPS Trackmaker"))
-                                {
-                <div>&nbsp;<br /><br /><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GTM File for GPS Trackmaker <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
-                                }
-                                else if (oFile.Walk_AssociatedFile_Type.Equals("MOV file"))
-                                {
-                <div><br/><strong>Video : <em>@oFile.Walk_AssociatedFile_Caption</em></strong></div>
-                <div><video width="900" controls="controls" name="@oFile.Walk_AssociatedFile_Caption" src="~/@oFile.Walk_AssociatedFile_Name"></video></div>
-            }
-            else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Stats"))
+            if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
             {
-                <div>&nbsp;<br /><strong>Stats from the walk<em>@oFile.Walk_AssociatedFile_Caption </em></strong><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="Stats from the walk" /></div>
+                <div class="details">
+                    <div><img src="~/@oFile.Walk_AssociatedFile_Name" class="walkimage" alt="Altitude Profile" /></div>
+                    <div>&nbsp;&nbsp;<strong>Altitude Profile <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br /></div>
+                </div>
             }
+            else
+            {
+                <div>&nbsp;<br /><strong>Altitude Profile <em>@oFile.Walk_AssociatedFile_Caption</em></strong><br />@oFile.Walk_AssociatedFile_Name</div>
+            }
+
         }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Map"))
+        {
+            <div class="walkdetails">
+                <div><img src="~/@oFile.Walk_AssociatedFile_Name" class="walkimage" alt="Map of walk area" /></div>
+                <div><strong>&nbsp;&nbsp;Map of Walk Area <em>@oFile.Walk_AssociatedFile_Caption</em></strong></div>
+            </div>
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Map with track"))
+        {
 
-        @{
-            int iCounter = 1;
-            foreach (Walk_AssociatedFile oFile in Model.Walk_AssociatedFiles)
+            <div class="walkdetails">
+                <div><img src="~/@oFile.Walk_AssociatedFile_Name" class="walkimage" alt="Map with track overlay" /></div>
+                <div>&nbsp;&nbsp;Map with track overlay <em>@oFile.Walk_AssociatedFile_Caption </em></div>
+            </div>
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("Image  - Map with Route"))  // Note extra space after Image!
+        {
+            <div class="walkdetails">
+                <div><img src="~/@oFile.Walk_AssociatedFile_Name" class="walkimage" alt="Map with route overlay" /></div>
+                <div>&nbsp;&nbsp;Map with route overlay <em>@oFile.Walk_AssociatedFile_Caption </em><br /></div>
+            </div>
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File"))
+        {
+            <div class="details"><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Track of the walk <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Route and Track"))
+        {
+            <div class="details">&nbsp;<strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Route and Track of the walk <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Route"))
+        {
+            <div class="details"><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GPX file with Route <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("GPX File with Marker"))
+        {
+            <div class="details"><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file with marker">GPX file with Marker Location <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("GTM File for GPS Trackmaker"))
+        {
+            <div class="details"><strong><a href="~/@oFile.Walk_AssociatedFile_Name" title="GPX file">GTM File for GPS Trackmaker <em>@oFile.Walk_AssociatedFile_Caption</em></a></strong></div>
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("MOV file"))
+        {
+            <div><video width="900" controls="controls" name="@oFile.Walk_AssociatedFile_Caption" src="~/@oFile.Walk_AssociatedFile_Name"></video></div>
+            if (oFile.Walk_AssociatedFile_Caption != null)
             {
-                if (oFile.Walk_AssociatedFile_Type.Equals("Image") && SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_WORK))
-                {
-                    <div><br /><em>@iCounter.ToString(Thread.CurrentThread.CurrentCulture). @oFile.Walk_AssociatedFile_Caption</em><br />@oFile.Walk_AssociatedFile_Name</div>
-                }
-                else if (oFile.Walk_AssociatedFile_Type.Equals("Image") && SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_HOME))
-                {
-                    <div>&nbsp;<br />@iCounter.ToString(). <em>@oFile.Walk_AssociatedFile_Caption</em><br /><img src="~/@oFile.Walk_AssociatedFile_Name" border="1" alt="@oFile.Walk_AssociatedFile_Caption" /></div>
-                }
+            <div>Video : <em>@oFile.Walk_AssociatedFile_Caption</em><br/>&nbsp;</div>
+            }
+
+        }
+        else if (oFile.Walk_AssociatedFile_Type.Equals("Image - Stats"))
+        {
+            <div class="walkdetails">
+                <div><img src="~/@oFile.Walk_AssociatedFile_Name" class="walkimage" alt="Stats from the walk" /></div>
+                <div><strong>&nbsp;&nbsp;Stats from the walk<em>@oFile.Walk_AssociatedFile_Caption </em></strong><br /></div>
+            </div>
+        }
+    }
+
+    @{
+        int iCounter = 1;
+        foreach (Walk_AssociatedFile oFile in Model.Walk_AssociatedFiles)
+        {
+            if (oFile.Walk_AssociatedFile_Type.Equals("Image"))
+            { 
+            <div class="walkdetails">
+                <div><img src="~/@oFile.Walk_AssociatedFile_Name" alt="@oFile.Walk_AssociatedFile_Caption" class="walkimage" /></div>
+                <div class="imagecaption"><em>@oFile.Walk_AssociatedFile_Caption</em><br />&nbsp;</div>
+            </div>
                 iCounter = iCounter + 1;
             }
         }
-        <p>
-            @Html.ActionLink("Edit this walk", "Edit", new { id = Model.WalkID })
-        </p>
-
-</table>
+    }
+    <p>
+        @Html.ActionLink("Edit this walk", "Edit", new { id = Model.WalkID })
+    </p>
+</div>

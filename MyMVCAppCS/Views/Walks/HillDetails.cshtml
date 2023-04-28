@@ -1,6 +1,4 @@
-﻿@{
-   Layout = null;  // get rid of the _SiteLayout.cshtml structure
-}
+﻿
 
 @using System.Threading
 @using MyMVCApp.DAL
@@ -27,37 +25,8 @@
 
 </head>
 <body>
-    <div class="topnavbarbg-img">
-        <div class="navbarcontainer">
-            <ul class="navbarlist">
-                <li class="left">
-                    <a class="gold" href="#home">Brian's Walking Site</a>
-                    @if (SessionSingleton.Current.DataTierTarget.Equals(WalkingConstants.LIVE_DB_TIER))
-                    {
-                        <sup>@Html.ActionLink("LIVE", "Index", "Config")</sup>
-                    }
-                    else
-                    {
-                        <sup>@Html.ActionLink("DEV", "Index", "Config")</sup>
-                    }
-                </li>
-                <li class="right">@Html.ActionLink("Auto", "CreateAuto", "Walks")</li>
-                <li class="right">@Html.ActionLink("Progress", "Index", "Progress")</li>
-                <li class="right">@Html.ActionLink("Ascents", "Index", "HillAscent", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Markers", "Index", "Marker")</li>
-                <li class="right">@Html.ActionLink("Hills", "HillClasses", "Walks")</li>
-                <li class="right">@Html.ActionLink("Areas", "Index", "Walks")</li>
-                <li class="right">@Html.ActionLink("Wainwrights", "HillsInClassification", "Walks", new { id = "W" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Outlying", "HillsInClassification", "Walks", new { id = "WO" }, new { dummy = 0 }) </li>
-                <li class="right">@Html.ActionLink("Birketts", "HillsInClassification", "Walks", new { id = "B" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Walks", "WalksByDate", "Walks", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Add Walk", "Create", "Walks")</li>
-                <li class="right">@Html.ActionLink("Search", "Index", "Search")</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="details">
+    <div class="spacerdiv"></div>
+    <div class="walksbydate">
         <table class="datatable">
             <tr>
                 <td colspan="2" class="heading2">@Model.Hillname</td>
@@ -91,10 +60,10 @@
             </tr>
         </table>
     </div>
-
+    <div class="spacerdiv"></div>
     <div id="hillmap"></div>
-
-    <div class="details">
+    <div class="spacerdiv"></div>
+    <div class="walksbydate">
         <table class="datatable">
             @{
                 int iAscentCounter = 1;
@@ -128,35 +97,6 @@
         </table>
     </div>
 
-    <div class="footernavbarbg-img">
-        <div class="navbarcontainer">
-            <ul class="navbarlist">
-                <li class="left">
-                    <a class="gold" href="#home">Brian's Walking Site</a>
-                    @if (SessionSingleton.Current.DataTierTarget.Equals(WalkingConstants.LIVE_DB_TIER))
-                    {
-                        <sup>@Html.ActionLink("LIVE", "Index", "Config")</sup>
-                    }
-                    else
-                    {
-                        <sup>@Html.ActionLink("DEV", "Index", "Config")</sup>
-                    }
-                </li>
-                <li class="right">@Html.ActionLink("Auto", "CreateAuto", "Walks")</li>
-                <li class="right">@Html.ActionLink("Progress", "Index", "Progress")</li>
-                <li class="right">@Html.ActionLink("Ascents", "Index", "HillAscent", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Markers", "Index", "Marker")</li>
-                <li class="right">@Html.ActionLink("Hills", "HillClasses", "Walks")</li>
-                <li class="right">@Html.ActionLink("Areas", "Index", "Walks")</li>
-                <li class="right">@Html.ActionLink("Wainwrights", "HillsInClassification", "Walks", new { id = "W" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Outlying", "HillsInClassification", "Walks", new { id = "WO" }, new { dummy = 0 }) </li>
-                <li class="right">@Html.ActionLink("Birketts", "HillsInClassification", "Walks", new { id = "B" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Walks", "WalksByDate", "Walks", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Add Walk", "Create", "Walks")</li>
-                <li class="right">@Html.ActionLink("Search", "Index", "Search")</li>
-            </ul>
-        </div>
-    </div>
 
     <script>
 
