@@ -1,120 +1,108 @@
 ﻿@using MyMVCApp.DAL
 @model MyMVCAppCS.Models.PaginatedListMVC<MyMVCApp.DAL.Hill>
 
-@{ ViewBag.Title = "Hills in " + ViewData["AreaName"]; }
+    @{ ViewBag.Title = "Hills in " + ViewData["AreaName"]; }
 
-<h2>Hills in <em>@ViewData["AreaName"]</em></h2>
+    <h2>Hills in <em>@ViewData["AreaName"]</em></h2>
 
-     <table class="walksbydate">
-     <tr>
-        <td>
-           @Html.Raw(Model.PageNavigationLinks)
-        </td>
-        <td></td>
-        <td colspan="7" align="right">Showing @Model.RecordsShowing Hills</td>
-    </tr>
-     <tr>
+    <table class="hiddentable">
+        <tr>
+            <td>@Html.Raw(Model.PageNavigationLinks)</td>
+            <td class="alignright">Showing @Model.RecordsShowing Walks</td>
+        </tr>
+    </table>
+    <table class="walksbydate">
+        <tr>
             <th>
-             @if ( ViewData["OrderBy"].Equals("Name")) 
-                 {
-                   <strong>
-                    @if ( ViewData["OrderAscDesc"].Equals("Asc"))
-                    {
-                        @Html.ActionLink("Name <Asc>", "HillsByArea", new { OrderBy = "NameDesc" })
-                    }else { 
-                        @Html.ActionLink("Name <Desc>", "HillsByArea", new { OrderBy = "NameAsc" })
-                    }
-                    </strong>
-                } else
+                @if (ViewData["OrderBy"].Equals("Name"))
                 {
-                     @Html.ActionLink("Name", "HillsByArea", new { OrderBy = "NameDesc" })
-                }
+    <strong>
+        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+        {
+@Html.ActionLink("Name <Asc>", "HillsByArea", new { OrderBy = "NameDesc" }) }
+                else
+                {
+@Html.ActionLink("Name <Desc>", "HillsByArea", new { OrderBy = "NameAsc" })}
+    </strong> }
+                else
+                {
+    @Html.ActionLink("Name", "HillsByArea", new { OrderBy = "NameDesc" })}
             </th>
             <th>Classification</th>
             <th>
-              @if ( ViewData["OrderBy"].Equals("Metres"))
-                  {
-                    <strong>
-                    @if ( ViewData["OrderAscDesc"].Equals("Asc"))
-                    {
-                        @Html.ActionLink("Metres <Asc>", "HillsByArea", new { OrderBy = "MetresDesc" })
-                    } else {
-                        @Html.ActionLink("Metres <Desc>", "HillsByArea", new { OrderBy = "MetresAsc" })
-                    }
-                    </strong>
-                  } else
+                @if (ViewData["OrderBy"].Equals("Metres"))
                 {
-                      @Html.ActionLink("Metres", "HillsByArea", new { OrderBy = "MetresDesc" })
-                }
+    <strong>
+        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+        {
+@Html.ActionLink("Metres <Asc>", "HillsByArea", new { OrderBy = "MetresDesc" }) }
+                else
+                {
+@Html.ActionLink("Metres <Desc>", "HillsByArea", new { OrderBy = "MetresAsc" })}
+    </strong> }
+                else
+                {
+    @Html.ActionLink("Metres", "HillsByArea", new { OrderBy = "MetresDesc" })}
             </th>
             <th>Feet</th>
             <th>Gridref</th>
             <th>Drop</th>
             <th>
-                @if ( ViewData["OrderBy"].Equals("FirstAscent"))
-                    {
-                       <strong>
-                       @if ( ViewData["OrderAscDesc"].Equals("Asc"))
-                       {
-                           @Html.ActionLink("Date Climbed <Asc>", "HillsByArea", new { OrderBy = "FirstAscentDesc" })
-                       } else {
-                           @Html.ActionLink("Date Climbed <Desc>", "HillsByArea", new { OrderBy = "FirstAscentAsc" })
-                       }
-                       </strong>
-                    } else
-                    {
-                        @Html.ActionLink("Date Climbed", "HillsByArea", new { OrderBy = "FirstAscentDesc" })
-                    }
+                @if (ViewData["OrderBy"].Equals("FirstAscent"))
+                {
+    <strong>
+        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+        {
+@Html.ActionLink("Date Climbed <Asc>", "HillsByArea", new { OrderBy = "FirstAscentDesc" }) }
+                else
+                {
+@Html.ActionLink("Date Climbed <Desc>", "HillsByArea", new { OrderBy = "FirstAscentAsc" })}
+    </strong> }
+                else
+                {
+    @Html.ActionLink("Date Climbed", "HillsByArea", new { OrderBy = "FirstAscentDesc" })}
             </th>
-            <th>
-                Number of Ascents
-            </th>
+            <th>Ascents</th>
         </tr>
 
-     
-         @{
-             int iHillNumberInClassification = ((Model.PageIndex - 1) * Model.PageSize) + 1;
 
-             foreach (Hill item in Model)
-             {
+        @{ int iHillNumberInClassification = ((Model.PageIndex - 1) * Model.PageSize) + 1;
 
-                 <tr style="background-color: @WalkingStick.NumberOfAscentsAsColour(item.NumberOfAscents)">
-                     <td>
-                         @Html.ActionLink(item.Hillname, "HillDetails", new { id = item.Hillnumber })
-                     </td>
-                     <td>
-                         @Html.Raw(WalkingStick.HillClassesToLinks(item.Classification, VirtualPathUtility.ToAbsolute("~/")))
-                     </td>
-                     <td>
-                         @Html.Encode(String.Format("{0:#}", item.Metres))
-                     </td>
-                     <td>
-                         @Html.Encode(String.Format("{0:#}", item.Feet))
-                     </td>
-                     <td>
-                         @if (!string.IsNullOrEmpty(item.Gridref10))
-                         {
-                             @item.Gridref10
-                         }
-                         else
-                         {
-                             @item.Gridref
-                         }
-                     </td>
-  
-                     <td>
-                         @Html.Encode(String.Format("{0:#}", item.Drop))
-                     </td>
-                     <td>
-                         @Html.Encode(String.Format("{0:D}", item.FirstClimbedDate))
-                     </td>
-                     <td>
-                         @Html.Encode(String.Format("{0:#}", item.NumberOfAscents))
-                     </td>
-                 </tr>
+                        foreach (Hill item in Model)
+                        {
 
-             }
-         }
+            <tr style="background-color: @WalkingStick.NumberOfAscentsAsColour(item.NumberOfAscents)">
+                <td>
+                    @Html.ActionLink(item.Hillname, "HillDetails", new { id = item.Hillnumber })
+                </td>
+                <td>
+                    @Html.Raw(WalkingStick.HillClassesToLinks(item.Classification, VirtualPathUtility.ToAbsolute("~/")))
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:#}", item.Metres))
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:#}", item.Feet))
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Gridref10))
+                    {
+    @item.Gridref10 }
+                    else
+                    {
+    @item.Gridref}
+                </td>
+
+                <td>
+                    @Html.Encode(String.Format("{0:#}", item.Drop))
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:D}", item.FirstClimbedDate))
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:#}", item.NumberOfAscents))
+                </td>
+            </tr> } }
     </table>
 
 

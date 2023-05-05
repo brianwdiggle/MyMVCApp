@@ -184,7 +184,7 @@ table.datatable {
 
 
 table.walksbydate {
-    border-radius: 1em;
+    border-radius: 15px;
 }
 
     table.walksbydate tr {
@@ -245,6 +245,14 @@ table.walksbydate {
    height: 40px;
 }
 
+.spacerdiv {
+    height: 20px;
+}
 .smallertext {
     font-size: smaller;
+}
+
+.sitefooter {
+    text-align:center;
+    font-size: 8pt;
 }

@@ -23,6 +23,50 @@ a {
         color: #63b6e5;
     }
 
+input[type=text] {
+    padding: 5px 5px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 2px solid grey;
+}
+
+    input[type=text]:focus {
+        border: 2px solid #555;
+    }
+
+select {
+    padding: 5px 5px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 2px solid grey;
+}
+
+textarea {
+    padding: 5px 5px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 2px solid grey;
+}
+
+select:focus {
+    border: 2px solid #555;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color:  #555;
+    border: 3px solid grey;
+    border-radius: 10px;
+    color: white;
+    font-size: larger;
+    font-style: bold;
+    padding: 15px 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
 /*------------CSS class definitions------------------------------------------*/
 /* navbar with list*/
 ul.navbarlist {
@@ -222,6 +266,10 @@ table.walksbydate {
 
 .heading4 {
     font-size: 22px;
+    font-weight: bold;
+}
+
+.rowheader {
     font-weight: bold;
 }
 
