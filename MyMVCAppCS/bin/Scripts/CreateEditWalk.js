@@ -301,8 +301,8 @@ $(document).ready(function () {
     /*----Add a modal form which is used to capture the data for a new marker. Using jQuery/UI/Dialog---------*/
     $("#MarkerModalDialogForm").dialog({
         autoOpen: false,
-        height: 430,
-        width: 500,
+        height: 530,
+        width: 700,
         zIndex: 10000000,  //To ensure that the drop-down of suggestions appears in front of everything else
         modal: false,
         buttons: {

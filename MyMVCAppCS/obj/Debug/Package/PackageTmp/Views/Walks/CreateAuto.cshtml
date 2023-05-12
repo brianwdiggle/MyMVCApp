@@ -22,50 +22,50 @@
     @Html.ValidationSummary(true)
     <fieldset>
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkDate)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkDate, new { size = 40 })
         </div>&nbsp;
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkTitle)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkTitle, new { size = 80 })
         </div>&nbsp;
 
         <!--- Section: Walk Area with jQuery Autocomplete ----------------------------------------------------------------------------->
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkAreaName)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkAreaName, new { size = 80 }) @Html.Hidden("WalkAreaID")
         </div>&nbsp;
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkSummary)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkSummary, new { size = 80, maxlength = 1000 }) Auto: <input type="checkbox" name="summary_auto" id="summary_auto" checked="checked" />
         </div>&nbsp;
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkConditions)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkConditions, new { size = 80 })
         </div>&nbsp;
 
         <!-- Section: Summits Visited --------------------------------------------------------------------------------------------------->
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.HillAscents)
         </div>
         @for (int iHillVisitedCounter = 1; iHillVisitedCounter <= 15; iHillVisitedCounter++)
         {
 
-            <div class="editor-field" id="DivVisitedSummit@(iHillVisitedCounter.ToString(Thread.CurrentThread.CurrentCulture))">
+            <div id="DivVisitedSummit@(iHillVisitedCounter.ToString(Thread.CurrentThread.CurrentCulture))">
                 @Html.TextBox("VisitedSummit" + iHillVisitedCounter, "", new { size = 80 }) @Html.Hidden("VisitedSummit" + iHillVisitedCounter + "HillID")
             </div>
         }
@@ -73,105 +73,105 @@
 
         <!-- Section: Add New Marker ---------------------------------------------------------------------------------------------------->
 
-        <div class="editor-field" id="WalkMarkers">
+        <div id="WalkMarkers">
             <button id="CreateMarkerButton" type="button">Create New Marker</button><input type="hidden" id="markers_added" name="markers_added" value="" />
         </div>&nbsp;
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkDescription)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextAreaFor(walk => walk.WalkDescription, 8, 100, new { @class = "formtextarea" })
         </div>&nbsp;
 
         <!-- Section: Add Walk Files---------------------------------------------------------------------->
 
-        <div class="editor-label">
+        <div>
             <label for="images_path"><strong>Walk Files</strong><br />RELATIVE path underneath the images directory where all the files exist followed by a standard name prefix</label>
             as follows: 
             <pre>
-           This works on configuration by convention. Arrange the files in the directory before using this form as follows:
+This works on configuration by convention. Arrange the files in the directory before using this form as follows:
 
-           Images:                  {directories}/{WalkName}_{DDMMMYYYY}_{N}  (underscore)
-           GPX Route:               {directories}/{WalkName}_{DDMMMYYYY}-Track{desc}.gpx
-           GPX Track:               {directories}/{WalkName}_{DDMMMYYYY}-Route{desc}.gpx
-           GPX Route and Track:     {directories}/{WalkName}_{DDMMMYYYY}-RouteTrack{desc}.gpx
-           GPX Marker Waypoint:     {directories}/{WalkName}_{DDMMMYYYY}-Marker{desc}.gpx
-           Route Map:               {directories}/{WalkName}_{DDMMMYYYY}-MapRoute{desc}.jpg
-           Track Map:               {directories}/{WalkName}_{DDMMMYYYY}-MapTrack{desc}.jpg
-           Stats image:             {directories}/{WalkName}_{DDMMMYYYY}-Stats{desc}.jpg
-           Altitude profile image:  {directories}/{WalkName}_{DDMMMYYYY}-AltitudeProfile{desc}.jpg
-           Video:                   {directories}/{WalkName}_{DDMMMYYYY}-Vid{desc}.mov
+Images:                  {directories}/{WalkName}_{DDMMMYYYY}_{N}  (underscore)
+GPX Route:               {directories}/{WalkName}_{DDMMMYYYY}-Track{desc}.gpx
+GPX Track:               {directories}/{WalkName}_{DDMMMYYYY}-Route{desc}.gpx
+GPX Route and Track:     {directories}/{WalkName}_{DDMMMYYYY}-RouteTrack{desc}.gpx
+GPX Marker Waypoint:     {directories}/{WalkName}_{DDMMMYYYY}-Marker{desc}.gpx
+Route Map:               {directories}/{WalkName}_{DDMMMYYYY}-MapRoute{desc}.jpg
+Track Map:               {directories}/{WalkName}_{DDMMMYYYY}-MapTrack{desc}.jpg
+Stats image:             {directories}/{WalkName}_{DDMMMYYYY}-Stats{desc}.jpg
+Altitude profile image:  {directories}/{WalkName}_{DDMMMYYYY}-AltitudeProfile{desc}.jpg
+Video:                   {directories}/{WalkName}_{DDMMMYYYY}-Vid{desc}.mov
 
-           E.g. enter:
-           dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006
+E.g. enter:
+dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006
 
-           a GPX route file would be called dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006-Route.gpx is a GPX route
+A GPX route file would be called dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006-Route.gpx is a GPX route
 </pre>
         </div>
-        <div class="editor-field">
+        <div>
             <input type="text" name="walkfiles_reldir" id="walkfiles_reldir" size="80" maxlength="160" value="" />
         </div>
  
         <!-- Section: Walk Type------------------------------------------------------------------------------>
         &nbsp;
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkType)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.DropDownList("WalkTypes")
         </div>&nbsp;
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkStartPoint)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkStartPoint, new { size = 80, maxlength = 100 })
         </div>&nbsp;
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkEndPoint)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkEndPoint, new { size = 80, maxlength = 100 })
         </div>&nbsp;
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkCompanions)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkCompanions, new { size = 50, maxlength = 50 })
         </div>&nbsp;
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.CartographicLength)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.CartographicLength)
         </div>&nbsp;
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.MetresOfAscent)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.MetresOfAscent)
         </div>&nbsp;
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkTotalTime)
         </div>
-        <div class="editor-field">
+        <div>
             Hours: <input type="text" name="total_time_hours" size="3" maxlength="3" id="total_time_hours" /> Mins:<input type="text" name="total_time_mins" size="3" maxlength="2" id="total_time_mins" />
         </div>&nbsp;
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.WalkAverageSpeedKmh)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.WalkAverageSpeedKmh)
         </div>&nbsp;
 
-        <div class="editor-label">
+        <div>
             @Html.LabelFor(walk => walk.MovingAverageKmh)
         </div>
-        <div class="editor-field">
+        <div>
             @Html.TextBoxFor(walk => walk.MovingAverageKmh)
         </div>&nbsp;
 
@@ -204,8 +204,4 @@
         </fieldset>
     </form>
 
-</div>
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
