@@ -6,6 +6,7 @@
     using System.IO;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Xml;
 
     public class WalkingStick
     {
@@ -657,7 +658,7 @@
             strCleanedPath = strCleanedPath.Replace('\\','/');
             strCleanedPath = strCleanedPath.Replace("//", "/");
 
-            // Remove anything which is found before Content/images/  (the historic content of strPathImages
+            // Remove anything which is found before Content/images/  (the historic content of strPathImages)
             int iLoc = strCleanedPath.IndexOf(strPathToImages);
             if (iLoc > 0)
             {
@@ -841,6 +842,69 @@
             int iLoc = strFullPath.LastIndexOf("/");
 
             return strFullPath.Substring(iLoc + 1, (strFullPath.Length - iLoc) - 1);
+        }
+
+        public static List<Trackpoint> LoadGPXFromFile(string strRelPath, string strRootPath)
+        {
+            List<Trackpoint> trackpoints = new List<Trackpoint>();
+
+            string strCleanedUpRelPath;
+
+            if (strRelPath.StartsWith("/Content/images/"))
+            {
+                strCleanedUpRelPath = strRelPath.Replace("/Content/images/", "");
+               // strCleanedUpRelPath = res2.Replace("/", @"\");
+            }
+            else if (strRelPath.StartsWith("Content/images/"))
+            {
+                strCleanedUpRelPath = strRelPath.Replace("Content/images/", "");
+               // strCleanedUpRelPath = res2.Replace("/", @"\");
+            }
+            else
+            {
+                strCleanedUpRelPath = strRelPath;
+            }
+
+            
+            string strFullPath = strRootPath + strCleanedUpRelPath;
+            strFullPath = strFullPath.Replace("/", @"\");
+
+            //----Load the GPX file as an XML Document
+            XmlDocument gpxDoc = new XmlDocument();
+            gpxDoc.Load(strFullPath);
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(gpxDoc.NameTable);
+            nsmgr.AddNamespace("x", "http://www.topografix.com/GPX/1/1");
+            XmlNodeList nl = gpxDoc.SelectNodes("//x:trkpt", nsmgr);
+
+            //---Pull out the trackpoints
+            foreach (XmlElement xelement in nl)
+            {
+                Trackpoint oTP = new Trackpoint();
+                
+                oTP.latitude = float.Parse(xelement.GetAttribute("lat"));
+                oTP.longtitude = float.Parse(xelement.GetAttribute("lon"));
+
+                if (xelement.HasChildNodes)
+                {
+                    for (int i = 0; i < xelement.ChildNodes.Count; i++)
+                    {
+                        if (xelement.ChildNodes[i].Name == "ele")
+                        {
+                            oTP.elevation = float.Parse(xelement.ChildNodes[i].InnerText);
+                        }else if (xelement.ChildNodes[i].Name == "time")
+                        {
+                            oTP.time = DateTime.Parse(xelement.ChildNodes[i].InnerText);
+                        }
+                    }
+                }
+     
+  
+
+                trackpoints.Add(oTP);
+            }
+
+            return trackpoints;
+
         }
     }
 }

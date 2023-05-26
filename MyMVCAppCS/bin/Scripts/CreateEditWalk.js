@@ -301,7 +301,7 @@ $(document).ready(function () {
     /*----Add a modal form which is used to capture the data for a new marker. Using jQuery/UI/Dialog---------*/
     $("#MarkerModalDialogForm").dialog({
         autoOpen: false,
-        height: 530,
+        height: 630,
         width: 700,
         zIndex: 10000000,  //To ensure that the drop-down of suggestions appears in front of everything else
         modal: false,
@@ -319,7 +319,7 @@ $(document).ready(function () {
                     $.getJSON(getHome() + 'Walks/CreateMarker', { mtitle: markertitle.val(), mdesc: markerdescription.val(), mdate: markerdateleft.val(), mhillid: markerhillid.val(), mgps: markergps.val() },
                         function (oResults, status) {
                             if (status == "success") {
-                                $('#WalkMarkers').append('<br/><table class="markertable"><tr><td colspan="2"><strong>Marker Created</strong></td></tr>' +
+                                $('#WalkMarkers').append('<br/>&nbsp;<br/><table class="markercreated"><tr><td colspan="2"><strong>Marker Created</strong></td></tr>' +
                                 '<tr><td><em>Title:</em></td><td>' + markertitle.val() + '</td></tr><tr><td><em>Date Left:</em></td><td>' +
                                 markerdateleft.val() + '</td></tr><tr><td>Description:</td><td>' + markerdescription.val().replace(/(?:\r\n|\r|\n)/g, '<br />') + '</td></tr></table>');
                                 var mi = $("#markers_added").val();
