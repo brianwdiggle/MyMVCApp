@@ -383,14 +383,18 @@ namespace MyMVCAppCS.Controllers
             // ---If there is a GPX track file for this walk, then read this in from file, and prepare data needed for leaflet to overlay the track.
             var oGPXs = oWalk.Walk_AssociatedFiles.Where(w => w.Walk_AssociatedFile_Type == "GPX File");
 
-            List<Trackpoint> lstTrackpoints = new List<Trackpoint>();
-
-            foreach (Walk_AssociatedFile waf in oGPXs)
+            if (oGPXs != null)
             {
-                var trackpoints = WalkingStick.LoadGPXFromFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"));    
-            }
+                List<Trackpoint> lstTrackpoints = new List<Trackpoint>();
 
-            ViewData["TrackPoints"] = lstTrackpoints;
+                foreach (Walk_AssociatedFile waf in oGPXs)
+                {
+                    lstTrackpoints = WalkingStick.LoadGPXFromFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"));
+                }
+
+                ViewData["TrackPoints"] = lstTrackpoints;
+            }
+    
 
             return this.View(oWalk);
         }

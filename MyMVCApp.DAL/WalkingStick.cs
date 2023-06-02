@@ -871,7 +871,15 @@
 
             //----Load the GPX file as an XML Document
             XmlDocument gpxDoc = new XmlDocument();
-            gpxDoc.Load(strFullPath);
+
+            try
+            {
+                gpxDoc.Load(strFullPath);
+            }catch(Exception e)
+            {
+                return trackpoints;
+            }
+    
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(gpxDoc.NameTable);
             nsmgr.AddNamespace("x", "http://www.topografix.com/GPX/1/1");
             XmlNodeList nl = gpxDoc.SelectNodes("//x:trkpt", nsmgr);
