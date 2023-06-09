@@ -1,112 +1,91 @@
-﻿
-
-@using System.Threading
+﻿@using System.Threading
 @using MyMVCApp.DAL
 @using MyMVCApp.Model
 
+@{
+    ViewBag.Title = Model.Hillname + " " + String.Format("{0}", Model.Feet) + "ft";
+}
+<div class="spacerdiv"></div>
+<div class="walksbydate">
+    <table class="datatable">
+        <tr>
+            <td colspan="2" class="heading2">@Model.Hillname</td>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Model.Hillname - Hill details</title>
-    <link rel="stylesheet" href="~/Content/NewSite.css" />
-    <link rel="stylesheet" href="https://labs.os.uk/public/os-api-branding/v0.3.1/os-api-branding.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" />
-    <link rel="stylesheet" href="~/Content/MapStyle.css" />
+            <td class="heading2"></td>
+            <td class="column4 heading3">@Html.Encode(String.Format("{0}", Model.Feet)) ft, @Html.Encode(String.Format("{0}", Model.Metres)) m</td>
+        </tr>
+        <tr>
+            <td class="column1">First ascent:</td>
+            <td class="column2">@Model.FirstClimbedDate</td>
+            <td class="column3">Number of ascents: </td>
+            <td class="column4">@Model.NumberOfAscents</td>
+        </tr>
+        <tr>
+            <td class="column1">Grid reference:</td>
+            <td class="column2">@Model.Gridref10</td>
+            <td class="column3">Section:</td>
+            <td class="column4">@Model._Section</td>
+        </tr>
+        <tr>
+            <td class="column1">Feature:</td>
+            <td class="column2">@Model.Feature</td>
+            <td class="column3">Drop:</td>
+            <td class="column4">@Model.Drop</td>
+        </tr>
+        <tr>
+            <td class="column1">Classes:</td>
+            <td class="column2">@Model.Classification</td>
+            <td class="column3">EPSG:27000 coords:</td>
+            <td class="column4">@Model.Xcoord , @Model.Ycoord</td>
+        </tr>
+    </table>
+</div>
+<div class="spacerdiv"></div>
+<div id="hillmap"></div>
+<div class="spacerdiv"></div>
+<div class="walksbydate">
+    <table class="datatable">
+        @{
+            int iAscentCounter = 1;
 
+            var oAscents = (List<HillAscent>)ViewData["HillAscents"];
 
-    <script src="https://labs.os.uk/public/os-api-branding/v0.3.1/os-api-branding.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.0/proj4.js"></script>
-    <script src="../../Scripts/os-transform.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.min.js"></script>
-
-</head>
-<body>
-    <div class="spacerdiv"></div>
-    <div class="walksbydate">
-        <table class="datatable">
             <tr>
-                <td colspan="2" class="heading2">@Model.Hillname</td>
+                <td colspan="4" class="heading2">Ascents</td>
+            </tr>
 
-                <td class="heading2"></td>
-                <td class="column4 heading3">@Html.Encode(String.Format("{0}", Model.Feet)) ft, @Html.Encode(String.Format("{0}", Model.Metres)) m</td>
-            </tr>
-            <tr>
-                <td class="column1">First ascent:</td>
-                <td class="column2">@Model.FirstClimbedDate</td>
-                <td class="column3">Number of ascents: </td>
-                <td class="column4">@Model.NumberOfAscents</td>
-            </tr>
-            <tr>
-                <td class="column1">Grid reference:</td>
-                <td class="column2">@Model.Gridref10</td>
-                <td class="column3">Section:</td>
-                <td class="column4">@Model._Section</td>
-            </tr>
-            <tr>
-                <td class="column1">Feature:</td>
-                <td class="column2">@Model.Feature</td>
-                <td class="column3">Drop:</td>
-                <td class="column4">@Model.Drop</td>
-            </tr>
-            <tr>
-                <td class="column1">Classes:</td>
-                <td class="column2">@Model.Classification</td>
-                <td class="column3">EPSG:27000 coords:</td>
-                <td class="column4">@Model.Xcoord , @Model.Ycoord</td>
-            </tr>
-        </table>
-    </div>
-    <div class="spacerdiv"></div>
-    <div id="hillmap"></div>
-    <div class="spacerdiv"></div>
-    <div class="walksbydate">
-        <table class="datatable">
-            @{
-                int iAscentCounter = 1;
-
-                var oAscents = (List<HillAscent>)ViewData["HillAscents"];
+            foreach (HillAscent oAscent in oAscents)
+            {
 
                 <tr>
-                    <td colspan="4" class="heading2">Ascents</td>
+                    <td>@iAscentCounter.ToString(Thread.CurrentThread.CurrentCulture)</td>
+                    <td>@Html.Encode(String.Format("{0:D}", oAscent.AscentDate))</td>
+                    <td><a href="~/Walks/Details/@oAscent.Walk.WalkID">@oAscent.Walk.WalkTitle</a></td>
+                    <td><a href="~/Walks/Details/@oAscent.Walk.WalkID">@oAscent.Walk.WalkSummary</a></td>
                 </tr>
-
-                foreach (HillAscent oAscent in oAscents)
-                {
-
-                    <tr>
-                        <td>@iAscentCounter.ToString(Thread.CurrentThread.CurrentCulture)</td>
-                        <td>@Html.Encode(String.Format("{0:D}", oAscent.AscentDate))</td>
-                        <td><a href="~/Walks/Details/@oAscent.Walk.WalkID">@oAscent.Walk.WalkTitle</a></td>
-                        <td><a href="~/Walks/Details/@oAscent.Walk.WalkID">@oAscent.Walk.WalkSummary</a></td>
-                    </tr>
-                    iAscentCounter = iAscentCounter + 1;
-                }
-
-                if (iAscentCounter == 1)
-                {
-                    <tr>
-                        <td colspan="4">No Ascents</td>
-                    </tr>
-                }
+                iAscentCounter = iAscentCounter + 1;
             }
 
-        </table>
-    </div>
+            if (iAscentCounter == 1)
+            {
+                <tr>
+                    <td colspan="4">No Ascents</td>
+                </tr>
+            }
+        }
 
+    </table>
+</div>
 
-    <script>
+<script>
 
         // Function toInternationalDate ---------------------------------------------------------------------
         // Convert date/time string in format DD/MM/YYYY HH:MM:SS to standard javascript format YYYY/MM/DD
-        const toInternationaDate = function (ukDate) {
+    const toInternationaDate = function (ukDate) {
             var startTimeLoc = ukDate.indexOf(' ');
             //Override end location if ukDate does not contain a time portion
             if (startTimeLoc == -1) {
-                startTimeLoc = ukDate.length;
+        startTimeLoc = ukDate.length;
             }
             ukDateSplit = ukDate.substring(0,startTimeLoc).split('/');
 
@@ -118,20 +97,20 @@
         }
 
 
-        const apiKey = '468YAE3SzsjV8Uu8XPPDQpVVh2mA67vC';
+        const OSapiKey = '468YAE3SzsjV8Uu8XPPDQpVVh2mA67vC';
 
         var firstClimbedDate = toInternationaDate("@Model.FirstClimbedDate");  // convert from british date format to standard js format
-        var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var dateOptions = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
         // using  // https://github.com/OrdnanceSurvey/os-transform
-        //const epsg27000_center = os.Transform.fromGridRef("NY 21541 07216");  // Returns { ea: 337297, no: 503695 } - center on scafell pike
+        //const epsg27000_center = os.Transform.fromGridRef("NY 21541 07216");  // Returns {ea: 337297, no: 503695 } - center on scafell pike
 
         //----Define the map centre point by converting an os grid reference into ESPG:27000 coordinates
         const map_center = [@Model.Xcoord, @Model.Ycoord];
 
         // Setup the EPSG:27700 (British National Grid) projection.
         const crs = new L.Proj.CRS('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs', {
-            resolutions: [896.0, 448.0, 224.0, 112.0, 56.0, 28.0, 14.0, 7.0, 3.5, 1.75],
+        resolutions: [896.0, 448.0, 224.0, 112.0, 56.0, 28.0, 14.0, 7.0, 3.5, 1.75],
             origin: [-238375.0, 1376256.0]
         });
 
@@ -143,7 +122,7 @@
 
         // Define the options associated with the Leaflet map which will be created
         const mapOptions = {
-            crs: crs,
+        crs: crs,
             minZoom: 0,
             maxZoom: 9,
             center: transformCoords(map_center),
@@ -161,13 +140,12 @@
         //---Add hill as a marker on the map-----------
         const hill_marker = L.marker(transformCoords([@Model.Xcoord, @Model.Ycoord]))
             .bindPopup("<b>@Model.Hillname" + ", @Model.Metres" +"m</b><br>First climbed: " + firstClimbedDate.toLocaleDateString("en-GB",dateOptions))
-            .openPopup()
-            .addTo(map); //Add hill marker to map, converting coords to WGS84
+    .openPopup()
+    .addTo(map); //Add hill marker to map, converting coords to WGS84
 
-        // Finally load and display ZXY tile layer on the map.
-        const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + apiKey).addTo(map);
+    // Finally load and display ZXY tile layer on the map.
+        const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
 
-    </script>
+</script>
 
-</body>
-</html>
+

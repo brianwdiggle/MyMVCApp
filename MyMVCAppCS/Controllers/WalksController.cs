@@ -375,6 +375,8 @@ namespace MyMVCAppCS.Controllers
 
         public ActionResult Details(int id)
         {
+            int iShowMap = 0;
+
             Walk oWalk = this.repository.GetWalkDetails(id);
             
             string strTotalTime = WalkingStick.ConvertTotalTimeToString(oWalk.WalkTotalTime, false);
@@ -383,18 +385,39 @@ namespace MyMVCAppCS.Controllers
             // ---If there is a GPX track file for this walk, then read this in from file, and prepare data needed for leaflet to overlay the track.
             var oGPXs = oWalk.Walk_AssociatedFiles.Where(w => w.Walk_AssociatedFile_Type == "GPX File");
 
-            if (oGPXs != null)
+            if (oGPXs !=null && oGPXs.GetEnumerator().MoveNext())
             {
                 List<Trackpoint> lstTrackpoints = new List<Trackpoint>();
 
                 foreach (Walk_AssociatedFile waf in oGPXs)
                 {
-                    lstTrackpoints = WalkingStick.LoadGPXFromFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"));
+                    lstTrackpoints = WalkingStick.LoadDataFromGPXFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"), "//x:trkpt");
                 }
 
                 ViewData["TrackPoints"] = lstTrackpoints;
+
+                iShowMap = 1;
             }
-    
+
+
+            // ---If there is a GPX route file for this walk, then read this in from file, and prepare data needed for leaflet to overlay the track.
+            oGPXs = oWalk.Walk_AssociatedFiles.Where(w => w.Walk_AssociatedFile_Type == "GPX File with Route");
+
+            if (oGPXs != null && oGPXs.GetEnumerator().MoveNext())
+            {
+                List<Trackpoint> lstTrackpoints = new List<Trackpoint>();
+
+                foreach (Walk_AssociatedFile waf in oGPXs)
+                {
+                    lstTrackpoints = WalkingStick.LoadDataFromGPXFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"), "//x:wpt");
+                }
+
+                ViewData["RouteWaypoints"] = lstTrackpoints;
+
+                iShowMap = 1;
+            }
+
+            ViewData["ShowMap"] = iShowMap;
 
             return this.View(oWalk);
         }

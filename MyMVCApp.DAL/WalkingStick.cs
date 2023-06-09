@@ -844,7 +844,7 @@
             return strFullPath.Substring(iLoc + 1, (strFullPath.Length - iLoc) - 1);
         }
 
-        public static List<Trackpoint> LoadGPXFromFile(string strRelPath, string strRootPath)
+        public static List<Trackpoint> LoadDataFromGPXFile(string strRelPath, string strRootPath, string strGPXNode)
         {
             List<Trackpoint> trackpoints = new List<Trackpoint>();
 
@@ -882,7 +882,7 @@
     
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(gpxDoc.NameTable);
             nsmgr.AddNamespace("x", "http://www.topografix.com/GPX/1/1");
-            XmlNodeList nl = gpxDoc.SelectNodes("//x:trkpt", nsmgr);
+            XmlNodeList nl = gpxDoc.SelectNodes(strGPXNode, nsmgr);
 
             //---Pull out the trackpoints
             foreach (XmlElement xelement in nl)

@@ -199,9 +199,14 @@
         </table>
     }
 </div>
-<div class="spacerdiv"></div>
-<div id="walkdetailsmap"></div>
-<div class="spacerdiv"></div>
+
+@if (ViewData["ShowMap"].Equals(1))
+{
+    <div class="spacerdiv"></div>
+    <div id="walkdetailsmap"></div>
+    <div class="spacerdiv"></div>
+}
+
 <div>
     @foreach (Walk_AssociatedFile oFile in Model.Walk_AssociatedFiles)
     {
@@ -323,23 +328,31 @@
             return new Date(standardYear, standardMonth, standardDay);
         }
 
-        //If there is a track available, overlay the map with this track
-
+        //If there is a track available, copy track data into a json array
         var trackdata = @(Html.Raw(JsonConvert.SerializeObject(ViewData["TrackPoints"])));
-        var trackcoords = new Array(trackdata.length);
-        var trackdatalength = trackdata.length;
+        if (trackdata != null) {
+            var trackcoords = new Array(trackdata.length);
+            var trackdatalength = trackdata.length;
 
-        
-
-        for (let i = 0; i < trackdata.length; i++) {
-            trackcoords[i] = [trackdata[i].latitude, trackdata[i].longtitude];
+            for (let i = 0; i < trackdata.length; i++) {
+                trackcoords[i] = [trackdata[i].latitude, trackdata[i].longtitude];
+            }
         }
+  
+        //If there is a route available, copy route data into a json array
+        var routedata = @(Html.Raw(JsonConvert.SerializeObject(ViewData["RouteWaypoints"])));
+        if (routedata != null) {
+            var routecoords = new Array(routedata.length);
+
+            for (let i = 0; i < routedata.length; i++) {
+                routecoords[i] = [routedata[i].latitude, routedata[i].longtitude];
+            }
+        }
+ 
 
         //----If GPS data is available associated with the walk, then display the map----
 
-    if (trackcoords.length > 0) {
-
-
+    if (routedata!=null || trackdata!=null) {
 
         const OSapiKey = '468YAE3SzsjV8Uu8XPPDQpVVh2mA67vC';
 
@@ -379,13 +392,17 @@
         // Initialize the lealfet map.
         const map = L.map('walkdetailsmap', mapOptions);
 
-
-        if (trackcoords.length > 0) {
+        if (trackdata!=null) {
             // Add the track to the map
             const polyline = L.polyline(trackcoords, { color: '#090', weight: 4 }).addTo(map);
             map.fitBounds(polyline.getBounds());
         }
 
+        if (routedata!=null) {
+          //   Add the route to the map
+            const polyline = L.polyline(routecoords, { color: '#cc00cc', weight: 4 }).addTo(map);
+            map.fitBounds(polyline.getBounds());
+        }
 
         // Finally load and display ZXY tile layer on the map.
         const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);

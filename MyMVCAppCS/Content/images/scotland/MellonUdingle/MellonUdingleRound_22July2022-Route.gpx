@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx version="1.1" creator="OS Maps - Web" xmlns="http://www.topografix.com/GPX/1/1"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd"
+xmlns:gs="http://www.topografix.com/GPX/gpx_style/0/2"
+xmlns:gh="https://graphhopper.com/public/schema/gpx/1.1"
+xmlns:os="https://ordnancesurvey.co.uk/public/schema/route/0.1">
+    <metadata>
+        <name>MellonUdingleRound_22July2023-Route</name>
+        <desc></desc>
+        <bounds minlat="57.9027440" minlon="-5.5694010" maxlat="57.9149710" maxlon="-5.5546390"/>
+        <extensions>
+            <os:version>2.0</os:version>
+            <os:point lat="57.9035580" lon="-5.5620860" type="start"/>
+            <os:point lat="57.9038840" lon="-5.5622160" type="end"/>
+            <os:activity>ON_FOOT_WALKING</os:activity>
+            <os:difficulty>UNKNOWN</os:difficulty>
+            <os:paths/>
+            <os:distance>3411.7350870</os:distance>
+            <os:elevation_ascent>112.4200000</os:elevation_ascent>
+        </extensions>
+    </metadata>
+    <wpt lat="57.9035580" lon="-5.5620860"/>
+    <wpt lat="57.9027440" lon="-5.5594370"/>
+    <wpt lat="57.9037120" lon="-5.5577420"/>
+    <wpt lat="57.9054160" lon="-5.5569560"/>
+    <wpt lat="57.9068180" lon="-5.5567380"/>
+    <wpt lat="57.9089160" lon="-5.5555130"/>
+    <wpt lat="57.9112330" lon="-5.5546390"/>
+    <wpt lat="57.9133970" lon="-5.5600390"/>
+    <wpt lat="57.9147490" lon="-5.5624050"/>
+    <wpt lat="57.9149710" lon="-5.5643850"/>
+    <wpt lat="57.9142150" lon="-5.5662610"/>
+    <wpt lat="57.9126860" lon="-5.5688960"/>
+    <wpt lat="57.9114620" lon="-5.5694010"/>
+    <wpt lat="57.9096390" lon="-5.5693130"/>
+    <wpt lat="57.9082670" lon="-5.5685030"/>
+    <wpt lat="57.9069240" lon="-5.5664430"/>
+    <wpt lat="57.9059160" lon="-5.5654370"/>
+    <wpt lat="57.9046810" lon="-5.5628290"/>
+    <wpt lat="57.9038840" lon="-5.5622160"/>
+    <trk>
+        <name>MellonUdingleRound_22July2023-Route</name>
+        <trkseg>
+            <trkpt lat="57.9035580" lon="-5.5620860"/>
+            <trkpt lat="57.9027440" lon="-5.5594370"/>
+            <trkpt lat="57.9037120" lon="-5.5577420"/>
+            <trkpt lat="57.9054160" lon="-5.5569560"/>
+            <trkpt lat="57.9068180" lon="-5.5567380"/>
+            <trkpt lat="57.9089160" lon="-5.5555130"/>
+            <trkpt lat="57.9112330" lon="-5.5546390"/>
+            <trkpt lat="57.9123240" lon="-5.5572500"/>
+            <trkpt lat="57.9133970" lon="-5.5600390"/>
+            <trkpt lat="57.9147490" lon="-5.5624050"/>
+            <trkpt lat="57.9149710" lon="-5.5643850"/>
+            <trkpt lat="57.9142150" lon="-5.5662610"/>
+            <trkpt lat="57.9126860" lon="-5.5688960"/>
+            <trkpt lat="57.9114620" lon="-5.5694010"/>
+            <trkpt lat="57.9096390" lon="-5.5693130"/>
+            <trkpt lat="57.9082670" lon="-5.5685030"/>
+            <trkpt lat="57.9069240" lon="-5.5664430"/>
+            <trkpt lat="57.9059160" lon="-5.5654370"/>
+            <trkpt lat="57.9046810" lon="-5.5628290"/>
+            <trkpt lat="57.9038840" lon="-5.5622160"/>
+            <extensions>
+                <gs:line>
+                    <gs:color>D40058</gs:color>
+                    <gs:opacity>1.0</gs:opacity>
+                    <gs:width>6.0</gs:width>
+                </gs:line>
+            </extensions>
+        </trkseg>
+    </trk>
+</gpx>
