@@ -827,7 +827,43 @@
         }
 
 
- 
+        public static string HillAscentMarkerPopup(HillAscent oHA)
+        {
+            string strPopupText = "";
+            string strNumberOfAscents = "";
+
+            switch (oHA.Hill.HillAscents.Count)
+            {
+                case 0:
+                    strNumberOfAscents =  "Not yet ascended";
+                    break;
+                case 1:
+                    strNumberOfAscents = " First ascent.";
+                    break;
+                case 2:
+                    strNumberOfAscents = " Second ascent.";
+                    break;
+                case 3:
+                    strNumberOfAscents = " Third ascent.";
+                    break;
+                case 4:
+                    strNumberOfAscents = " Fourth ascent.";
+                    break;
+                case 5:
+                    strNumberOfAscents = " Fifth ascent.";
+                    break;
+                case 6:
+                    strNumberOfAscents = " Sixth ascent.";
+                    break;
+                default:
+                    strNumberOfAscents = oHA.Hill.HillAscents.Count.ToString() + "th";
+                    break;
+            }
+
+            strPopupText = oHA.Hill.Hillname + " (" + oHA.Hill.Metres + "m)" + strNumberOfAscents;
+
+            return strPopupText;
+        }
 
 
         public static Boolean WhiteListFormInput(string strFormInput)

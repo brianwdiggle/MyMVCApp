@@ -417,6 +417,24 @@ namespace MyMVCAppCS.Controllers
                 iShowMap = 1;
             }
 
+
+            //----Prepare map markers for the ascents------------------
+            List<MapMarker> lstAscentMarkers = new List<MapMarker>();
+
+            foreach(HillAscent oHillAscent in oWalk.HillAscents)
+            {
+                MapMarker oMM = new MapMarker
+                {
+                    elevation = oHillAscent.Hill.Metres,
+                    latitude = (double)oHillAscent.Hill.Xcoord,
+                    longtitude = (double)oHillAscent.Hill.Ycoord,
+                    popupText = WalkingStick.HillAscentMarkerPopup(oHillAscent)
+                };
+                lstAscentMarkers.Add(oMM);
+                iShowMap = 1;
+            }
+
+            ViewData["AscentMarkers"] = lstAscentMarkers;
             ViewData["ShowMap"] = iShowMap;
 
             return this.View(oWalk);
