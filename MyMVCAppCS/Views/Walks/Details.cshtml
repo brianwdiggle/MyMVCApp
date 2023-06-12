@@ -416,15 +416,9 @@
             map.fitBounds(polyline.getBounds());
         }
 
+        if (ascentdata != null) {
 
-  //          const hill_marker = L.marker([54.5, -3.09])
-  //          .bindPopup("<b>Test" + ", 500" +"m</b><br>First climbed: ")
-  //  .openPopup()
-  //  .addTo(map); //Add hill marker to map, converting coords to WGS84
-
-            if (ascentdata != null) {
-
-                let markeroptions = { zIndexOffset: 1000 };
+            let markeroptions = { zIndexOffset: 1000 };
 
             for (let i = 0; i < ascentdata.length; i++) {
                 var thislat = ascentcoords[i][0];
