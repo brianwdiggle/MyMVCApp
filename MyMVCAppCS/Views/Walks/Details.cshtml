@@ -418,7 +418,15 @@
 
         if (ascentdata != null) {
 
-            let markeroptions = { zIndexOffset: 1000 };
+            const ascenticon = L.icon({
+                iconUrl: "/Content/images/squat-marker-green.svg",
+                iconSize: [25, 39],
+            });
+
+            let markeroptions = {
+                zIndexOffset: 1000,
+                icon: ascenticon
+            };
 
             for (let i = 0; i < ascentdata.length; i++) {
                 var thislat = ascentcoords[i][0];

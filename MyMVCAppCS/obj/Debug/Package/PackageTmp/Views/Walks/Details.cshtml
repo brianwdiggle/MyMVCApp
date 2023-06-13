@@ -199,9 +199,14 @@
         </table>
     }
 </div>
-<div class="spacerdiv"></div>
-<div id="walkdetailsmap"></div>
-<div class="spacerdiv"></div>
+
+@if (ViewData["ShowMap"].Equals(1))
+{
+    <div class="spacerdiv"></div>
+    <div id="walkdetailsmap"></div>
+    <div class="spacerdiv"></div>
+}
+
 <div>
     @foreach (Walk_AssociatedFile oFile in Model.Walk_AssociatedFiles)
     {
@@ -323,37 +328,57 @@
             return new Date(standardYear, standardMonth, standardDay);
         }
 
-        //If there is a track available, overlay the map with this track
-
+        //If there is a track available, copy track data into a json array
         var trackdata = @(Html.Raw(JsonConvert.SerializeObject(ViewData["TrackPoints"])));
-        var trackcoords = new Array(trackdata.length);
-        var trackdatalength = trackdata.length;
+        if (trackdata != null) {
+            var trackcoords = new Array(trackdata.length);
+            var trackdatalength = trackdata.length;
 
-        
-
-        for (let i = 0; i < trackdata.length; i++) {
-            trackcoords[i] = [trackdata[i].latitude, trackdata[i].longtitude];
+            for (let i = 0; i < trackdata.length; i++) {
+                trackcoords[i] = [trackdata[i].latitude, trackdata[i].longtitude];
+            }
         }
+
+        //If there is a route available, copy route data into a json array
+        var routedata = @(Html.Raw(JsonConvert.SerializeObject(ViewData["RouteWaypoints"])));
+        if (routedata != null) {
+            var routecoords = new Array(routedata.length);
+
+            for (let i = 0; i < routedata.length; i++) {
+                routecoords[i] = [routedata[i].latitude, routedata[i].longtitude];
+            }
+        }
+
+        //If there are any ascents associated with this walk, add them as markers to the map--------
+        var ascentdata = @(Html.Raw(JsonConvert.SerializeObject(ViewData["AscentMarkers"])));
+        if (ascentdata != null) {
+            var ascentcoords = new Array(ascentdata.length);
+            var ascentpopups = new Array(ascentdata.length);
+
+            for (let i = 0; i < ascentdata.length; i++) {
+                ascentcoords[i] = [ascentdata[i].latitude, ascentdata[i].longtitude];
+                ascentpopups[i] = ascentdata[i].popupText;
+            }
+        }
+
 
         //----If GPS data is available associated with the walk, then display the map----
 
-    if (trackcoords.length > 0) {
+        if (routedata!=null || trackdata!=null || ascentdata !=null) {
 
+            const OSapiKey = '468YAE3SzsjV8Uu8XPPDQpVVh2mA67vC';
 
+            // using  // https://github.com/OrdnanceSurvey/os-transform
+            //const epsg27000_center = os.Transform.fromGridRef("NY 21541 07216");  // Returns {ea: 337297, no: 503695 } - center on scafell pike
 
-        const OSapiKey = '468YAE3SzsjV8Uu8XPPDQpVVh2mA67vC';
+            //----Define the map centre point by converting an os grid reference into ESPG:27000 coordinates
 
-        // using  // https://github.com/OrdnanceSurvey/os-transform
-        //const epsg27000_center = os.Transform.fromGridRef("NY 21541 07216");  // Returns {ea: 337297, no: 503695 } - center on scafell pike
+            const map_center = [54.5, -3.09];
 
-        //----Define the map centre point by converting an os grid reference into ESPG:27000 coordinates
-
-        const map_center = [51.5, -0.09];
-
-        // Setup the EPSG:27700 (British National Grid) projection.
-        const crs = new L.Proj.CRS('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs', {
-            resolutions: [896.0, 448.0, 224.0, 112.0, 56.0, 28.0, 14.0, 7.0, 3.5, 1.75],
-            origin: [-238375.0, 1376256.0]
+            // Setup the EPSG:27700 (British National Grid) projection.
+            const crs = new L.Proj.CRS('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs', {
+        resolutions: [896.0, 448.0, 224.0, 112.0, 56.0, 28.0, 14.0, 7.0, 3.5, 1.75],
+        origin: [-238375.0, 1376256.0]
         });
 
         // Leaflet works natively in WGS84 -a.k.a. EPSG:4326. The following function converts from OS National grid to this.
@@ -364,31 +389,51 @@
 
         // Define the options associated with the Leaflet map which will be created
         const mapOptions = {
-            crs: crs,
-            minZoom: 0,
-            maxZoom: 9,
-            center: map_center,
-            zoom: 8,   // 8 this is the first 1:25000 zoom level
-            maxBounds: [    // as defined by the EPSG:27000 coordinate system
-                transformCoords([-238375.0, 0.0]),
-                transformCoords([900000.0, 1376256.0])
-            ],
-            attributionControl: true
+        crs: crs,
+        minZoom: 0,
+        maxZoom: 9,
+        center: map_center,
+        zoom: 8,   // 8 this is the first 1:25000 zoom level
+        maxBounds: [    // as defined by the EPSG:27000 coordinate system
+            transformCoords([-238375.0, 0.0]),
+            transformCoords([900000.0, 1376256.0])
+        ],
+        attributionControl: true
         };
 
         // Initialize the lealfet map.
         const map = L.map('walkdetailsmap', mapOptions);
 
-
-        if (trackcoords.length > 0) {
-            // Add the track to the map
+        if (trackdata!=null) {
+           //  Add the track to the map
             const polyline = L.polyline(trackcoords, { color: '#090', weight: 4 }).addTo(map);
             map.fitBounds(polyline.getBounds());
         }
 
+        if (routedata!=null) {
+            //   Add the route to the map
+            const polyline = L.polyline(routecoords, { color: '#cc00cc', weight: 4 }).addTo(map);
+            map.fitBounds(polyline.getBounds());
+        }
 
-        // Finally load and display ZXY tile layer on the map.
-        const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
+        if (ascentdata != null) {
+
+            let markeroptions = { zIndexOffset: 1000 };
+
+            for (let i = 0; i < ascentdata.length; i++) {
+                var thislat = ascentcoords[i][0];
+                var thislong = ascentcoords[i][1];
+                const popText = ascentpopups[i];
+                console.log("writing ascent marker [" + ascentcoords[i][0] + "," + ascentcoords[i][1] + "] with popup text [" + popText + "]");
+                marker = new L.marker(transformCoords([thislat, thislong]), markeroptions)
+                    .bindPopup(popText).
+                    openPopup()
+                    .addTo(map);
+            }
+        }
+
+    // Finally load and display ZXY tile layer on the map.
+    const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
     }
 </script>
 
