@@ -137,8 +137,20 @@
         // Initialize the lealfet map.
         const map = L.map('hillmap', mapOptions);
 
+        const summiticon = L.icon({
+            iconUrl: "/Content/images/TrigGreen.gif",
+            iconSize: [13, 13],
+            iconAnchor: [6, 13]
+        });
+
+        let mapmarkeroptions = {
+            zIndexOffset: 1000,
+            icon: summiticon
+        };
+
+
         //---Add hill as a marker on the map-----------
-        const hill_marker = L.marker(transformCoords([@Model.Xcoord, @Model.Ycoord]))
+        const hill_marker = L.marker(transformCoords([@Model.Xcoord, @Model.Ycoord]), mapmarkeroptions)
             .bindPopup("<b>@Model.Hillname" + ", @Model.Metres" +"m</b><br>First climbed: " + firstClimbedDate.toLocaleDateString("en-GB",dateOptions))
     .openPopup()
     .addTo(map); //Add hill marker to map, converting coords to WGS84
