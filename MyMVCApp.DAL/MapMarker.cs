@@ -10,6 +10,7 @@ namespace MyMVCApp.DAL
     {
         public double latitude;
         public double longtitude;
+        public string OSMap10;
         public double elevation;
         public string popupText;
     }

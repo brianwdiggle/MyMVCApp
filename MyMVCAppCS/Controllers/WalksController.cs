@@ -434,6 +434,23 @@ namespace MyMVCAppCS.Controllers
                 iShowMap = 1;
             }
 
+            ///----Prepare data about markers associated the walk
+            List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
+            foreach(Marker_Observation oMO in oWalk.Marker_Observations)
+            {
+                if (oMO.Marker.GPS_Reference.Trim() != "")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10= oMO.Marker.GPS_Reference,
+                        popupText = WalkingStick.MarkerObservationPopup(oMO, this.Server.MapPath("/"))
+                    };
+                    lstMarkerMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+            }
+
+            ViewData["MarkerMarkers"] = lstMarkerMarkers;
             ViewData["AscentMarkers"] = lstAscentMarkers;
             ViewData["ShowMap"] = iShowMap;
 
