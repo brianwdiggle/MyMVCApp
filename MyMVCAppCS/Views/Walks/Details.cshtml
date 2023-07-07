@@ -293,9 +293,9 @@
         {
             if (oFile.Walk_AssociatedFile_Type.Equals("Image"))
             {
-                <div class="walkdetails">
+                <div class="walkdetailsimage">
                     <div><img src="~/@oFile.Walk_AssociatedFile_Name" alt="@oFile.Walk_AssociatedFile_Caption" class="walkimage" /></div>
-                    <div class="imagecaption"><em>@oFile.Walk_AssociatedFile_Caption</em><br />&nbsp;</div>
+                    <div class="imagecaption">@oFile.Walk_AssociatedFile_Caption</div>
                 </div>
                 iCounter = iCounter + 1;
             }
@@ -377,7 +377,7 @@ if (markerdata != null) {
 
 //----If GPS data is available associated with the walk, then display the map----
 
-if (routedata != null || trackdata != null || ascentdata != null) {
+if (routedata != null || trackdata != null || ascentdata != null || markedata !=null) {
 
     const OSapiKey = '468YAE3SzsjV8Uu8XPPDQpVVh2mA67vC';
 
@@ -419,20 +419,20 @@ if (routedata != null || trackdata != null || ascentdata != null) {
 
     if (trackdata != null) {
         //  Add the track to the map
-        const polyline = L.polyline(trackcoords, { color: '#090', weight: 4 }).addTo(map);
+        const polyline = L.polyline(trackcoords, { color: '#C0392B', weight: 4 }).addTo(map);
         map.fitBounds(polyline.getBounds());
     }
 
     if (routedata != null) {
         //   Add the route to the map
-        const polyline = L.polyline(routecoords, { color: '#cc00cc', weight: 4 }).addTo(map);
+        const polyline = L.polyline(routecoords, { color: '#6C3483', weight: 4 }).addTo(map);
         map.fitBounds(polyline.getBounds());
     }
 
     if (ascentdata != null) {
 
         const ascenticon = L.icon({
-            iconUrl: "/Content/images/TrigGreen.gif",
+            iconUrl: "/Content/TrigGreen.gif",
             iconSize: [13, 13],
             iconAnchor: [6, 13]
         });

@@ -181,6 +181,7 @@
     <Compile Include="ViewModels\WalkAreaOption.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\favicon.ico" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\MapStyle.css" />
     <Content Include="Content\NewSite.css" />
@@ -217,6 +218,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\TrigGreen.gif" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\PublishWalkingMVC.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />

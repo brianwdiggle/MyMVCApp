@@ -372,7 +372,11 @@ namespace MyMVCAppCS.Controllers
             return View(IQPaginatedWalks);
         }
 
-
+        // -------------------------------------------------------------------------------------
+        //  Function: Details(Walk ID)
+        //  URL     : /Walks/WalksByDate/OrderBy/{page}
+        //  Descr   : Return a list of walks by date, order as per the OrderBy parameter
+        // --------------------------------------------------------------------------------------
         public ActionResult Details(int id)
         {
             int iShowMap = 0;
@@ -443,7 +447,7 @@ namespace MyMVCAppCS.Controllers
                     MapMarker oMM = new MapMarker
                     {
                         OSMap10= oMO.Marker.GPS_Reference,
-                        popupText = WalkingStick.MarkerObservationPopup(oMO, this.Server.MapPath("/"))
+                        popupText = WalkingStick.MarkerObservationPopup(oMO)
                     };
                     lstMarkerMarkers.Add(oMM);
                     iShowMap = 1;

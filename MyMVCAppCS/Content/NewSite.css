@@ -177,18 +177,24 @@ sup {
     display: table;
 }
 
+.walkdetailsimage {
+    border-radius: 15px;
+    background-color: #91949b;
+    margin-top: 12px;
+    margin-bottom: 22px;
+    display: table;
+}
+
 .walkimage {
     border-radius: 15px;
     border-color: aqua;
     margin-top: 12px;
-    margin-bottom: 12px;
     margin-left: 12px;
     margin-right: 12px;
 }
 
 .imagecaption {
-    display: table-caption;
-    caption-side: bottom;
+  
     margin-left: 12px;
 }
 

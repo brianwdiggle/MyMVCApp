@@ -4,7 +4,7 @@ using System.Web.Mvc;
 namespace MyMVCAppCS.Controllers
 {
     using System;
-
+    using System.Collections.Generic;
     using MyMVCApp.DAL;
 
     using MyMVCAppCS.Models;
@@ -28,6 +28,7 @@ namespace MyMVCAppCS.Controllers
         public ActionResult Index(string orderBy, int page=1) 
         {
             IQueryable<Marker> iqMarkers;
+            int iShowMap = 0;
        
             // ---Use the walking repository to get a list of all the markers----
             // ---Set up the ordering of the markers------
@@ -93,6 +94,24 @@ namespace MyMVCAppCS.Controllers
             // ----Create a paginated list of the walks----------------
             var iqPaginatedMarkers = new PaginatedListMVC<Marker>(iqMarkers, page, MARKERS_PAGE_SIZE, Url.Action("Index", "Marker", new { OrderBy = ViewData["OrderBy"] + ViewData["OrderAscDesc"].ToString() }), MAX_PAGINATION_LINKS, "");
 
+            ///----Prepare data about markers associated the walk
+            List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
+            foreach (Marker oMarker in iqPaginatedMarkers)
+            {
+                if (oMarker.GPS_Reference.Trim() != "")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = oMarker.GPS_Reference,
+                        popupText = WalkingStick.MarkerPopup(oMarker)
+                    };
+                    lstMarkerMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+            }
+
+            ViewData["ShowMap"] = iShowMap;
+            ViewData["MarkerMarkers"] = lstMarkerMarkers;
             return View(iqPaginatedMarkers);
         }
 

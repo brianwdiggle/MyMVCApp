@@ -865,7 +865,7 @@
             return strPopupText;
         }
 
-        public static string MarkerObservationPopup(Marker_Observation oMO, string strWebsiteRoot)
+        public static string MarkerObservationPopup(Marker_Observation oMO)
         {
             string strPopupText = "";
 
@@ -874,6 +874,14 @@
             return strPopupText;
         }
 
+        public static string MarkerPopup(Marker oMarker)
+        {
+            string strPopupText = "";
+
+            strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>" + oMarker.Location_Description;
+
+            return strPopupText;
+        }
 
         public static Boolean WhiteListFormInput(string strFormInput)
         {

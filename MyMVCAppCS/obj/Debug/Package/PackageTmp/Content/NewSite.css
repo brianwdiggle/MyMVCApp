@@ -147,6 +147,20 @@ sup {
     width: 98%;
 }
 
+.markerPopup .leaflet-popup-content-wrapper,
+.markerPopup .leaflet-popup-tip {
+    background-color: #444;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.markerPopup .leaflet-popup-content-wrapper a,
+.markerPopup .leaflet-popup-tip a{
+    color: lightblue;
+   
+}
+
+
 /* Any div which encapsulates top level details about something - walk, hill, etc*/
 .details {
     border-radius: 15px;
