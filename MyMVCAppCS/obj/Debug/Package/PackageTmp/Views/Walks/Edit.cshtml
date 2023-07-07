@@ -147,14 +147,15 @@
                     <br />
                 }
 
-                <br />
-                @:Image @iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture) Delete? <input type="checkbox" id="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" /><br />
+                <div class="walkdetailsimage">
+                    <div><img src="~/@oWalkImage.Walk_AssociatedFile_Name" class="walkimage" alt="existing image" /></div>
+                Delete? <input type="checkbox" id="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" /><br />
                 <input type="text" name="existingimagecaption@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_Caption" size="100" />
                 <input type="hidden" name="existingimagename@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_Name" />
-                @:&nbsp;
+                &nbsp;
 
-                @:Marker?
-                if (oWalkImage.Walk_AssociatedFile_MarkerID != null)
+                Marker?
+                @if (oWalkImage.Walk_AssociatedFile_MarkerID != null)
                 {
                     <input type="checkbox" id="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" checked class="imageismarker" />
                 }
@@ -169,16 +170,12 @@
                     Not Found? <input type="checkbox" id="existingimagemarkernotfound@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimagemarkernotfound@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" />
                     <input type="hidden" id="existingimagemarkerid@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimagemarkerid@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_MarkerID.ToString()" />
                 </span>
-                if (SessionSingleton.Current.UsageLocation.Equals(WalkingConstants.AT_WORK))
-                {
-                    @:&nbsp;@WalkingStick.ExtractFileNameFromPath(oWalkImage.Walk_AssociatedFile_Name)<br />
-                }
-                else
-                {
-                    <br />
-                    <img src="~/@oWalkImage.Walk_AssociatedFile_Name" class="walkimage" alt="existing image" />
-                }
+              
+                <br />
+           
+                 </div>
                 iExistingImageCount = iExistingImageCount + 1;
+                    
             }
 
             <input id="numexistingimages" type="hidden" name="numexistingimages" value="@(iExistingImageCount - 1)" />
