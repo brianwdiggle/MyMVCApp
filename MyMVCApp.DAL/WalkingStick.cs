@@ -874,11 +874,11 @@
             return strPopupText;
         }
 
-        public static string MarkerPopup(Marker oMarker)
+        public static string MarkerPopup(Marker oMarker, string strVirtualRoot)
         {
             string strPopupText = "";
-
-            strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>" + oMarker.Location_Description;
+            
+            strPopupText = "<a href=\"" + strVirtualRoot + "Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>" + oMarker.Location_Description;
 
             return strPopupText;
         }

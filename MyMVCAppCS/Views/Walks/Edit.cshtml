@@ -23,14 +23,14 @@
         @Html.ValidationSummary(true)
         <fieldset>
 
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkDate)
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.WalkDate, "{0:dd MMMM yyyy}", new { size = 40 })
             </div>
             &nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkTitle)
             </div>
             <div class="editor-field">
@@ -38,20 +38,20 @@
             </div>&nbsp;
 
             <!---Section: Walk Area-------------------------------------------------------------------------------->
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkAreaName)
 
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.WalkAreaName, new { size = 80 }) @Html.Hidden("WalkAreaID", Model.Area.Arearef)
             </div>&nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkSummary)
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.WalkSummary, new { size = 80 }) Auto: <input type="checkbox" name="summary_auto" id="summary_auto" checked />
             </div>&nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkConditions)
             </div>
             <div class="editor-field">
@@ -62,9 +62,8 @@
             @*---Section: Summits Visited-----------------------------------------------------------------------------------------> *@
             
 
-            <div class="editor-label">
-        <strong>@Html.Label("Summits Visited")</strong>
-    </div>
+            <div><strong>@Html.Label("Summits Visited")</strong></div>
+
     @for (int iHillAscentsCounter = 1; iHillAscentsCounter <= Model.HillAscents.Count; iHillAscentsCounter++)
     {
         <div class="editor-field" id="DivVisitedSummit@(iHillAscentsCounter.ToString(Thread.CurrentThread.CurrentCulture))">
@@ -87,9 +86,9 @@
                 if (oWalkMarkersAlreadyCreated.Count > 0)
                 {
                     @:&nbsp;
-                    <div class="editor-label"><strong>Markers created for this walk</strong></div>
+                    <div><strong>Markers created for this walk</strong></div>
                     <div class="editor-field">
-                        <table>
+                        <table class="markercreated">
                             <tr>
                                 <th>Name</th>
                                 <th>GPS Reference</th>
@@ -114,7 +113,7 @@
             &nbsp;<div class="editor-field" id="WalkMarkers">
                       <button id="CreateMarkerButton" type="button">Create New Marker</button><input type="hidden" id="markers_added" name="markers_added" value=""/>
                   </div>  &nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkDescription)
             </div>
             <div class="editor-field">
@@ -124,7 +123,7 @@
             @*<!--- Section: New Images ------------------------------------------------------------------------------------------------->*@
  
 
-            <div class="editor-label">
+            <div>
                 <strong>New Images</strong>
                 <label for="images_path">Relative path from images directory and name prefix of images ending in _</label>E.g. <pre>lakes\212\BlackFell_22April2003_</pre>
             </div>
@@ -135,7 +134,7 @@
 
             @*--- Section: Existing Images --------------------------------------------------------------------------------------------->*@
 
-    <div class="editor-field" id="walkimages">
+    <div class="editor-field">
         @{
 
             int iExistingImageCount = 1;
@@ -147,7 +146,7 @@
                     <br />
                 }
 
-                <div class="walkdetailsimage">
+                <div class="editwalkdetailsimage">
                     <div><img src="~/@oWalkImage.Walk_AssociatedFile_Name" class="walkimage" alt="existing image" /></div>
                 Delete? <input type="checkbox" id="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" /><br />
                 <input type="text" name="existingimagecaption@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_Caption" size="100" />
@@ -186,7 +185,7 @@
 
     <!--- Section: Edit Existing Additional files------------------------------------------------------------------------------------------>
 
-    <div class="editor-label">
+    <div>
         <strong>Edit Existing Additional Files</strong>
     </div>
     @{
@@ -205,7 +204,7 @@
 
     <!---- Add new additional files------------------------------------------------------------------------------------------>
 
-    <div class="editor-label">
+    <div>
         <strong>Add New Additional Files</strong><br />
         <br />Relative path from web root including file name E.g. <pre>dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006-Track.gpx</pre>
     </div>
@@ -223,43 +222,43 @@
 
     @*<!--- Section: Other walk statistics--------------------------------------------------------------------------------->*@
 
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkStartPoint)
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.WalkStartPoint, new { size = 80, maxlength = 100 })
             </div>&nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkEndPoint)
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.WalkEndPoint, new { size = 80, maxlength = 100 })
             </div>  &nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkCompanions)
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.WalkCompanions, new { size = 50, maxlength = 50 })
             </div>  &nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkType)
             </div>
             <div class="editor-field">
                 @Html.DropDownList("WalkTypes")
             </div>&nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.CartographicLength)
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.CartographicLength)
             </div>&nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.MetresOfAscent)
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.MetresOfAscent)
             </div>&nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkTotalTime)
             </div>
             
@@ -268,13 +267,13 @@
                 Mins:<input type="text" name="total_time_mins" size="3" maxlength="2" value="@ViewBag.WalkMinutes" id="total_time_mins"/>
             </div>&nbsp;
 
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.WalkAverageSpeedKmh)
             </div>
             <div class="editor-field">
                 @Html.TextBoxFor(walk => walk.WalkAverageSpeedKmh)
             </div>&nbsp;
-            <div class="editor-label">
+            <div>
                 @Html.LabelFor(walk => walk.MovingAverageKmh)
             </div>
             <div class="editor-field">

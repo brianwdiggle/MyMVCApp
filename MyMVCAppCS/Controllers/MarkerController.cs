@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using System.Web;
 
 namespace MyMVCAppCS.Controllers
 {
@@ -24,7 +25,6 @@ namespace MyMVCAppCS.Controllers
 
         //
         // GET: /Marker/
-
         public ActionResult Index(string orderBy, int page=1) 
         {
             IQueryable<Marker> iqMarkers;
@@ -103,7 +103,7 @@ namespace MyMVCAppCS.Controllers
                     MapMarker oMM = new MapMarker
                     {
                         OSMap10 = oMarker.GPS_Reference,
-                        popupText = WalkingStick.MarkerPopup(oMarker)
+                        popupText = WalkingStick.MarkerPopup(oMarker, HttpContext.Request.ApplicationPath)
                     };
                     lstMarkerMarkers.Add(oMM);
                     iShowMap = 1;
