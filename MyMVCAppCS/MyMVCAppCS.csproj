@@ -177,6 +177,7 @@
     <Compile Include="ViewModels\ConfigViewModel.cs" />
     <Compile Include="ViewModels\HillSearchViewModel.cs" />
     <Compile Include="ViewModels\ImageSearchViewModel.cs" />
+    <Compile Include="ViewModels\MarkerSearchViewModel.cs" />
     <Compile Include="ViewModels\WalkSearchViewModel.cs" />
     <Compile Include="ViewModels\WalkAreaOption.cs" />
   </ItemGroup>

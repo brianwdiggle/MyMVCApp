@@ -81,6 +81,11 @@
     <Compile Include="ImageSelector.cs" />
     <Compile Include="ISearchFormParser.cs" />
     <Compile Include="ISearchSummary.cs" />
+    <Compile Include="MarkerSearchEngine.cs" />
+    <Compile Include="MarkerSearchFormParser.cs" />
+    <Compile Include="MarkerSearchResults.cs" />
+    <Compile Include="MarkerSearchSummary.cs" />
+    <Compile Include="MarkerSelector.cs" />
     <Compile Include="PaginatedList.cs" />
     <Compile Include="PaginatedListMVC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

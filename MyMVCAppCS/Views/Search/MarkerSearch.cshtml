@@ -1,4 +1,108 @@
-﻿@{ViewBag.Title = "Marker search"; }
+﻿@using System.Threading
+@using MyMVCApp.DAL
+@model MyMVCAppCS.ViewModels.MarkerSearchViewModel
+
+@{ViewBag.Title = "Search walking database for Markers"; }
+
+@section ViewSpecificHead
+{
+    <script src="../../Scripts/MicrosoftAjax.js" type="text/javascript"></script>
+    <script src="../../Scripts/MicrosoftMvcValidation.js" type="text/javascript"></script>
+}
 
 <h2>Marker Search</h2>
+
+@if (Model.MarkerResultsAvailable)
+{
+@Html.Raw(Model.SearchSummary)
+                <p><strong> @(Model.MarkersFound.Count.ToString(Thread.CurrentThread.CurrentCulture)) markers found </strong></p>
+
+                                <table class="walksbydate">
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Marker Title</th>
+                                        <th>Hill</th>
+                                        <th>OS Grid Reference</th>
+                                        <th>Date left</th>
+                                        <th>Status</th>
+                                    </tr>
+
+                                    @{ int iResultCounter = 0;
+                                        foreach (Marker marker in Model.MarkersFound)
+                                        {
+                                            iResultCounter++;
+
+                        <tr>
+                            <td>@iResultCounter.ToString(Thread.CurrentThread.CurrentCulture) </td>
+                            <td>@Html.ActionLink(marker.MarkerTitle, "Details", "Marker", new { id = marker.MarkerID }, new { dummy = 1 })</td>
+                            <td>
+                                @if (marker.Hillnumber != null)
+                                {
+                                     @Html.ActionLink(marker.Hill.Hillname, "HillDetails", "Walks", new { id = marker.Hill.Hillnumber }, new { dummy = 1 })
+                                }
+                            </td>
+                            <td>@marker.GPS_Reference</td>
+                            <td>@marker.DateLeft.ToString("dd MMMM yyyy")</td>
+                            <td>@marker.Status.ToString()</td>
+                        </tr>
+ } }
+                                    <tr><td colspan="3"><strong>Modify your search:</strong></td></tr>
+                                </table>}
+
+@using (Html.BeginForm())
+{
+
+@Html.ValidationSummary(true)
+
+                <table class="walksbydate">
+                    <tr>
+                        <td class="header">Title</td>
+                        <td>
+                            @Html.TextBoxFor(model => model.SearchMarkerTitle, new { style = "width:300px" })
+                        @Html.ValidationMessageFor(model => model.SearchMarkerTitle) use AND for multiple terms
+                    </td>
+                </tr>
+                <tr>
+                    <td class="header">Description</td>
+                    <td>@Html.TextBoxFor(model => model.SearchMarkerDescription, new { style = "width:300px" })</td>
+                </tr>
+  
+                <tr>
+                    <td class="header">Hill Ascended</td>
+                    <td>@Html.TextBoxFor(model => model.SearchMarkerHill, new { style = "width:300px" })</td>
+                </tr>
+                <tr>
+                    <td class="header">Date left from</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DateFromDay, new { style = "width:50px" })
+                        @Html.DropDownListFor(model => model.DateFromMonth, Model.DateFromMonthList)
+                        @Html.TextBoxFor(model => model.DateFromYear, new { style = "width:50px" })<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="header">Date left to</td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DateToDay, new { style = "width:50px" })
+                        @Html.DropDownListFor(model => model.DateToMonth, Model.DateToMonthList)
+                        @Html.TextBoxFor(model => model.DateToYear, new { style = "width:50px" })
+                    </td>
+                </tr>
+ 
+                <tr>
+                    <td class="header">Field Combination</td>
+                    <td>
+                        @Html.DropDownListFor(model => model.FieldCombination, Model.FieldCombinationList)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Search for Matching Markers" />
+                    </td>
+                </tr>
+            </table>}
+
+
+
 

@@ -86,9 +86,6 @@ namespace MyMVCAppCS.Controllers
             } else {
                 allImages = this.repository.GetAllImages().ToList();
             }
-            
-
-    
 
             ImageSearchResults searchResults = imageSearchEngine.PerformSearch(allImages, Request.Form);
 
@@ -103,8 +100,33 @@ namespace MyMVCAppCS.Controllers
 
         public ActionResult MarkerSearch()
         {
-            return this.View();
+            var searchViewModel = new MarkerSearchViewModel();
+            return View(searchViewModel);
         }
+
+        [ValidateInput(false)]
+        [HttpPost]
+        public ActionResult MarkerSearch(MarkerSearchViewModel searchViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(searchViewModel);
+            }
+
+            List<Marker> allMarkers = this.repository.FindAllMarkers().ToList();
+
+            var markerSearchEngine = new MarkerSearchEngine(new MarkerSelector());
+
+            MarkerSearchResults searchResults = markerSearchEngine.PerformSearch(allMarkers, Request.Form);
+
+            searchViewModel.MarkersFound = searchResults.MarkersFound.ToList();
+            searchViewModel.SearchSummary = searchResults.SearchSummary;
+            searchViewModel.MarkerResultsAvailable = true;
+
+            return this.View(searchViewModel);
+        }
+
+
 
         public ActionResult HillSearch()
         {

@@ -15,6 +15,8 @@ namespace MyMVCAppCS.Models
         OverallSpeed,
         WalkDateFrom,
         WalkDateTo,
-        MarkerName
+        MarkerName,
+        MarkerDateLeftFrom,
+        MarkerDateLeftTo
     }
 }
