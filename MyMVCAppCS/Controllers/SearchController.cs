@@ -123,6 +123,37 @@ namespace MyMVCAppCS.Controllers
             searchViewModel.SearchSummary = searchResults.SearchSummary;
             searchViewModel.MarkerResultsAvailable = true;
 
+            int iShowMap = 0;
+
+            ///----Prepare data about markers to be used on the map
+            List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
+            foreach (Marker oMarker in searchViewModel.MarkersFound)
+            {
+                if (oMarker.GPS_Reference.Trim() != "")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = oMarker.GPS_Reference,
+                        popupText = WalkingStick.MarkerPopup(oMarker, HttpContext.Request.ApplicationPath)
+                    };
+                    lstMarkerMarkers.Add(oMM);
+                    iShowMap = 1;
+                }else if (oMarker.Hill !=null && (oMarker.Hill.Gridref10 !="" || oMarker.Hill.Gridref !=""))
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = WalkingStick.FivePacesEastFromSummit(oMarker.Hill),
+                        popupText = WalkingStick.MarkerPopup(oMarker, HttpContext.Request.ApplicationPath)
+                    };
+                    lstMarkerMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+            }
+
+            ViewData["ShowMap"] = iShowMap;
+            ViewData["MarkerMarkers"] = lstMarkerMarkers;
+
+
             return this.View(searchViewModel);
         }
 

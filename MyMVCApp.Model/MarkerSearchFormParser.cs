@@ -17,7 +17,7 @@ namespace MyMVCAppCS.Models
             if (!string.IsNullOrEmpty(formCollection["SearchMarkerTitle"]))
             {
                 string[] searchWords = SearchTermGenerator.ReturnSearchTerms(formCollection["SearchMarkerTitle"]);
-                searchTerms.Add(new SearchTerm(searchWords, SearchTermSelection.Title));
+                searchTerms.Add(new SearchTerm(searchWords, SearchTermSelection.MarkerName));
             }
 
             if (!string.IsNullOrEmpty(formCollection["SearchMarkerDescription"]))

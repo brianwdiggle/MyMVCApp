@@ -13,5 +13,6 @@ namespace MyMVCApp.DAL
         public string OSMap10;
         public double elevation;
         public string popupText;
+        public double numberOfAscents;
     }
 }

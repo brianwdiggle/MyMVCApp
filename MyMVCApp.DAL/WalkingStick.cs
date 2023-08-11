@@ -883,6 +883,26 @@
             return strPopupText;
         }
 
+        public static string HillPopup(Hill oHill, string strVirtualRoot)
+        {
+            string strPopupText = "";
+
+            string strAscents = "";
+            if (oHill.NumberOfAscents==0)
+            {
+                strAscents = "Unclimbed";
+            }else if (oHill.NumberOfAscents == 1)
+            {
+                strAscents = "1 ascent";
+            }else
+            {
+                strAscents = oHill.NumberOfAscents.ToString() + " ascents";
+            }
+            strPopupText = "<a href=\"" + strVirtualRoot + "Walks/HillDetails/" + oHill.Hillnumber.ToString() + "\">" + oHill.Hillname + "</a>" + "<br/>" + strAscents;
+
+            return strPopupText;
+        }
+
         public static Boolean WhiteListFormInput(string strFormInput)
         {
             var oRegex = new Regex("^[a-zA-Z'.]{1,40}$");
@@ -895,6 +915,54 @@
             int iLoc = strFullPath.LastIndexOf("/");
 
             return strFullPath.Substring(iLoc + 1, (strFullPath.Length - iLoc) - 1);
+        }
+
+        /// <summary>
+        /// Given a Hill, this returns the OS Grid Reference 10 digit version of the location of the marker 
+        /// which is assumed to be 3 metres east of the summit location.
+        /// </summary>
+        /// <param name="oHill"></param>
+        /// <returns></returns>
+        public static string FivePacesEastFromSummit(Hill oHill)
+        {
+            string strGridref10 = "";
+            string strLocationOfSummit = "";
+
+            if (oHill.Gridref10 != null && oHill.Gridref10.Trim()!="")
+            {
+                strLocationOfSummit = oHill.Gridref10;
+
+                string strEasting = strLocationOfSummit.Substring(3, 5);
+                int iEastingOfMarker = Int32.Parse(strEasting);
+
+                //---Only add 3M when the alphabetic part of the grid ref doesn't change
+                if (iEastingOfMarker < 99997)
+                {
+                    iEastingOfMarker += 3;
+                }
+
+                strGridref10 = oHill.Gridref10.Substring(0, 3) + iEastingOfMarker.ToString() + oHill.Gridref10.Substring(8, 6);
+            }else if (oHill.Gridref!= null && oHill.Gridref.Trim() != "")
+            {
+                // Not worth changing this
+                strGridref10 = oHill.Gridref.Substring(0, 2) + " " + oHill.Gridref.Substring(2, 3) + "00 " + oHill.Gridref.Substring(5, 3) + "00";
+            }
+            else
+            {
+                return "";
+            }
+
+            return strGridref10;
+        }
+
+        /// <summary>
+        /// Convert OS Grid Ref 8 character format to full 10 numeric digit format
+        /// </summary>
+        /// <param name="strGridRef"></param>
+        /// <returns></returns>
+        public static string GridrefToGridRef10(string strGridRef)
+        {
+            return strGridRef.Substring(0, 2) + " " + strGridRef.Substring(2, 3) + "00 " + strGridRef.Substring(5, 3) + "00";
         }
 
         public static List<Trackpoint> LoadDataFromGPXFile(string strRelPath, string strRootPath, string strGPXNode)

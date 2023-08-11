@@ -13,7 +13,7 @@ namespace MyMVCAppCS.Models
         {
             StringBuilder oStringBuilder = new StringBuilder();
 
-            oStringBuilder.AppendLine("<p><strong>You searched for:</strong><br/>");
+            oStringBuilder.AppendLine("<p><strong>You searched for: </strong>");
             foreach (SearchTerm searchTerm in searchTerms)
             {
                 switch (searchTerm.SearchType)
@@ -25,7 +25,7 @@ namespace MyMVCAppCS.Models
                         oStringBuilder.AppendLine("marker description contains " + SearchTermGenerator.ReturnSearchTermSummary(searchTerm.StringVals, "AND") + "<br/>");
                         break;
                     case SearchTermSelection.MarkerName:
-                        oStringBuilder.AppendLine("Marker name contains " + SearchTermGenerator.ReturnSearchTermSummary(searchTerm.StringVals, "AND") + "<br/>");
+                        oStringBuilder.AppendLine("Marker title contains " + SearchTermGenerator.ReturnSearchTermSummary(searchTerm.StringVals, "AND") + "<br/>");
                         break;
                     case SearchTermSelection.MarkerDateLeftFrom:
                         oStringBuilder.AppendLine("Marker left after <em>" + searchTerm.DateTimeVal.ToString("dd MMMM yyyy") + "</em><br/>");

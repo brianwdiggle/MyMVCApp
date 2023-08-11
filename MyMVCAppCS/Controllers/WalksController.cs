@@ -253,11 +253,41 @@ namespace MyMVCAppCS.Controllers
                                                                             pageSize,
                                                                             Url.RouteUrl("Default", new { action="HillsInClassification", controller="Walks"}),
                                                                             maxPageLinks,
-                                                                            "?OrderBy=" + orderBy); 
-     
-     
-        // -----Pass the paginated list of hills to the view. The view expects a paginated list as its model-----
-        return View(iqPaginatedHills);
+                                                                            "?OrderBy=" + orderBy);
+
+            int iShowMap = 0;
+         ///----Prepare data about markers associated the walk
+         List<MapMarker> lstHillMarkers = new List<MapMarker>();
+         foreach (Hill oHill in iqPaginatedHills)
+         {
+                if (oHill.Gridref10 !=null && oHill.Gridref10.Trim() !="")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = oHill.Gridref10,
+                        popupText = WalkingStick.HillPopup(oHill, HttpContext.Request.ApplicationPath),
+                        numberOfAscents = oHill.NumberOfAscents
+                    };
+                    lstHillMarkers.Add(oMM);
+                    iShowMap = 1;
+                }else if (oHill.Gridref != null && oHill.Gridref.Trim() != "")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = WalkingStick.GridrefToGridRef10(oHill.Gridref),
+                        popupText = WalkingStick.HillPopup(oHill, HttpContext.Request.ApplicationPath),
+                        numberOfAscents = oHill.NumberOfAscents
+                    };
+                    lstHillMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+            }
+
+            ViewData["ShowMap"] = iShowMap;
+            ViewData["HillMarkers"] = lstHillMarkers;
+
+            // -----Pass the paginated list of hills to the view. The view expects a paginated list as its model-----
+            return View(iqPaginatedHills);
     }
 
 

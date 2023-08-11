@@ -29,7 +29,7 @@ namespace MyMVCAppCS.Models
                         selectedMarkers = selectedMarkers.Intersect(additionalSearchTermMarkers).ToList();
                     }
                     break;
-                case SearchTermSelection.Title:
+                case SearchTermSelection.MarkerName:
                     selectedMarkers = sourceMarkers.FindAll(marker => marker.MarkerTitle.ToLower().StartsWith(searchTerm.StringVals[0] + " ") ||
                                          marker.MarkerTitle.ToLower().EndsWith(" " + searchTerm.StringVals[0]) ||
                                          marker.MarkerTitle.ToLower().Contains(" " + searchTerm.StringVals[0] + " "));
