@@ -352,6 +352,7 @@ if (routedata != null) {
 //If there are any ascents associated with this walk, add them as markers to the map--------
 var ascentdata = @(Html.Raw(JsonConvert.SerializeObject(ViewData["AscentMarkers"])));
 if (ascentdata != null) {
+    console.log("ascent data found");
     var ascentcoords = new Array(ascentdata.length);
     var ascentpopups = new Array(ascentdata.length);
 
@@ -425,11 +426,18 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
 
     if (routedata != null) {
         //   Add the route to the map
+        console.log("adding route data to the map");
         const polyline = L.polyline(routecoords, { color: '#6C3483', weight: 4 }).addTo(map);
         map.fitBounds(polyline.getBounds());
     }
 
-    if (ascentdata != null) {
+    if (ascentdata != null && ascentdata.length>0) {
+        console.log("adding ascent markers to the map");
+
+        var mineasting = 9999999;
+        var maxeasting = -9999999;
+        var minnorthing = 9999999;
+        var maxnorthing = -9999999;
 
         const ascenticon = L.icon({
             iconUrl: "../../Content/images/TrigGreen.gif",
@@ -446,30 +454,104 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
             var thislat = ascentcoords[i][0];
             var thislong = ascentcoords[i][1];
             const popText = ascentpopups[i];
-            marker = new L.marker(transformCoords([thislat, thislong]), markeroptions)
+
+            const epsg27000 = os.Transform.fromLatLng({ lat: thislat, lng: thislong });
+
+            if (epsg27000.ea > maxeasting) {
+                maxeasting = epsg27000.ea;
+            }
+
+            if (epsg27000.ea < mineasting) {
+                mineasting = epsg27000.ea;
+            }
+
+            if (epsg27000.no > maxnorthing) {
+                maxnorthing = epsg27000.no;
+            }
+
+            if (epsg27000.no < minnorthing) {
+                minnorthing = epsg27000.no;
+            }
+
+            console.log("Adding ascent marker thislat=" + thislat + " thislong=" + thislong);
+
+            marker = new L.marker(transformCoords([epsg27000.ea, epsg27000.no]), markeroptions)
                 .bindPopup(popText).
                 openPopup()
                 .addTo(map);
+
         }
+
+        //----Set the bounds of the map so that all the markers are displayed.
+        //----Only do so when there is no route or track data
+        if (trackdata == null && routedata == null) {
+            console.log("setting map bounds for ascent markers");
+            map.fitBounds(
+                [
+                    transformCoords([mineasting, minnorthing]),
+                    transformCoords([maxeasting, maxnorthing])
+                ]
+            );
+        }
+  
     }
 
-    if (markerdata != null) {
+    if (markerdata != null && markerdata.length>0) {
+
+        console.log("Adding marker markers to the map");
+
+        var mineasting = 9999999;
+        var maxeasting = -9999999;
+        var minnorthing = 9999999;
+        var maxnorthing = -9999999;
 
         let markeroptions = {
             zIndexOffset: 1000
         };
 
         for (let i = 0; i < markerdata.length; i++) {
+            console.log("adding marker marker " + i.toString());
             var thislat = markercoords[i][0];
             var thislong =markercoords[i][1];
             const popText = markerpopups[i];
             const popupOptions = {
                 className: "markerPopup"
             }
+
+            const epsg27000 = os.Transform.fromGridRef(markerdata[i].OSMap10);
+
+            if (epsg27000.ea > maxeasting) {
+                maxeasting = epsg27000.ea;
+            }
+
+            if (epsg27000.ea < mineasting) {
+                mineasting = epsg27000.ea;
+            }
+
+            if (epsg27000.no > maxnorthing) {
+                maxnorthing = epsg27000.no;
+            }
+
+            if (epsg27000.no < minnorthing) {
+                minnorthing = epsg27000.no;
+            }
+
             marker = new L.marker(transformCoords([thislat, thislong]), markeroptions)
                 .bindPopup(popText, popupOptions).
                 openPopup()
                 .addTo(map);
+        }
+
+        //----Set the bounds of the map so that all the markers are displayed
+     
+        if (trackdata == null && routedata == null) {
+            console.log("setting map bounds for marker markers");
+            map.fitBounds(
+                [
+                    transformCoords([mineasting, minnorthing]),
+                    transformCoords([maxeasting, maxnorthing])
+                ]
+            );
         }
     }
 

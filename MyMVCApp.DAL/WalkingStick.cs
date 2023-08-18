@@ -878,7 +878,7 @@
         {
             string strPopupText = "";
             
-            strPopupText = "<a href=\"" + strVirtualRoot + "Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>" + oMarker.Location_Description;
+            strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>" + oMarker.Location_Description;
 
             return strPopupText;
         }
@@ -898,7 +898,7 @@
             {
                 strAscents = oHill.NumberOfAscents.ToString() + " ascents";
             }
-            strPopupText = "<a href=\"" + strVirtualRoot + "Walks/HillDetails/" + oHill.Hillnumber.ToString() + "\">" + oHill.Hillname + "</a>" + "<br/>" + strAscents;
+            strPopupText = "<a href=\"/Walks/HillDetails/" + oHill.Hillnumber.ToString() + "\">" + oHill.Hillname + "</a>" + "<br/>" + strAscents;
 
             return strPopupText;
         }

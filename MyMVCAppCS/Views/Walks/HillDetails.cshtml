@@ -137,23 +137,46 @@
         // Initialize the lealfet map.
         const map = L.map('hillmap', mapOptions);
 
-        const summiticon = L.icon({
+        // Display red or green summit icon depending on whether the hill has been climbed
+        const climbedsummiticon = L.icon({
             iconUrl: "/Content/images/TrigGreen.gif",
             iconSize: [13, 13],
             iconAnchor: [6, 13]
         });
 
-        let mapmarkeroptions = {
+        let climbedmapmarkeroptions = {
             zIndexOffset: 1000,
-            icon: summiticon
+            icon: climbedsummiticon
         };
 
+        const unclimbedsummiticon = L.icon({
+            iconUrl: "/Content/images/TrigRed.gif",
+            iconSize: [13, 13],
+            iconAnchor: [6, 13]
+        });
 
-        //---Add hill as a marker on the map-----------
-        const hill_marker = L.marker(transformCoords([@Model.Xcoord, @Model.Ycoord]), mapmarkeroptions)
+        let unclimbedapmarkeroptions = {
+            zIndexOffset: 1000,
+            icon: unclimbedsummiticon
+        };
+
+    console.log("firstClimbedDate=" + firstClimbedDate);
+     //---Add hill as a marker on the map-----------
+    if (firstClimbedDate != null && firstClimbedDate != "" && firstClimbedDate != "Invalid Date") {
+
+        const hill_marker = L.marker(transformCoords([@Model.Xcoord, @Model.Ycoord]), climbedmapmarkeroptions)
+            .bindPopup("<b>@Model.Hillname" + ", @Model.Metres" + "m</b><br>First climbed: " + firstClimbedDate.toLocaleDateString("en-GB", dateOptions))
+            .openPopup()
+            .addTo(map); //Add hill marker to map, converting coords to WGS84
+    } else {
+
+        const hill_marker = L.marker(transformCoords([@Model.Xcoord, @Model.Ycoord]), unclimbedapmarkeroptions)
             .bindPopup("<b>@Model.Hillname" + ", @Model.Metres" +"m</b><br>First climbed: " + firstClimbedDate.toLocaleDateString("en-GB",dateOptions))
-    .openPopup()
-    .addTo(map); //Add hill marker to map, converting coords to WGS84
+            .openPopup()
+            .addTo(map); //Add hill marker to map, converting coords to WGS84
+    }
+
+
 
     // Finally load and display ZXY tile layer on the map.
     const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);

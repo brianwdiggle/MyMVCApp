@@ -134,7 +134,7 @@ namespace MyMVCAppCS.Controllers
                     MapMarker oMM = new MapMarker
                     {
                         OSMap10 = oMarker.GPS_Reference,
-                        popupText = WalkingStick.MarkerPopup(oMarker, HttpContext.Request.ApplicationPath)
+                        popupText = WalkingStick.MarkerPopup(oMarker, Request.Url.GetLeftPart(System.UriPartial.Authority))
                     };
                     lstMarkerMarkers.Add(oMM);
                     iShowMap = 1;
@@ -143,7 +143,7 @@ namespace MyMVCAppCS.Controllers
                     MapMarker oMM = new MapMarker
                     {
                         OSMap10 = WalkingStick.FivePacesEastFromSummit(oMarker.Hill),
-                        popupText = WalkingStick.MarkerPopup(oMarker, HttpContext.Request.ApplicationPath)
+                        popupText = WalkingStick.MarkerPopup(oMarker, Request.Url.GetLeftPart(System.UriPartial.Authority))
                     };
                     lstMarkerMarkers.Add(oMM);
                     iShowMap = 1;

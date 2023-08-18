@@ -256,7 +256,7 @@ namespace MyMVCAppCS.Controllers
                                                                             "?OrderBy=" + orderBy);
 
             int iShowMap = 0;
-         ///----Prepare data about markers associated the walk
+         ///----Prepare data about hill summit markers
          List<MapMarker> lstHillMarkers = new List<MapMarker>();
          foreach (Hill oHill in iqPaginatedHills)
          {
@@ -457,15 +457,19 @@ namespace MyMVCAppCS.Controllers
 
             foreach(HillAscent oHillAscent in oWalk.HillAscents)
             {
-                MapMarker oMM = new MapMarker
+                if (oHillAscent.Hill.Metres!=0 && oHillAscent.Hill.Xcoord !=null && oHillAscent.Hill.Ycoord != null)
                 {
-                    elevation = oHillAscent.Hill.Metres,
-                    latitude = (double)oHillAscent.Hill.Xcoord,
-                    longtitude = (double)oHillAscent.Hill.Ycoord,
-                    popupText = WalkingStick.HillAscentMarkerPopup(oHillAscent)
-                };
-                lstAscentMarkers.Add(oMM);
-                iShowMap = 1;
+                    MapMarker oMM = new MapMarker
+                    {
+                        elevation = oHillAscent.Hill.Metres,
+                        latitude = (double)oHillAscent.Hill.Latitude,
+                        longtitude = (double)oHillAscent.Hill.Longitude,
+                        popupText = WalkingStick.HillAscentMarkerPopup(oHillAscent)
+                    };
+                    lstAscentMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+       
             }
 
             ///----Prepare data about markers associated the walk
