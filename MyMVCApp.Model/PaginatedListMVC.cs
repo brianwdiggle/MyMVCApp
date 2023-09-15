@@ -43,12 +43,12 @@ namespace MyMVCAppCS.Models
 
 
         //---Call the base class constructor to initialise a few values supplied as parameters-----------
-        public PaginatedListMVC(IQueryable<T> source, int iPageIndex, int iPageSize, string urlbase, int iMaxPageLinks, string strOrderBy)
+        public PaginatedListMVC(IQueryable<T> source, int iPageIndex, int iPageSize, string urlbase, int iMaxPageLinks, string strOrderBy, string strPageSize)
             : base(source, iPageIndex, iPageSize)
         {
 
             _MaxPaginationLinks = iMaxPageLinks;
-            _PageNavigationLinks = GeneratePaginationLinks(urlbase, strOrderBy);
+            _PageNavigationLinks = GeneratePaginationLinks(urlbase, strOrderBy, strPageSize);
             _RecordsShowing = GenerateRecordsShowing(iPageIndex, iPageSize);
 
         }
@@ -94,7 +94,7 @@ namespace MyMVCAppCS.Models
         // Description:  Generate html for pagination links
         //---------------------------------------------
 
-        private string GeneratePaginationLinks(string myUrlBase, string strOrderBy)
+        private string GeneratePaginationLinks(string myUrlBase, string strOrderBy, string strPageSize)
         {
 
             string strNavlinks = "<b>Page:</b>";
@@ -109,7 +109,7 @@ namespace MyMVCAppCS.Models
             }
             else
             {
-                strPageLink = "/";
+                strPageLink = "?page=";
             }
 
 
@@ -154,7 +154,7 @@ namespace MyMVCAppCS.Models
                     strNavlinks = strNavlinks + "&nbsp;<b>" + iPageCount.ToString() + "</b>";
                 }else if (iPageCount<10)
                 {
-                    strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + iPageCount.ToString() + strOrderBy + "\">&nbsp;" + iPageCount.ToString() + "</a>";
+                    strNavlinks = strNavlinks + "<a href=\"" + myUrlBase + strPageLink + iPageCount.ToString() + strOrderBy + strPageSize + "\">&nbsp;" + iPageCount.ToString() + "</a>";
                 }
                 else
                 {

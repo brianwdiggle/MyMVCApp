@@ -11,7 +11,7 @@
             <td>
                 @Html.Raw(Model.PageNavigationLinks)
             </td>
-            <td>Page Size: <input type="text" name="pagesize" size="3" /></td>
+            <td>Page Size: <input type="text" name="pagesize" size="3" value="@ViewData["pagesize"]" /> <input type="button" value="Change" /></td>
             <td align="right">Showing @Model.RecordsShowing Hills</td>
         </tr>
     </table>

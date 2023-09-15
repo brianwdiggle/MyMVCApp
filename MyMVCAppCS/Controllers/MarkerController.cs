@@ -92,7 +92,7 @@ namespace MyMVCAppCS.Controllers
                 iqMarkers = repository.FindAllMarkers().OrderByDescending(marker =>marker.DateLeft).ThenByDescending(marker =>marker.MarkerTitle);
             }
             // ----Create a paginated list of the walks----------------
-            var iqPaginatedMarkers = new PaginatedListMVC<Marker>(iqMarkers, page, MARKERS_PAGE_SIZE, Url.Action("Index", "Marker", new { OrderBy = ViewData["OrderBy"] + ViewData["OrderAscDesc"].ToString() }), MAX_PAGINATION_LINKS, "");
+            var iqPaginatedMarkers = new PaginatedListMVC<Marker>(iqMarkers, page, MARKERS_PAGE_SIZE, Url.Action("Index", "Marker", new { OrderBy = ViewData["OrderBy"] + ViewData["OrderAscDesc"].ToString() }), MAX_PAGINATION_LINKS, "", "");
 
             ///----Prepare data about markers associated the walk
             List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
@@ -143,8 +143,35 @@ namespace MyMVCAppCS.Controllers
         public ActionResult Details(int id)
         {
             ViewData["AT_WORK"] = System.Web.Configuration.WebConfigurationManager.AppSettings["atwork"];
+            int iShowMap = 0;
+
+            List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
 
             var oMarker = this.repository.GetMarkerDetails(id);
+
+            if (oMarker.GPS_Reference.Trim() != "")
+            {
+                MapMarker oMM = new MapMarker
+                {
+                    OSMap10 = oMarker.GPS_Reference,
+                    popupText = WalkingStick.MarkerPopup(oMarker, Request.Url.GetLeftPart(System.UriPartial.Authority))
+                };
+                lstMarkerMarkers.Add(oMM);
+                iShowMap = 1;
+            }
+            else if (oMarker.Hill != null && (oMarker.Hill.Gridref10 != "" || oMarker.Hill.Gridref != ""))
+            {
+                MapMarker oMM = new MapMarker
+                {
+                    OSMap10 = WalkingStick.FivePacesEastFromSummit(oMarker.Hill),
+                    popupText = WalkingStick.MarkerPopup(oMarker, Request.Url.GetLeftPart(System.UriPartial.Authority))
+                };
+                lstMarkerMarkers.Add(oMM);
+                iShowMap = 1;
+            }
+
+            ViewData["ShowMap"] = iShowMap;
+            ViewData["MarkerMarkers"] = lstMarkerMarkers;
 
             return this.View(oMarker);
         }

@@ -80,7 +80,7 @@ namespace MyMVCAppCS.Controllers
             }
 
             // ----Create a paginated list of the walks----------------
-            var iqPaginatedAscents = new PaginatedListMVC<HillAscent>(iqHillAscents,page, HILLASCENTS_PAGE_SIZE, Url.Action("Index","HillAscent", new {OrderBy = ViewData["OrderBy"] + ViewData["OrderAscDesc"].ToString()}),MAX_PAGINATION_LINKS,"");
+            var iqPaginatedAscents = new PaginatedListMVC<HillAscent>(iqHillAscents,page, HILLASCENTS_PAGE_SIZE, Url.Action("Index","HillAscent", new {OrderBy = ViewData["OrderBy"] + ViewData["OrderAscDesc"].ToString()}),MAX_PAGINATION_LINKS,"", "");
             return View(iqPaginatedAscents);
         }
     }

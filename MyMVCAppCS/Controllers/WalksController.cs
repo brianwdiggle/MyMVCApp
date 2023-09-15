@@ -151,7 +151,7 @@ namespace MyMVCAppCS.Controllers
                                                                                 pageSize,
                                                                                 Url.RouteUrl("Default", new { action="HillsByArea", controller="Walks"}),
                                                                                 maxPageLinks,
-                                                                                "?OrderBy" + orderBy);
+                                                                                "?OrderBy" + orderBy, "");
 
             // -----Pass the paginated list of hills to the view. The view expects a paginated list as its model-----
             return View(iqPaginatedHills);
@@ -180,7 +180,7 @@ namespace MyMVCAppCS.Controllers
         //  Descr   : Return a list of hills with classification as specified by id parameter
         //            optional page parameter provides pagination.
         // --------------------------------------------------------------------------------------
-        public ActionResult HillsInClassification(string id, string orderBy="NameAsc", int page=1) 
+        public ActionResult HillsInClassification(string id, string orderBy = "NameAsc", int page = 1, int requestPageSize = 0) 
     {
     
         if ((id == null)) 
@@ -244,16 +244,24 @@ namespace MyMVCAppCS.Controllers
 
         ViewData["NumberClimbed"] = iNumClimbed;
 
-        int pageSize = Int32.Parse(WebConfigurationManager.AppSettings["PAGINATION_PAGE_SIZE"]);
+
+        if (requestPageSize ==0)
+        {
+            requestPageSize = Int32.Parse(WebConfigurationManager.AppSettings["PAGINATION_PAGE_SIZE"]);
+        }
+
+            ViewData["pagesize"] = requestPageSize;
+
         int maxPageLinks = Int32.Parse(WebConfigurationManager.AppSettings["PAGINATION_MAX_PAGE_LINKS"]);
 
         // ----Create a paginated list of hills----------------
         PaginatedListMVC<Hill> iqPaginatedHills = new PaginatedListMVC<Hill>(IQHillsInClassificaton, 
                                                                             page, 
-                                                                            pageSize,
+                                                                            requestPageSize,
                                                                             Url.RouteUrl("Default", new { action="HillsInClassification", controller="Walks"}),
                                                                             maxPageLinks,
-                                                                            "?OrderBy=" + orderBy);
+                                                                            "&OrderBy=" + orderBy,
+                                                                            "&requestPageSize=" +requestPageSize.ToString());
 
             int iShowMap = 0;
          ///----Prepare data about hill summit markers
@@ -396,7 +404,7 @@ namespace MyMVCAppCS.Controllers
             ViewData["StartWalkNumber"] = ((page-1) * pageSize) + 1;
 
             // ----Create a paginated list of the walks----------------
-            var IQPaginatedWalks = new PaginatedListMVC<Walk>(iqWalks, page, pageSize, Url.Action("WalksByDate", "Walks", new {OrderBy = ViewData["OrderBy"].ToString() + ViewData["OrderAscDesc"].ToString()}), maxPageLinks, "");
+            var IQPaginatedWalks = new PaginatedListMVC<Walk>(iqWalks, page, pageSize, Url.Action("WalksByDate", "Walks", new {OrderBy = ViewData["OrderBy"].ToString() + ViewData["OrderAscDesc"].ToString()}), maxPageLinks, "", "");
 
             // -----Pass the paginated list of walks to the view. The view expects a paginated list as its model-----
             return View(IQPaginatedWalks);
