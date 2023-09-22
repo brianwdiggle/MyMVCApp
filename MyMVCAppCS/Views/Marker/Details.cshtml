@@ -4,6 +4,12 @@
 
 @{ViewBag.Title = "Marker: " + Model.MarkerTitle; }
 
+@section ViewSpecificHead
+{
+    <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
+}
+
+
 <div class="spacerdiv"></div>
 <table class="datatable">
     <tr>
@@ -51,7 +57,8 @@ else
 <div class="spacerdiv"></div>
 <div id="hillmap"></div>
 <div class="spacerdiv"></div>
-
+<div><input type="button" id="getallmarkers" value="Show all markers in map bounds" onclick="getAllMarkersInBounds();" /></div>
+<div class="spacerdiv"></div>
 <table class="datatable">
     <tr>
         <td colspan="4"><h2>Observations</h2></td>
@@ -78,8 +85,7 @@ else
     </td>
     <td>@Html.ActionLink(oMarkerObs.Walk.WalkTitle, "Details", "Walks", new { id = oMarkerObs.WalkID }, null)</td>
     <td>@oMarkerObs.ObservationText</td>
-</tr>
-}
+</tr>}
 </table>
 <div class="spacerdiv"></div>
 
@@ -237,6 +243,33 @@ foreach (MyMVCApp.DAL.Walk_AssociatedFile oAssocFile in Model.Walk_AssociatedFil
     // Finally load and display ZXY tile layer on the map.
     const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
 
+    map.on('moveend', function (e) {
+        var newbounds = map.getBounds();
+        console.log('New bounds event fired');
+        console.log(newbounds);
+    });
+
+    function getAllMarkersInBounds() {
+        var newbounds = map.getBounds();
+        console.log('New bounds event fired');
+        console.log(newbounds);
+
+        $.ajax({
+            url: document.getElementById("ApplicationRoot").getAttribute("href") + "Marker/_MarkersInMapBounds",
+            type: "get",
+            data: {
+                neLat: newbounds._northEast.lat,
+                neLng: newbounds._northEast.lng,
+            },
+            success: function (response) {
+                console.log("successfully called ajax function: " + response);
+            },
+            error: function (errorresponse) {
+                console.log("failure called ajax function: " + errorresponse);
+            }
+
+        });
+    }
 
 </script>
 

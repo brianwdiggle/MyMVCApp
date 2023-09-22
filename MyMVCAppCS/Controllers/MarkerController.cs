@@ -176,6 +176,16 @@ namespace MyMVCAppCS.Controllers
             return this.View(oMarker);
         }
 
+        public JsonResult _MarkersInMapBounds(string neLat, string neLng)
+        {
+            var mapmarkers = "hellow world";
+
+            IQueryable<Marker> IQMarkersInBounds;
+
+            return Json(mapmarkers, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult Edit(int id)
         {
             Marker oMarker = this.repository.GetMarkerDetails(id);
