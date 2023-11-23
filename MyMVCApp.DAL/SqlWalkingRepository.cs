@@ -638,10 +638,15 @@
         }
 
 
-    
-   
+        public IQueryable<Marker> GetMarkersWithinMapBounds(float neLat, float neLng, float swLat, float swLng)
+        {
+            IQueryable<Marker> q = from Marker in this.myWalkingDB.Markers select Marker;
 
-    
+            return q;
+        }
+
+
+
         // ------------------------------------------------------------------------------------------------------------
         //  Function: GetMarkerDetails
         //  Returns a single marker object

@@ -72,6 +72,8 @@ namespace MyMVCApp.DAL
         bool FindMarkerObservationLike(Marker_Observation oMarkerObs);
         IQueryable<Marker_Status> GetAllMarkerStatusOptions();
 
+        IQueryable<Marker> GetMarkersWithinMapBounds(float neLat, float neLng, float swLat, float swLng);
+
         //------Walking Areas-----------------------------------
         IQueryable<Area> GetAllWalkingAreas();
         IQueryable<Area> GetAllWalkingAreas(string strCountryCode);

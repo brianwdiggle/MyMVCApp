@@ -176,11 +176,26 @@ namespace MyMVCAppCS.Controllers
             return this.View(oMarker);
         }
 
-        public JsonResult _MarkersInMapBounds(string neLat, string neLng)
+        public JsonResult _MarkersInMapBounds(string neLat, string neLng, string swLat, string swLng)
         {
             var mapmarkers = "hellow world";
 
-            IQueryable<Marker> IQMarkersInBounds;
+            float fNeLat, fNeLng, fSwLat, fSwLng;
+
+            try
+            {
+                fNeLat = float.Parse(neLat);
+                fNeLng = float.Parse(neLng);
+                fSwLat = float.Parse(swLat);
+                fSwLng = float.Parse(swLng);
+            }
+            catch (Exception e)
+            {
+                mapmarkers = "Error occurred: " + e.Message;
+                return Json(mapmarkers, JsonRequestBehavior.AllowGet);
+            }
+
+            IQueryable<Marker> IQMarkersInBounds = this.repository.GetMarkersWithinMapBounds(fNeLat, fNeLng, fSwLat, fSwLng);
 
             return Json(mapmarkers, JsonRequestBehavior.AllowGet);
         }

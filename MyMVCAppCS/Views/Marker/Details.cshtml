@@ -260,6 +260,8 @@ foreach (MyMVCApp.DAL.Walk_AssociatedFile oAssocFile in Model.Walk_AssociatedFil
             data: {
                 neLat: newbounds._northEast.lat,
                 neLng: newbounds._northEast.lng,
+                swLat: newbounds._southWest.lat,
+                swLng: newbounds._southWest.lng
             },
             success: function (response) {
                 console.log("successfully called ajax function: " + response);
