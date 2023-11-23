@@ -17,7 +17,7 @@
             if ((strLinkText == "")) 
             {
                 strLinkText = strHillClass;
-                // Warning!!! Optional parameters not supported
+                // Warning!!! Optional parameters not supported at all
             }
             return ("<a href=\"" +  strApplicationRoot + "Walks/HillsInClassification/" 
                         + (strHillClass + ("\">" 
