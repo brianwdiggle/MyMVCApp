@@ -21,3 +21,4 @@ C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\bin\Debug\MyMVC
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.csproj.CoreCompileInputs.cache
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.csproj.CopyComplete
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\obj\Debug\MyMVCApp.Model.csprojAssemblyReference.cache
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCApp.Model\bin\Debug\GeoUk.dll

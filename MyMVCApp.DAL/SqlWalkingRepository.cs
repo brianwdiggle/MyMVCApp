@@ -6,6 +6,13 @@
     using System.Data;
     using System.Linq;
 
+    using GeoUK;
+    using GeoUK.Coordinates;
+    using GeoUK.Ellipsoids;
+    using GeoUK.Projections;
+    using Convert = GeoUK.Convert;
+
+
     public class SqlWalkingRepository : IWalkingRepository
     {
         readonly WalkingDataContext myWalkingDB;
@@ -637,13 +644,20 @@
             return iRetval;
         }
 
-
-        public IQueryable<Marker> GetMarkersWithinMapBounds(float neLat, float neLng, float swLat, float swLng)
+        /// <summary>
+        /// Return all markers with location either in the marker GPS reference, or markers associated with a hill summit
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Marker> GetAllMarkersWithLocation()
         {
-            IQueryable<Marker> q = from Marker in this.myWalkingDB.Markers select Marker;
+            // first, get all the markers
+            IQueryable<Marker> qAllMarkersWithLocation = from marker in this.myWalkingDB.Markers
+                                                         where marker.GPS_Reference.Length > 9 || marker.Hill != null
+                                                         select marker;
 
-            return q;
+            return qAllMarkersWithLocation.AsEnumerable();
         }
+
 
 
 

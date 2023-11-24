@@ -8,6 +8,12 @@
     using System.Text.RegularExpressions;
     using System.Xml;
 
+    using GeoUK;
+    using GeoUK.Coordinates;
+    using GeoUK.Ellipsoids;
+    using GeoUK.Projections;
+    using Convert = GeoUK.Convert;
+
     public class WalkingStick
     {
 
@@ -69,12 +75,6 @@
             int iMinG = 22;
             int iMinB = 62;
 
-            //int iMaxR = 240;
-            //int iMaxG = 240;
-            //int iMaxB = 255;
-            //int iMinR = 122;
-            //int iMinG = 122;
-            //int iMinB = 173;
             int iRVal = ((iMaxR 
                             - (((iMaxR - iMinR) 
                             / 20) 
@@ -1035,5 +1035,181 @@
             return trackpoints;
 
         }
+
+
+        public static List<Marker> SelectMarkersInMapBounds(IEnumerable<Marker> markers, float neLat, float neLng, float swLat, float swLng)
+        {
+            List<Marker> selectedMarkers = new List<Marker>();
+
+            EastingNorthing markerEastingNorthing = null;
+
+            // using https://github.com/IeuanWalker/GeoUK
+            LatitudeLongitude swLatLng = new LatitudeLongitude(swLat, swLng);
+            LatitudeLongitude neLatLng = new LatitudeLongitude(neLat, neLng);
+
+            Cartesian cartesian = Convert.ToCartesian(new Wgs84(), swLatLng);
+            Cartesian bngCartesian = Transform.Etrs89ToOsgb36(cartesian);
+            EastingNorthing swBoundsPoint = Convert.ToEastingNorthing(new Airy1830(), new BritishNationalGrid(), bngCartesian);
+
+            cartesian = Convert.ToCartesian(new Wgs84(), neLatLng);
+            bngCartesian = Transform.Etrs89ToOsgb36(cartesian);
+            EastingNorthing neBoundsPoint = Convert.ToEastingNorthing(new Airy1830(), new BritishNationalGrid(), bngCartesian);
+
+            foreach (Marker marker in markers)
+            {
+                //---First try the entered grid reference, then the hill's own gridref10, and finally the hills gridref.
+                if (marker.GPS_Reference.Trim().Replace(" ","").Length == 12)
+                {
+                    markerEastingNorthing = ConvertOSGridRefToEastingNorthing(marker.GPS_Reference);
+
+                }else if (marker.GPS_Reference.Trim().Replace(" ","").Length == 8)
+                {
+                    string strRef10 = GridrefToGridRef10(marker.GPS_Reference.Trim().Replace(" ", ""));
+                    markerEastingNorthing = ConvertOSGridRefToEastingNorthing(strRef10);
+                
+                }else if(marker.Hill.Xcoord!=null && marker.Hill.Ycoord!=null)
+                {
+                    double easting = (double)marker.Hill.Xcoord;
+                    double northing = (double)marker.Hill.Ycoord;
+
+                    //-- add 2 metres the the easting as the marker is usually 5 paces from the centre of the summit cairn.
+                    easting += 2;
+                    markerEastingNorthing = new EastingNorthing(easting, northing);
+                }else
+                {
+                    // create a dummy location which will never be in map bounds.
+                    markerEastingNorthing = new EastingNorthing(-100000, -100000);
+                }
+
+
+                //---Is the marker within the map display bounds?
+                if ( markerEastingNorthing !=null &&
+                     markerEastingNorthing.Easting > swBoundsPoint.Easting && 
+                     markerEastingNorthing.Easting < neBoundsPoint.Easting &&
+                     markerEastingNorthing.Northing > swBoundsPoint.Northing &&
+                     markerEastingNorthing.Northing < neBoundsPoint.Northing )
+                {
+                    selectedMarkers.Add(marker);
+                }
+
+            }
+
+            return selectedMarkers;
+
+        }
+
+
+        /// <summary>
+        /// Convert an OS national grid 10 digit reference to an easting and northing.
+        /// Following https://digimap.edina.ac.uk/help/our-maps-and-data/bng/
+        /// </summary>
+        /// <param name="strOSGridRef"></param>
+        /// <returns></returns>
+        public static EastingNorthing ConvertOSGridRefToEastingNorthing(string strOSGridRef)
+        {
+            EastingNorthing en = null;
+            string strGridLetters="";
+            double eastingWithinGridSquare=0;
+            double northingWithinGridSquare=0;
+
+            Dictionary<string, EastingNorthing> mappingTable = new Dictionary<string, EastingNorthing>(){
+                { "SV", new EastingNorthing(0,0) },
+                { "SW", new EastingNorthing(100000,0) },
+                { "SX", new EastingNorthing(200000,0) },
+                { "SY", new EastingNorthing(300000,0) },
+                { "SZ", new EastingNorthing(400000,0) },
+                { "TV", new EastingNorthing(500000,0) },
+
+                { "SR", new EastingNorthing(100000,100000) },
+                { "SS", new EastingNorthing(200000,100000) },
+                { "ST", new EastingNorthing(300000,100000) },
+                { "SU", new EastingNorthing(400000,100000) },
+                { "TQ", new EastingNorthing(500000,100000) },
+                { "TR", new EastingNorthing(600000,100000) },
+
+                { "SM", new EastingNorthing(100000,200000) },
+                { "SN", new EastingNorthing(200000,200000) },
+                { "SO", new EastingNorthing(300000,200000) },
+                { "SP", new EastingNorthing(400000,200000) },
+                { "TL", new EastingNorthing(500000,200000) },
+                { "TM", new EastingNorthing(600000,200000) },
+
+
+                { "SH", new EastingNorthing(200000,300000) },
+                { "SJ", new EastingNorthing(300000,300000) },
+                { "SK", new EastingNorthing(400000,300000) },
+                { "TF", new EastingNorthing(500000,300000) },
+                { "TG", new EastingNorthing(600000,300000) },
+
+                { "SC", new EastingNorthing(200000,400000) },
+                { "SD", new EastingNorthing(300000,400000) },
+                { "SE", new EastingNorthing(400000,400000) },
+                { "TA", new EastingNorthing(500000,400000) },
+
+                { "NW", new EastingNorthing(100000,500000) },
+                { "NX", new EastingNorthing(200000,500000) },
+                { "NY", new EastingNorthing(300000,500000) },
+                { "NZ", new EastingNorthing(400000,500000) },
+
+                { "NR", new EastingNorthing(100000,600000) },
+                { "NS", new EastingNorthing(200000,600000) },
+                { "NT", new EastingNorthing(300000,600000) },
+                { "NU", new EastingNorthing(400000,600000) },
+
+                { "NL", new EastingNorthing(0,700000) },
+                { "NM", new EastingNorthing(100000,700000) },
+                { "NN", new EastingNorthing(200000,700000) },
+                { "NO", new EastingNorthing(300000,700000) },
+
+                { "NF", new EastingNorthing(0,800000) },
+                { "NG", new EastingNorthing(100000,800000) },
+                { "NH", new EastingNorthing(200000,800000) },
+                { "NJ", new EastingNorthing(300000,800000) },
+                { "NK", new EastingNorthing(400000,800000) },
+
+                { "NA", new EastingNorthing(0,900000) },
+                { "NB", new EastingNorthing(100000,900000) },
+                { "NC", new EastingNorthing(200000,900000) },
+                { "ND", new EastingNorthing(300000,900000) },
+
+                { "HW", new EastingNorthing(100000,1000000) },
+                { "HX", new EastingNorthing(200000,1000000) },
+                { "HY", new EastingNorthing(300000,1000000) },
+                { "HZ", new EastingNorthing(400000,1000000) },
+
+                { "HT", new EastingNorthing(300000,1100000) },
+                { "HU", new EastingNorthing(400000,1100000) },
+
+                { "HP", new EastingNorthing(400000,1200000) }
+            };
+
+            //---strip out any spaces in the grid ref
+            string strGridRef = strOSGridRef.Trim().Replace(" ", "");
+
+            if (strGridRef.Trim().Length != 12)
+            {
+                return en;
+            }
+
+            // split out the three sections of the grid ref
+            try
+            {
+                strGridLetters = strGridRef.Substring(0, 2);
+                eastingWithinGridSquare = Double.Parse(strGridRef.Substring(3, 5));
+                northingWithinGridSquare = Double.Parse(strGridRef.Substring(6, 5));
+            }catch (Exception e)
+            {
+                return en;
+            }
+
+            // pull out the base easting northing from the mapping table
+            EastingNorthing enGridSquareBase = mappingTable[strGridLetters];
+
+            // add the easting and northing within the grid sqaure to the base.
+            en = new EastingNorthing(enGridSquareBase.Easting + eastingWithinGridSquare, enGridSquareBase.Northing + northingWithinGridSquare);
+  
+            return en;
+        }
+
     }
 }

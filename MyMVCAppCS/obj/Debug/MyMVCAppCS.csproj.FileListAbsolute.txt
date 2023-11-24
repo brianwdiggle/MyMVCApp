@@ -60,3 +60,4 @@ C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\bin\MyMVCApp.DAL.dl
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.CoreCompileInputs.cache
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.CopyComplete
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csprojAssemblyReference.cache
+C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\bin\GeoUk.dll

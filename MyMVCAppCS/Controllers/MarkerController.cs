@@ -176,12 +176,23 @@ namespace MyMVCAppCS.Controllers
             return this.View(oMarker);
         }
 
+        /// <summary>
+        /// Name: _MarkersInMapBounds
+        /// Desc: Given a map bounds defition which is a rectangle of SW and NE points in lat/long format,
+        ///          a) query database for markers in these bounds
+        ///          b) return the set of markers in 
+        ///          
+        /// </summary>
+        /// <param name="neLat"></param>
+        /// <param name="neLng"></param>
+        /// <param name="swLat"></param>
+        /// <param name="swLng"></param>
+        /// <returns></returns>
         public JsonResult _MarkersInMapBounds(string neLat, string neLng, string swLat, string swLng)
         {
-            var mapmarkers = "hellow world";
+            var mapmarkers = "hellow world we are about to do something awesome...";
 
             float fNeLat, fNeLng, fSwLat, fSwLng;
-
             try
             {
                 fNeLat = float.Parse(neLat);
@@ -191,11 +202,15 @@ namespace MyMVCAppCS.Controllers
             }
             catch (Exception e)
             {
-                mapmarkers = "Error occurred: " + e.Message;
+                mapmarkers = "Error occurred problem with lat/long format of new map bounds: " + e.Message;
                 return Json(mapmarkers, JsonRequestBehavior.AllowGet);
             }
 
-            IQueryable<Marker> IQMarkersInBounds = this.repository.GetMarkersWithinMapBounds(fNeLat, fNeLng, fSwLat, fSwLng);
+            // Given the new map bounds, get the set of markers which fall within these bounds
+            IEnumerable<Marker> IEMarkersWithLocation = this.repository.GetAllMarkersWithLocation();
+
+            List<Marker> markersInMapBounds = WalkingStick.SelectMarkersInMapBounds(IEMarkersWithLocation, fNeLat, fNeLng, fSwLat, fSwLng);
+
 
             return Json(mapmarkers, JsonRequestBehavior.AllowGet);
         }
