@@ -379,3 +379,7 @@ table.markercreated {
     font-size: 8pt;
 }
 
+.video-rounded-border {
+    border-radius: 10px;
+    overflow: hidden;
+}

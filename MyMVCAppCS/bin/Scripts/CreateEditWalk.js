@@ -220,6 +220,7 @@ $(document).ready(function () {
         $.get(getHome() + 'Walks/CheckImages', { imagepath: $("#images_path").val() }, function (oResults) {
 
             for (var iImageCount = 1; iImageCount <= oResults.imagesfound; iImageCount = iImageCount + 1) {
+
                 $("#walkimages").append('<br/><b>Image ' + iImageCount + '</b><br/><input type="text" id="imagecaption' + iImageCount + '" name="imagecaption' + iImageCount + '" size="100" />&nbsp;Marker? <input type="checkbox" class="imageismarker" id="imageismarker' + iImageCount + '" name="imageismarker' + iImageCount + '"/>');
 
                 if (oResults.atwork == "True") {

@@ -218,7 +218,7 @@
     origin: [-238375.0, 1376256.0]
     });
 
-    // Leaflet works natively in WGS84 -a.k.a. EPSG:4326. The following function converts from OS National grid easting and northing to this.
+    // Leaflet works natively in WGS84 -a.k.a. EPSG:4326 i.e. lat/long. The following function converts from OS National grid easting and northing to this.
     const transformCoords = function (arr) {
     return proj4('EPSG:27700', 'EPSG:4326', arr).reverse();
     };
@@ -250,13 +250,13 @@
         //---Add the markers to the map
 
         for (let i = 0; i < markerdata.length; i++) {
-            var thislat = markercoords[i][0];
-            var thislong = markercoords[i][1];
+            var this27000easting = markercoords[i][0];
+            var this27000northing = markercoords[i][1];
             const popText = markerpopups[i];
             const popupOptions = {
                 className: "markerPopup"
             }
-            marker = new L.marker(transformCoords([thislat, thislong]), markeroptions)
+            marker = new L.marker(transformCoords([this27000easting, this2700northing]), markeroptions)
                 .bindPopup(popText, popupOptions)
                 .openPopup()
                 .addTo(map);

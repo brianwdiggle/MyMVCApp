@@ -209,10 +209,10 @@ namespace MyMVCAppCS.Controllers
             // Given the new map bounds, get the set of markers which fall within these bounds
             IEnumerable<Marker> IEMarkersWithLocation = this.repository.GetAllMarkersWithLocation();
 
-            List<Marker> markersInMapBounds = WalkingStick.SelectMarkersInMapBounds(IEMarkersWithLocation, fNeLat, fNeLng, fSwLat, fSwLng);
+            List<MapMarker> markersInMapBounds = WalkingStick.SelectMarkersInMapBounds(IEMarkersWithLocation, fNeLat, fNeLng, fSwLat, fSwLng, Request.Url.GetLeftPart(System.UriPartial.Authority));
 
-
-            return Json(mapmarkers, JsonRequestBehavior.AllowGet);
+            // Return the markers as a JSON list object which is an array
+            return Json(new { markersinbounds = markersInMapBounds.ToList() }, JsonRequestBehavior.AllowGet);
         }
 
 

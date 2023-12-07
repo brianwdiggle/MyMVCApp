@@ -133,9 +133,6 @@ foreach (MyMVCApp.DAL.Walk_AssociatedFile oAssocFile in Model.Walk_AssociatedFil
         return new Date(standardYear, standardMonth, standardDay);
     }
 
-
-
-
     var mineasting = 9999999;
     var maxeasting = -9999999;
     var minnorthing = 9999999;
@@ -245,10 +242,10 @@ foreach (MyMVCApp.DAL.Walk_AssociatedFile oAssocFile in Model.Walk_AssociatedFil
 
     map.on('moveend', function (e) {
         var newbounds = map.getBounds();
-        console.log('New bounds event fired');
-        console.log(newbounds);
+        console.log('New bounds event fired - new bounds are: ' + newbounds);
     });
 
+    // Get all the markers in the map bounds and add to the map
     function getAllMarkersInBounds() {
         var newbounds = map.getBounds();
         console.log('New bounds event fired');
@@ -263,13 +260,30 @@ foreach (MyMVCApp.DAL.Walk_AssociatedFile oAssocFile in Model.Walk_AssociatedFil
                 swLat: newbounds._southWest.lat,
                 swLng: newbounds._southWest.lng
             },
-            success: function (response) {
-                console.log("successfully called ajax function: " + response);
+            success: function (result) {
+                console.log("successfully called ajax Marker/_MarkersInMapBounds on server");
+                addMarkersToMap(result.markersinbounds);
             },
             error: function (errorresponse) {
                 console.log("failure called ajax function: " + errorresponse);
             }
 
+        });
+    }
+
+    // Given an array of MapMarker objects from the server, add to the leafet map
+    function addMarkersToMap(markerstoadd) {
+        console.log("Inside addMarkesToMap");
+        $.each(markerstoadd, function (index, item) {
+            console.log("Adding Marker " + index + ": [lat=" + item.latitude + ",lng=" + item.longtitude + "] popuptext: [" + item.popupText + "]");
+
+            const markeroptions = { zIndexOffset: 1000 };
+            const popupOptions = { className: "markerPopup" }
+
+            marker = new L.marker([item.latitude, item.longtitude], markeroptions)
+                .bindPopup(item.popupText, popupOptions)
+                .openPopup()
+                .addTo(map);
         });
     }
 

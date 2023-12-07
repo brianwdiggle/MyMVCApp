@@ -543,30 +543,38 @@
                 }
             }
 
-            // Look for any auxilliary files (not walk images) present matching the nameprefix.
-
+            // Look for any auxilliary files (not walk images) present matching the nameprefix plus a hyphen
             filesindir = Directory.GetFiles(strRootPath + strRelPath, walkfiles_nameprefix + "-*");
 
-   
             // for each aux file, create object and add to result list.
             for (int iCount = 0; iCount < filesindir.Length; iCount++)
             {
-  
                 filesindir[iCount] = filesindir[iCount].Replace("\\", "/");
 
                 int iLocNamePrefix = filesindir[iCount].IndexOf(walkfiles_nameprefix);
                 filesindir[iCount] = filesindir[iCount].Substring(iLocNamePrefix);
 
                 string strDesc = "";
+                string strAuxFileType = "";
 
                 var oHillAssociateFile = new Walk_AssociatedFile();
                 oHillAssociateFile.WalkID = iWalkID;
                 oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + filesindir[iCount], "Content/images/");
-                oHillAssociateFile.Walk_AssociatedFile_Type = DetermineAuxFileType(filesindir[iCount], walkfiles_nameprefix, ref strDesc);
-                oHillAssociateFile.Walk_AssociatedFile_Sequence = siFileSequenceCounter++;
-                oHillAssociateFile.Walk_AssociatedFile_Caption = strDesc;
+                strAuxFileType = DetermineAuxFileType(filesindir[iCount], walkfiles_nameprefix, ref strDesc);
 
-                collWalkAssociatedFiles.Add(oHillAssociateFile);
+                if (strAuxFileType.Length>0)
+                {
+                    oHillAssociateFile.Walk_AssociatedFile_Type = strAuxFileType;
+                    oHillAssociateFile.Walk_AssociatedFile_Sequence = siFileSequenceCounter++;
+                    oHillAssociateFile.Walk_AssociatedFile_Caption = strDesc;
+
+                    collWalkAssociatedFiles.Add(oHillAssociateFile);
+                }
+                else
+                {
+                    Console.WriteLine("Unexpected auxilliary file of unknown type not added to walk: " + oHillAssociateFile.Walk_AssociatedFile_Name);
+                }
+  
             }
             
             return collWalkAssociatedFiles;
@@ -631,7 +639,7 @@
                 strDescription = ExtractDescFromAuxFileName(filename, "-Stats");
                 return "Image - Stats";
             }
-            return strAuxFileType;
+            return strAuxFileType; //-- i.e. return an empty string
         }
 
         public static string ExtractDescFromAuxFileName(string strAuxFilename, string strAuxFiletype)
@@ -1036,14 +1044,23 @@
 
         }
 
-
-        public static List<Marker> SelectMarkersInMapBounds(IEnumerable<Marker> markers, float neLat, float neLng, float swLat, float swLng)
+        /// <summary>
+        /// Given map bounds defined by the SW and NE lat/long coordinates of a rectangle map area
+        /// filter out those markers which are not within this area
+        /// </summary>
+        /// <param name="markers"></param>
+        /// <param name="neLat"></param>
+        /// <param name="neLng"></param>
+        /// <param name="swLat"></param>
+        /// <param name="swLng"></param>
+        /// <returns></returns>
+        public static List<MapMarker> SelectMarkersInMapBounds(IEnumerable<Marker> markers, float neLat, float neLng, float swLat, float swLng, string strVirtualRoot)
         {
-            List<Marker> selectedMarkers = new List<Marker>();
+            List<MapMarker> selectedMarkers = new List<MapMarker>();
 
             EastingNorthing markerEastingNorthing = null;
 
-            // using https://github.com/IeuanWalker/GeoUK
+            // using https://github.com/IeuanWalker/GeoUK convert the map bounds into to 27000 easting/northing coordinates
             LatitudeLongitude swLatLng = new LatitudeLongitude(swLat, swLng);
             LatitudeLongitude neLatLng = new LatitudeLongitude(neLat, neLng);
 
@@ -1081,7 +1098,6 @@
                     markerEastingNorthing = new EastingNorthing(-100000, -100000);
                 }
 
-
                 //---Is the marker within the map display bounds?
                 if ( markerEastingNorthing !=null &&
                      markerEastingNorthing.Easting > swBoundsPoint.Easting && 
@@ -1089,13 +1105,40 @@
                      markerEastingNorthing.Northing > swBoundsPoint.Northing &&
                      markerEastingNorthing.Northing < neBoundsPoint.Northing )
                 {
-                    selectedMarkers.Add(marker);
+                    LatitudeLongitude latlong = Convert27000EastingNorthingToLatLng(markerEastingNorthing);
+                    MapMarker mmToAdd = new MapMarker
+                    {
+                        latitude = latlong.Latitude,
+                        longtitude = latlong.Longitude
+                    };
+
+                    mmToAdd.popupText = MarkerPopup(marker, strVirtualRoot);
+                    selectedMarkers.Add(mmToAdd);
                 }
 
             }
 
             return selectedMarkers;
 
+        }
+
+        /// <summary>
+        /// Convert OS 27000 easting/northing coordinate to WGS84 coordinate required by leaflet.
+        /// </summary>
+        /// <param name="en"></param>
+        /// <returns></returns>
+        public static LatitudeLongitude Convert27000EastingNorthingToLatLng(EastingNorthing en)
+        {
+            // convert to cartesian
+            Cartesian cartesian = Convert.ToCartesian(new Airy1830(), new BritishNationalGrid(), en);
+
+            // transform from OSBB36 datum to ETRS89 datum
+            Cartesian wgsCartesian = Transform.Osgb36ToEtrs89(cartesian); //ETRS89 is effectively WGS84 which is required by leaftlet.
+
+            // convert back to latitude/longitude
+            LatitudeLongitude ll = Convert.ToLatitudeLongitude(new Wgs84(), wgsCartesian);
+
+            return ll;
         }
 
 
@@ -1195,8 +1238,8 @@
             try
             {
                 strGridLetters = strGridRef.Substring(0, 2);
-                eastingWithinGridSquare = Double.Parse(strGridRef.Substring(3, 5));
-                northingWithinGridSquare = Double.Parse(strGridRef.Substring(6, 5));
+                eastingWithinGridSquare = Double.Parse(strGridRef.Substring(2, 5));
+                northingWithinGridSquare = Double.Parse(strGridRef.Substring(7, 5));
             }catch (Exception e)
             {
                 return en;
