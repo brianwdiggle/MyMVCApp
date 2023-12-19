@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyMVCApp.DAL</RootNamespace>
     <AssemblyName>MyMVCApp.DAL</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -91,6 +91,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="UsefulSQLQueries\GetAllDataOnWalk.sql" />
+    <Content Include="UsefulSQLQueries\Moving_overseas_hills.sql" />
+    <Content Include="UsefulSQLQueries\Sync_Class_table_from_DoBIH.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
