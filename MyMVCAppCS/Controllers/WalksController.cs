@@ -286,8 +286,12 @@ namespace MyMVCAppCS.Controllers
                         popupText = WalkingStick.HillPopup(oHill, HttpContext.Request.ApplicationPath),
                         numberOfAscents = oHill.NumberOfAscents
                     };
-                    lstHillMarkers.Add(oMM);
-                    iShowMap = 1;
+                    if (oMM.OSMap10!= "")
+                    {
+                        lstHillMarkers.Add(oMM);
+                        iShowMap = 1;
+                    }
+                  
                 }
             }
 

@@ -1572,7 +1572,7 @@ namespace MyMVCApp.DAL
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Hillname", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Hillname", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
 		public string Hillname
 		{
 			get
@@ -1612,7 +1612,7 @@ namespace MyMVCApp.DAL
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Classification", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Classification", DbType="NVarChar(255)")]
 		public string Classification
 		{
 			get

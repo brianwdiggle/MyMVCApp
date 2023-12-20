@@ -970,7 +970,15 @@
         /// <returns></returns>
         public static string GridrefToGridRef10(string strGridRef)
         {
-            return strGridRef.Substring(0, 2) + " " + strGridRef.Substring(2, 3) + "00 " + strGridRef.Substring(5, 3) + "00";
+            string strGridRef10 = "";
+            try
+            {
+                strGridRef10 = strGridRef.Substring(0, 2) + " " + strGridRef.Substring(2, 3) + "00 " + strGridRef.Substring(5, 3) + "00";
+            }catch (Exception e)
+            {
+                Console.WriteLine("problem with gridref [" + strGridRef + "]");
+            }
+            return strGridRef10;
         }
 
         public static List<Trackpoint> LoadDataFromGPXFile(string strRelPath, string strRootPath, string strGPXNode)
