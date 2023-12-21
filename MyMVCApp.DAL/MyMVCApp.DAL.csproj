@@ -92,6 +92,7 @@
   <ItemGroup>
     <Content Include="UsefulSQLQueries\GetAllDataOnWalk.sql" />
     <Content Include="UsefulSQLQueries\Moving_overseas_hills.sql" />
+    <Content Include="UsefulSQLQueries\Sync_Areas_table_from_DoBIH.sql" />
     <Content Include="UsefulSQLQueries\Sync_Classlink_table_from_DoBIH.sql" />
     <Content Include="UsefulSQLQueries\Sync_Class_table_from_DoBIH.sql" />
     <Content Include="UsefulSQLQueries\Sync_Hills_table_from_DoBIH.sql" />
