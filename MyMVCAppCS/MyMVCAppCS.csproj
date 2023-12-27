@@ -235,6 +235,7 @@
     <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\LeafletHelper.js" />
     <Content Include="Scripts\os-transform.js" />
     <Content Include="Views\Config\Index.cshtml" />
     <Content Include="Views\HillAscent\Index.cshtml" />
@@ -290,7 +291,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\jquery-2.1.1.min.map" />
-    <Content Include="Views\Shared\_SiteLayout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Walks\CreateAuto.cshtml" />
     <Content Include="Views\Walks\HillDetails.cshtml" />

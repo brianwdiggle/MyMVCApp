@@ -868,7 +868,7 @@
                     break;
             }
 
-            strPopupText = oHA.Hill.Hillname + " (" + oHA.Hill.Metres + "m)" + strNumberOfAscents;
+            strPopupText = "<a href=\"/Walks/HillDetails/" + oHA.Hill.Hillnumber.ToString() + "\">" + oHA.Hill.Hillname + " (" + oHA.Hill.Metres + "m)</a><br/>" + strNumberOfAscents;
 
             return strPopupText;
         }

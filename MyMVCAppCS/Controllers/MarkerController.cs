@@ -164,7 +164,9 @@ namespace MyMVCAppCS.Controllers
                 MapMarker oMM = new MapMarker
                 {
                     OSMap10 = WalkingStick.FivePacesEastFromSummit(oMarker.Hill),
-                    popupText = WalkingStick.MarkerPopup(oMarker, Request.Url.GetLeftPart(System.UriPartial.Authority))
+                    popupText = WalkingStick.MarkerPopup(oMarker, Request.Url.GetLeftPart(System.UriPartial.Authority)),
+                    latitude = (double)oMarker.Hill.Latitude,
+                    longtitude = (double)oMarker.Hill.Longitude
                 };
                 lstMarkerMarkers.Add(oMM);
                 iShowMap = 1;
