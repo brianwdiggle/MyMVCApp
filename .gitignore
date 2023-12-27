@@ -699,3 +699,8 @@ FodyWeavers.xsd
 /MyMVCAppCS/obj/Debug/MyMVCAppCS.pdb
 /MyMVCApp.DAL/obj/Debug/TempPE/Walking.designer.cs.dll
 /MyMVCApp.DAL/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/MyMVCAppCS/obj/Debug/CSAutoParameterize/original/Web.config
+/MyMVCAppCS/obj/Debug/TransformWebConfig/original/Web.config
+/MyMVCAppCS/obj/Debug/CSAutoParameterize.parameters.xml
+/MyMVCAppCS/obj/Debug/MyMVCAppCS.csproj.App.config
+/MyMVCAppCS/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache

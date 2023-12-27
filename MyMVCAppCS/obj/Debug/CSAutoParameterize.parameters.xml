@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="walkingDEV-Web.config Connection String" description="walkingDEV Connection String used in web.config by the application to access the database." defaultValue="Data Source=LAPTOPF273NU\SQLEXPRESS2022;Initial Catalog=walkingDB_DEV;Integrated Security=True" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\WalkingWebSite\\MyMVCApp\\MyMVCAppCS\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='walkingDEV']/@connectionString" />
-  </parameter>
-  <parameter name="walkingLIVE-Web.config Connection String" description="walkingLIVE Connection String used in web.config by the application to access the database." defaultValue="Data Source=LAPTOPF273NU\SQLEXPRESS2022;Initial Catalog=walkingDB;Integrated Security=True" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\WalkingWebSite\\MyMVCApp\\MyMVCAppCS\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='walkingLIVE']/@connectionString" />
-  </parameter>
-</parameters>
