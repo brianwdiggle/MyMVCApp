@@ -658,8 +658,35 @@
             return qAllMarkersWithLocation.AsEnumerable();
         }
 
+        /// <summary>
+        /// Return all hills with location
+        /// </summary>
+        /// <returns>Hills with non null OS Grid easting and northing</returns>
+        public IEnumerable<Hill> GetAllHillsWithLocation()
+        {
+            // first, get all the markers
+            IQueryable<Hill> qAllHillsWithLocation = from hill in this.myWalkingDB.Hills
+                                                     where hill.Xcoord !=null && hill.Ycoord !=null
+                                                     select hill;
 
+            return qAllHillsWithLocation.AsEnumerable();
+        }
 
+        /// <summary>
+        /// Return all hills within the specified map boundz
+        /// </summary>
+        /// <returns>Hills within the specificed map bounds</returns>
+        public IEnumerable<Hill> GetAllHillsWithinBounds(EastingNorthing swPoint, EastingNorthing nePoint)
+        {
+            // first, get all the markers
+            IQueryable<Hill> qAllHillsWithLocation = from hill in this.myWalkingDB.Hills
+                                                     where (hill.Xcoord != null && hill.Ycoord != null) && 
+                                                           (hill.Xcoord > swPoint.Easting && hill.Xcoord < nePoint.Easting) &&
+                                                           (hill.Ycoord > swPoint.Northing && hill.Ycoord < nePoint.Northing)
+                                                     select hill;
+
+            return qAllHillsWithLocation.AsEnumerable();
+        }
 
         // ------------------------------------------------------------------------------------------------------------
         //  Function: GetMarkerDetails

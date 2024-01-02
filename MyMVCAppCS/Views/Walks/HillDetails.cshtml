@@ -5,6 +5,14 @@
 @{
     ViewBag.Title = Model.Hillname + " " + String.Format("{0}", Model.Feet) + "ft";
 }
+
+@section ViewSpecificHead
+{
+<script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
+}
+
+
+
 <div class="spacerdiv"></div>
 <div class="walksbydate">
     <table class="datatable">
@@ -42,6 +50,8 @@
 </div>
 <div class="spacerdiv"></div>
 <div id="hillmap"></div>
+<div class="spacerdiv"></div>
+<div><input type="button" id="getallmarkers" value="Show all hills in map bounds" onclick="getAllHillsInMapBounds()" /></div>
 <div class="spacerdiv"></div>
 <div class="walksbydate">
     <table class="datatable">
@@ -87,9 +97,12 @@
 
     // Display red or green summit icon depending on whether the hill has been climbed
     const climbedsummiticon = L.icon({
-        iconUrl: "/Content/images/TrigGreen.gif",
-        iconSize: [13, 13],
-        iconAnchor: [6, 13]
+        iconUrl: "/Content/images/marker-icon-green.png",
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
     });
 
     let climbedmapmarkeroptions = {
@@ -98,12 +111,15 @@
         };
 
     const unclimbedsummiticon = L.icon({
-        iconUrl: "/Content/images/TrigRed.gif",
-        iconSize: [13, 13],
-        iconAnchor: [6, 13]
+        iconUrl: "/Content/images/marker-icon-red.png",
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
     });
 
-    let unclimbedapmarkeroptions = {
+    let unclimbedmapmarkeroptions = {
         zIndexOffset: 1000,
         icon: unclimbedsummiticon
     };
@@ -117,11 +133,13 @@
             .addTo(map); //Add hill marker to map, converting coords to WGS84
     } else {
 
-        const hill_marker = L.marker(transformCoords([@Model.Xcoord, @Model.Ycoord]), unclimbedapmarkeroptions)
+        const hill_marker = L.marker(transformCoords([@Model.Xcoord, @Model.Ycoord]), unclimbedmapmarkeroptions)
             .bindPopup("<b>@Model.Hillname" + ", @Model.Metres" +"m</b><br>Not yet climbed")
             .openPopup()
-            .addTo(map); //Add hill marker to map, converting coords to WGS84
+            .addTo(map) //Add hill marker to map, converting coords to WGS84
     }
+
+    map.setView(new L.LatLng(@Model.Latitude, @Model.Longitude));
 
     // Finally load and display ZXY tile layer on the map.
     const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);

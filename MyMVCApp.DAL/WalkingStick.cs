@@ -891,22 +891,24 @@
             return strPopupText;
         }
 
-        public static string HillPopup(Hill oHill, string strVirtualRoot)
+        public static string HillPopup(Hill oHill)
         {
             string strPopupText = "";
-
             string strAscents = "";
+
             if (oHill.NumberOfAscents==0)
             {
                 strAscents = "Unclimbed";
             }else if (oHill.NumberOfAscents == 1)
             {
-                strAscents = "1 ascent";
+                DateTime oDT = (DateTime)oHill.FirstClimbedDate;
+                strAscents = "1 ascent - " + oDT.ToString("dd MMM yyyy");
             }else
             {
-                strAscents = oHill.NumberOfAscents.ToString() + " ascents";
+                DateTime oDT = (DateTime)oHill.FirstClimbedDate;
+                strAscents = oHill.NumberOfAscents.ToString() + " ascents.</br>First ascent: " + oHill.FirstClimbedDate.ToString();
             }
-            strPopupText = "<a href=\"/Walks/HillDetails/" + oHill.Hillnumber.ToString() + "\">" + oHill.Hillname + "</a>" + "<br/>" + strAscents;
+            strPopupText = "<a href=\"/Walks/HillDetails/" + oHill.Hillnumber.ToString() + "\">" + oHill.Hillname + " (" + oHill.Metres.ToString() + "m ," + oHill.Feet.ToString() + "ft)</a>" + "<br/>" + strAscents;
 
             return strPopupText;
         }
@@ -1129,6 +1131,43 @@
             return selectedMarkers;
 
         }
+
+        /// <summary>
+        /// Given map bounds defined by the SW and NE lat/long coordinates of a rectangle map area
+        /// filter out those markers which are not within this area
+        /// </summary>
+        /// <param name="markers"></param>
+        /// <param name="neLat"></param>
+        /// <param name="neLng"></param>
+        /// <param name="swLat"></param>
+        /// <param name="swLng"></param>
+        /// <returns></returns>
+        public static List<MapMarker> SelectHillsInMapBounds(IEnumerable<Hill> hills, float neLat, float neLng, float swLat, float swLng, string strVirtualRoot)
+        {
+            List<MapMarker> selectedHills = new List<MapMarker>();
+
+            foreach (Hill hill in hills)
+            {
+                EastingNorthing hillEastingNorthing = new EastingNorthing((double)hill.Xcoord, (double)hill.Ycoord);
+
+                //---Is the marker within the map display bounds?
+
+                LatitudeLongitude latlong = Convert27000EastingNorthingToLatLng(hillEastingNorthing);
+                MapMarker mmToAdd = new MapMarker
+                {
+                    latitude = latlong.Latitude,
+                    longtitude = latlong.Longitude,
+                    numberOfAscents = hill.NumberOfAscents
+                };
+
+                mmToAdd.popupText = HillPopup(hill);
+                selectedHills.Add(mmToAdd);
+            }
+
+            return selectedHills;
+
+        }
+
 
         /// <summary>
         /// Convert OS 27000 easting/northing coordinate to WGS84 coordinate required by leaflet.

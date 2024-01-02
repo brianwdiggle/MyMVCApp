@@ -16,8 +16,13 @@ namespace MyMVCAppCS.Controllers
 
     using MyMVCAppCS.Models;
     using MyMVCAppCS.ViewModels;
+    using GeoUK.Coordinates;
+    using GeoUK.Ellipsoids;
+    using GeoUK.Projections;
+    using GeoUK;
 
-#region "Page Actions"
+
+    #region "Page Actions"
 
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
     public class WalksController : Controller
@@ -164,11 +169,25 @@ namespace MyMVCAppCS.Controllers
         /// <returns></returns>
         public ActionResult HillDetails(int id)
         {
+            List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
+
             var oHillDetails = this.repository.GetHillDetails(id);
 
             var oHillAscents = this.repository.GetHillAscents(id).OrderBy(hill => hill.AscentDate);
 
             ViewData["HillAscents"] = oHillAscents.AsEnumerable().ToList();
+
+            MapMarker oMM = new MapMarker
+            {
+                OSMap10 = oHillDetails.Gridref10,
+                popupText = WalkingStick.HillPopup(oHillDetails),
+                latitude = (double)oHillDetails.Latitude,
+                longtitude = (double)oHillDetails.Longitude,
+                numberOfAscents = oHillDetails.NumberOfAscents
+            };
+            lstMarkerMarkers.Add(oMM);
+            ViewData["MarkerMarkers"] = lstMarkerMarkers;
+
             return this.View(oHillDetails);
 
         }
@@ -273,7 +292,7 @@ namespace MyMVCAppCS.Controllers
                     MapMarker oMM = new MapMarker
                     {
                         OSMap10 = oHill.Gridref10,
-                        popupText = WalkingStick.HillPopup(oHill, HttpContext.Request.ApplicationPath),
+                        popupText = WalkingStick.HillPopup(oHill ),
                         numberOfAscents = oHill.NumberOfAscents
                     };
                     lstHillMarkers.Add(oMM);
@@ -283,7 +302,7 @@ namespace MyMVCAppCS.Controllers
                     MapMarker oMM = new MapMarker
                     {
                         OSMap10 = WalkingStick.GridrefToGridRef10(oHill.Gridref),
-                        popupText = WalkingStick.HillPopup(oHill, HttpContext.Request.ApplicationPath),
+                        popupText = WalkingStick.HillPopup(oHill),
                         numberOfAscents = oHill.NumberOfAscents
                     };
                     if (oMM.OSMap10!= "")
@@ -889,7 +908,59 @@ namespace MyMVCAppCS.Controllers
             return Json(hillsuggestions, JsonRequestBehavior.AllowGet);
         }
 
-#endregion
+        /// <summary>
+        /// Name: _MarkersInMapBounds
+        /// Desc: Given a map bounds defition which is a rectangle of SW and NE points in lat/long format,
+        ///          a) query database for markers in these bounds
+        ///          b) return the set of markers in 
+        ///          
+        /// </summary>
+        /// <param name="neLat"></param>
+        /// <param name="neLng"></param>
+        /// <param name="swLat"></param>
+        /// <param name="swLng"></param>
+        /// <returns></returns>
+        public JsonResult _HillsInMapBounds(string neLat, string neLng, string swLat, string swLng)
+        {
+            var mapmarkers = "";
+
+            float fNeLat, fNeLng, fSwLat, fSwLng;
+            try
+            {
+                fNeLat = float.Parse(neLat);
+                fNeLng = float.Parse(neLng);
+                fSwLat = float.Parse(swLat);
+                fSwLng = float.Parse(swLng);
+            }
+            catch (Exception e)
+            {
+                mapmarkers = "Error occurred problem with lat/long format of new map bounds: " + e.Message;
+                return Json(mapmarkers, JsonRequestBehavior.AllowGet);
+            }
+
+            // using https://github.com/IeuanWalker/GeoUK convert the map bounds lat/long into to 27000 easting/northing coordinates
+            LatitudeLongitude swLatLng = new LatitudeLongitude(fSwLat, fSwLng);
+            LatitudeLongitude neLatLng = new LatitudeLongitude(fNeLat, fNeLng);
+
+            Cartesian cartesian = GeoUK.Convert.ToCartesian(new Wgs84(), swLatLng);
+            Cartesian bngCartesian = Transform.Etrs89ToOsgb36(cartesian);
+            EastingNorthing swBoundsPoint = GeoUK.Convert.ToEastingNorthing(new Airy1830(), new BritishNationalGrid(), bngCartesian);
+
+            cartesian = GeoUK.Convert.ToCartesian(new Wgs84(), neLatLng);
+            bngCartesian = Transform.Etrs89ToOsgb36(cartesian);
+            EastingNorthing neBoundsPoint = GeoUK.Convert.ToEastingNorthing(new Airy1830(), new BritishNationalGrid(), bngCartesian);
+
+            // Given the new map bounds, get the set of hills which fall within these bounds
+            IEnumerable<Hill> IEHillsWithinBounds = this.repository.GetAllHillsWithinBounds(swBoundsPoint, neBoundsPoint);
+
+            List<MapMarker> hillsInMapBounds = WalkingStick.SelectHillsInMapBounds(IEHillsWithinBounds, fNeLat, fNeLng, fSwLat, fSwLng, Request.Url.GetLeftPart(System.UriPartial.Authority));
+
+            // Return the markers as a JSON list object which is an array
+            return Json(new { hillsinbounds = hillsInMapBounds.ToList() }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
 
     }
 }

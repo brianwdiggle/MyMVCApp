@@ -75,6 +75,8 @@ function getAllMarkersInBounds() {
     });
 }
 
+
+
 // Given an array of MapMarker objects from the server, add to the leafet map
 function addMarkersToMapAJAX(markerstoadd) {
 
@@ -83,12 +85,71 @@ function addMarkersToMapAJAX(markerstoadd) {
         const markeroptions = { zIndexOffset: 1000 };
         const popupOptions = { className: "markerPopup" }
 
-        marker = new L.marker([item.latitude, item.longtitude], markeroptions)
-            .bindPopup(item.popupText, popupOptions)
-            .openPopup()
-            .addTo(map);
+        if (item.numberOfAscents > 0) {
+            marker = new L.marker([item.latitude, item.longtitude], markeroptions)
+                .bindPopup(item.popupText, popupOptions)
+                .openPopup()
+                .addTo(map);
+        } else {
+            marker = new L.marker([item.latitude, item.longtitude], markeroptions)
+                .bindPopup(item.popupText, popupOptions)
+                .openPopup()
+                .addTo(map);
+        }
+
+  
     });
 }
+
+//  Given an array of MapMarker objects from the server, add to the leafet map
+function addHillsToMapAJAX(markerstoadd) {
+
+    const popupOptions = { className: "markerPopup" }
+
+    $.each(markerstoadd, function (index, item) {
+
+        if (item.numberOfAscents > 0) {
+            marker = new L.marker([item.latitude, item.longtitude], climbedmapmarkeroptions)
+                .bindPopup(item.popupText, popupOptions)
+                .openPopup()
+                .addTo(map);
+        } else {
+            marker = new L.marker([item.latitude, item.longtitude], unclimbedmapmarkeroptions)
+                .bindPopup(item.popupText, popupOptions)
+                .openPopup()
+                .addTo(map);
+        }
+
+  
+
+    });
+}
+
+// Get all the hills in the map bounds and add to the map
+function getAllHillsInMapBounds() {
+    var newbounds = map.getBounds();
+
+    console.log("Called getAllHillsInMapBounds");
+    $.ajax({
+        url: document.getElementById("ApplicationRoot").getAttribute("href") + "Walks/_HillsInMapBounds",
+        type: "get",
+        data: {
+            neLat: newbounds._northEast.lat,
+            neLng: newbounds._northEast.lng,
+            swLat: newbounds._southWest.lat,
+            swLng: newbounds._southWest.lng
+        },
+        success: function (result) {
+            addHillsToMapAJAX(result.hillsinbounds);
+        },
+        error: function (errorresponse) {
+            console.log("failure called ajax function: " + errorresponse);
+        }
+
+    });
+}
+
+
 
 function addMarkersToMap() {
     if (markerdata != null) {

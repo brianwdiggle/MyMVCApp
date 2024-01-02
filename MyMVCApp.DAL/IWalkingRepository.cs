@@ -6,7 +6,7 @@
 
 namespace MyMVCApp.DAL
 {
-
+    using GeoUK.Coordinates;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -53,6 +53,10 @@ namespace MyMVCApp.DAL
         int DeleteHillAscentsForWalk(int iWalkID);
         int DeleteAssociateFilesForWalk(int iWalkID);
         IQueryable<HillAscent> GetAllHillAscents();
+
+        IEnumerable<Hill> GetAllHillsWithLocation();
+
+        IEnumerable<Hill> GetAllHillsWithinBounds(EastingNorthing swPoint, EastingNorthing nePoint);
 
         //------Hill Classifications------------------------
         IQueryable<Class> GetAllHillClassifications();
