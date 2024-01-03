@@ -1,7 +1,12 @@
 ﻿@using Newtonsoft.Json
 
 @model MyMVCAppCS.Models.PaginatedListMVC<MyMVCApp.DAL.Marker>
-    @{ ViewBag.Title = "Markers Paged List"; }
+@{ ViewBag.Title = "Markers Paged List"; }
+
+@section ViewSpecificHead
+{
+        <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
+}
     <h2>Browse Markers</h2>
 
     <p>@Html.ActionLink("Create New Marker", "Create")</p>
@@ -135,7 +140,7 @@
                         @item.Status
                     </td>
                 </tr>
- } }
+            } }
     </table>
     <table class="hiddentable">
         <tr>
@@ -189,38 +194,33 @@
     // Initialize the lealfet map.
     const map = L.map('hillmap', mapOptions);
 
-    if (markerdata != null) {
-
-        let markeroptions = {
-            zIndexOffset: 1000
-        };
-
-        //---Add the markers to the map
-
-        for (let i = 0; i < markerdata.length; i++) {
-
-            var this27000easting = markercoords[i][0];
-            var this27000northing = markercoords[i][1];
-  
-            const popText = markerpopups[i];
-            const popupOptions = {
-                className: "markerPopup"
-            }
-            marker = new L.marker(transformCoords([this27000easting, this27000northing]), markeroptions)
-                .bindPopup(popText, popupOptions)
-                .openPopup()
-                .addTo(map);
-        }
-
-        //----Set the bounds of the map so that all the markers are displayed
-        map.fitBounds(
-            [
-                transformCoords([mineasting, minnorthing]),
-                transformCoords([maxeasting, maxnorthing])
-            ]
-        );
-      
+    // This function will call the specific "get all" function in LeafletHelper to add all hills to the map
+    function getAll_Click() {
+        getAllMarkersInBounds()
     }
+
+    // Add the "get all" icon to the map
+    L.Control.Button = L.Control.extend({
+        options: {
+            position: 'topleft'
+        },
+        onAdd: function (map) {
+            var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+            var button = L.DomUtil.create('a', 'leaflet-control-button', container);
+            button.innerHTML = '<img class="customClass" src="/Content/images/all-icon.png">'
+            L.DomEvent.disableClickPropagation(button);
+            L.DomEvent.on(button, 'click', getAll_Click);
+
+            container.title = "Get all";
+
+            return container;
+        },
+        onRemove: function (map) { },
+    });
+    var control = new L.Control.Button()
+    control.addTo(map);
+
+    addMarkersToMap();
 
     // Finally load and display ZXY tile layer on the map.
     const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);

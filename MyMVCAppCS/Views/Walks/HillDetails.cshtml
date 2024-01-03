@@ -11,8 +11,6 @@
 <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
 }
 
-
-
 <div class="spacerdiv"></div>
 <div class="walksbydate">
     <table class="datatable">
@@ -50,8 +48,6 @@
 </div>
 <div class="spacerdiv"></div>
 <div id="hillmap"></div>
-<div class="spacerdiv"></div>
-<div><input type="button" id="getallmarkers" value="Show all hills in map bounds" onclick="getAllHillsInMapBounds()" /></div>
 <div class="spacerdiv"></div>
 <div class="walksbydate">
     <table class="datatable">
@@ -95,34 +91,31 @@
     // Initialize the lealfet map.
     const map = L.map('hillmap', mapOptions);
 
-    // Display red or green summit icon depending on whether the hill has been climbed
-    const climbedsummiticon = L.icon({
-        iconUrl: "/Content/images/marker-icon-green.png",
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
+    // This function will call the specific "get all" function in LeafletHelper to add all hills to the map
+    function getAll_Click() {
+        getAllHillsInMapBounds();
+    }
+
+    // Add the "get all" icon to the map
+    L.Control.Button = L.Control.extend({
+        options: {
+            position: 'topleft'
+        },
+        onAdd: function (map) {
+            var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+            var button = L.DomUtil.create('a', 'leaflet-control-button', container);
+            button.innerHTML = '<img class="customClass" src="/Content/images/all-icon.png">'
+            L.DomEvent.disableClickPropagation(button);
+            L.DomEvent.on(button, 'click', getAll_Click);
+
+            container.title = "Get all";
+
+            return container;
+        },
+        onRemove: function (map) { },
     });
-
-    let climbedmapmarkeroptions = {
-        zIndexOffset: 500,
-        icon: climbedsummiticon
-        };
-
-    const unclimbedsummiticon = L.icon({
-        iconUrl: "/Content/images/marker-icon-red.png",
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-
-    let unclimbedmapmarkeroptions = {
-        zIndexOffset: 1000,
-        icon: unclimbedsummiticon
-    };
+    var control = new L.Control.Button()
+    control.addTo(map);
 
      //---Add hill as a marker on the map-----------
     if (firstClimbedDate != null && firstClimbedDate != "" && firstClimbedDate != "Invalid Date") {

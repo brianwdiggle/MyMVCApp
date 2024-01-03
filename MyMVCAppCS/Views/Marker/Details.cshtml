@@ -153,6 +153,32 @@ else
     // Initialize the lealfet map.
     const map = L.map('hillmap', mapOptions);
 
+    function getAll_Click() {
+        getAllMarkersInBounds()
+    }
+
+    // Add the "get all" icon to the map
+    L.Control.Button = L.Control.extend({
+        options: {
+            position: 'topleft'
+        },
+        onAdd: function (map) {
+            var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+            var button = L.DomUtil.create('a', 'leaflet-control-button', container);
+            button.innerHTML = '<img class="customClass" src="/Content/images/all-icon.png">'
+            L.DomEvent.disableClickPropagation(button);
+            L.DomEvent.on(button, 'click', getAll_Click);
+
+            container.title = "Get all";
+
+            return container;
+        },
+        onRemove: function (map) { },
+    });
+
+    var control = new L.Control.Button()
+    control.addTo(map);
+
     addMarkersToMap();
 
     // Finally load and display ZXY tile layer on the map.

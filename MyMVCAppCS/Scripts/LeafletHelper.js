@@ -20,7 +20,6 @@ const toInternationaDate = function (ukDate) {
 //----If GPS data is available associated with the the current page of markers, then display the map----
 const OSapiKey = '468YAE3SzsjV8Uu8XPPDQpVVh2mA67vC';
 
-
 // using  // https://github.com/OrdnanceSurvey/os-transform
 //----Define the map centre point by converting an os grid reference into ESPG:27000 coordinates
 
@@ -50,6 +49,46 @@ const mapOptions = {
         transformCoords([900000.0, 1376256.0])
     ],
     attributionControl: true
+};
+
+// Display red or green summit icon depending on whether the hill has been climbed
+const climbedsummiticon = L.icon({
+    iconUrl: "/Content/images/marker-icon-green-small.png",
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [15, 25],
+    iconAnchor: [7, 25],
+    popupAnchor: [1, -20],
+    shadowSize: [25, 25]
+});
+
+let climbedmapmarkeroptions = {
+    zIndexOffset: 500,
+    icon: climbedsummiticon
+};
+
+const unclimbedsummiticon = L.icon({
+    iconUrl: "/Content/images/marker-icon-red-small.png",
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [15, 25],
+    iconAnchor: [7, 25],
+    popupAnchor: [1, -20],
+    shadowSize: [25, 25]
+});
+
+let unclimbedmapmarkeroptions = {
+    zIndexOffset: 1000,
+    icon: unclimbedsummiticon
+};
+
+
+// Set up marker icon
+const markericon = L.icon({
+    iconUrl: "/Content/images/marker-gold-small.png"
+});
+
+let markericonoptions = {
+    zIndexOffset: 500,
+    icon: markericon
 };
 
 // Get all the markers in the map bounds and add to the map
@@ -86,12 +125,12 @@ function addMarkersToMapAJAX(markerstoadd) {
         const popupOptions = { className: "markerPopup" }
 
         if (item.numberOfAscents > 0) {
-            marker = new L.marker([item.latitude, item.longtitude], markeroptions)
+            marker = new L.marker([item.latitude, item.longtitude], climbedmapmarkeroptions)
                 .bindPopup(item.popupText, popupOptions)
                 .openPopup()
                 .addTo(map);
         } else {
-            marker = new L.marker([item.latitude, item.longtitude], markeroptions)
+            marker = new L.marker([item.latitude, item.longtitude], climbedmapmarkeroptions)
                 .bindPopup(item.popupText, popupOptions)
                 .openPopup()
                 .addTo(map);
@@ -129,7 +168,6 @@ function addHillsToMapAJAX(markerstoadd) {
 function getAllHillsInMapBounds() {
     var newbounds = map.getBounds();
 
-    console.log("Called getAllHillsInMapBounds");
     $.ajax({
         url: document.getElementById("ApplicationRoot").getAttribute("href") + "Walks/_HillsInMapBounds",
         type: "get",
@@ -168,7 +206,7 @@ function addMarkersToMap() {
             const popupOptions = {
                 className: "markerPopup"
             }
-            marker = new L.marker(transformCoords([thislat, thislong]), markeroptions)
+            marker = new L.marker(transformCoords([thislat, thislong]), climbedmapmarkeroptions)
                 .bindPopup(popText, popupOptions)
                 .openPopup()
                 .addTo(map);
