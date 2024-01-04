@@ -42,6 +42,7 @@ namespace MyMVCApp.DAL
         Hill GetHillDetails(int id);
         IQueryable<Hill> FindHillsAboveFeet(int iFeet);
         IQueryable<Hill> GetHillsByClassification(string strHillClass);
+        IEnumerable<Hill> GetHillsInBoundsByClassification(string strHillClassification, EastingNorthing swPoint, EastingNorthing nePoint);
         IQueryable<Hill> FindHillsByNameLike(string strHillNamePortion);
         IQueryable<Hill> FindHillsInAreaByNameLike(string strHillNamePortion, string strAreaRef);
 

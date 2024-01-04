@@ -416,6 +416,40 @@
            
         }
 
+        // ------------------------------------------------------------------------------------------------------------
+        // 
+        //  Function: GetHillsInBoundsByClassification
+        // 
+        //  Returns an iQueryable list of all the hills which are of a certain classification, and which are also within
+        //  the rectangular bounds specificed by SW and NE corners of a rectangle in OS easting/northing format.
+        // 
+        // -------------------------------------------------------------
+        public IEnumerable<Hill> GetHillsInBoundsByClassification(string strHillClassification, EastingNorthing swPoint, EastingNorthing nePoint)
+        {
+
+            // ---Not as simple as that - the text in hill table given comma separated list of classifications-----
+            if (strHillClassification != null)
+            {
+                IEnumerable<Hill> hillsinboundsinclass;
+
+                hillsinboundsinclass =  from hillclass in this.myWalkingDB.Classlinks
+                       where hillclass.Classref == strHillClassification
+                       join myHill in this.myWalkingDB.Hills on hillclass.Hillnumber equals myHill.Hillnumber
+                       where (myHill.Xcoord != null && myHill.Ycoord != null) &&
+                             (myHill.Xcoord > swPoint.Easting && myHill.Xcoord < nePoint.Easting) &&
+                             (myHill.Ycoord > swPoint.Northing && myHill.Ycoord < nePoint.Northing)
+                       orderby myHill.Hillname
+                       select myHill;
+
+                return hillsinboundsinclass.AsEnumerable();
+
+            }
+
+            return from myHill in this.myWalkingDB.Hills orderby myHill.Hillname select myHill;
+
+        }
+
+
 
         //------------------------------------------------------------------------------------------------------------
         // Function:GetAllHillClassifications
@@ -678,7 +712,7 @@
         /// <returns>Hills within the specificed map bounds</returns>
         public IEnumerable<Hill> GetAllHillsWithinBounds(EastingNorthing swPoint, EastingNorthing nePoint)
         {
-            // first, get all the markers
+      
             IQueryable<Hill> qAllHillsWithLocation = from hill in this.myWalkingDB.Hills
                                                      where (hill.Xcoord != null && hill.Ycoord != null) && 
                                                            (hill.Xcoord > swPoint.Easting && hill.Xcoord < nePoint.Easting) &&

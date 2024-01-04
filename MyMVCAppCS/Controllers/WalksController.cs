@@ -158,6 +158,42 @@ namespace MyMVCAppCS.Controllers
                                                                                 maxPageLinks,
                                                                                 "?OrderBy" + orderBy, "");
 
+            int iShowMap = 0;
+            ///----Prepare data about hill summit markers
+            List<MapMarker> lstHillMarkers = new List<MapMarker>();
+            foreach (Hill oHill in iqPaginatedHills)
+            {
+                if (oHill.Gridref10 != null && oHill.Gridref10.Trim() != "")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = oHill.Gridref10,
+                        popupText = WalkingStick.HillPopup(oHill),
+                        numberOfAscents = oHill.NumberOfAscents
+                    };
+                    lstHillMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+                else if (oHill.Gridref != null && oHill.Gridref.Trim() != "")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = WalkingStick.GridrefToGridRef10(oHill.Gridref),
+                        popupText = WalkingStick.HillPopup(oHill),
+                        numberOfAscents = oHill.NumberOfAscents
+                    };
+                    if (oMM.OSMap10 != "")
+                    {
+                        lstHillMarkers.Add(oMM);
+                        iShowMap = 1;
+                    }
+
+                }
+            }
+
+            ViewData["ShowMap"] = iShowMap;
+            ViewData["HillMarkers"] = lstHillMarkers;
+
             // -----Pass the paginated list of hills to the view. The view expects a paginated list as its model-----
             return View(iqPaginatedHills);
         }
@@ -282,7 +318,7 @@ namespace MyMVCAppCS.Controllers
                                                                             "&OrderBy=" + orderBy,
                                                                             "&requestPageSize=" +requestPageSize.ToString());
 
-            int iShowMap = 0;
+         int iShowMap = 0;
          ///----Prepare data about hill summit markers
          List<MapMarker> lstHillMarkers = new List<MapMarker>();
          foreach (Hill oHill in iqPaginatedHills)
@@ -922,9 +958,8 @@ namespace MyMVCAppCS.Controllers
         /// <returns></returns>
         public JsonResult _HillsInMapBounds(string neLat, string neLng, string swLat, string swLng)
         {
-            var mapmarkers = "";
-
             float fNeLat, fNeLng, fSwLat, fSwLng;
+
             try
             {
                 fNeLat = float.Parse(neLat);
@@ -934,7 +969,7 @@ namespace MyMVCAppCS.Controllers
             }
             catch (Exception e)
             {
-                mapmarkers = "Error occurred problem with lat/long format of new map bounds: " + e.Message;
+                var mapmarkers = "Error occurred problem with lat/long format of new map bounds: " + e.Message;
                 return Json(mapmarkers, JsonRequestBehavior.AllowGet);
             }
 
@@ -958,6 +993,68 @@ namespace MyMVCAppCS.Controllers
             // Return the markers as a JSON list object which is an array
             return Json(new { hillsinbounds = hillsInMapBounds.ToList() }, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// Name: _MarkersInMapBounds
+        /// Desc: Given a map bounds defition which is a rectangle of SW and NE points in lat/long format,
+        ///          a) query database for markers in these bounds
+        ///          b) return the set of markers in 
+        ///          
+        /// </summary>
+        /// <param name="neLat"></param>
+        /// <param name="neLng"></param>
+        /// <param name="swLat"></param>
+        /// <param name="swLng"></param>
+        /// <returns></returns>
+        public JsonResult _HillsInClassInBounds(string urlpath, string neLat, string neLng, string swLat, string swLng)
+        {
+            float fNeLat, fNeLng, fSwLat, fSwLng;
+            string hillclass;
+
+            try
+            {
+                fNeLat = float.Parse(neLat);
+                fNeLng = float.Parse(neLng);
+                fSwLat = float.Parse(swLat);
+                fSwLng = float.Parse(swLng);
+            }
+            catch (Exception e)
+            {
+                var mapmarkers = "Error occurred problem with lat/long format of new map bounds: " + e.Message;
+                return Json(mapmarkers, JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                int iLocLastSlash = urlpath.LastIndexOf('/');
+                hillclass = urlpath.Substring(iLocLastSlash + 1, urlpath.Length-iLocLastSlash-1);
+            }catch(Exception e)
+            {
+                var mapmarkers = "Error occurred when getting the hill class : " + e.Message;
+                return Json(mapmarkers, JsonRequestBehavior.AllowGet);
+            }
+
+            // using https://github.com/IeuanWalker/GeoUK convert the map bounds lat/long into to 27000 easting/northing coordinates
+            LatitudeLongitude swLatLng = new LatitudeLongitude(fSwLat, fSwLng);
+            LatitudeLongitude neLatLng = new LatitudeLongitude(fNeLat, fNeLng);
+
+            Cartesian cartesian = GeoUK.Convert.ToCartesian(new Wgs84(), swLatLng);
+            Cartesian bngCartesian = Transform.Etrs89ToOsgb36(cartesian);
+            EastingNorthing swBoundsPoint = GeoUK.Convert.ToEastingNorthing(new Airy1830(), new BritishNationalGrid(), bngCartesian);
+
+            cartesian = GeoUK.Convert.ToCartesian(new Wgs84(), neLatLng);
+            bngCartesian = Transform.Etrs89ToOsgb36(cartesian);
+            EastingNorthing neBoundsPoint = GeoUK.Convert.ToEastingNorthing(new Airy1830(), new BritishNationalGrid(), bngCartesian);
+
+            // Given the new map bounds, get the set of hills which fall within these bounds
+            IEnumerable<Hill> IEHillsInClassWithinBounds = this.repository.GetHillsInBoundsByClassification(hillclass, swBoundsPoint, neBoundsPoint);
+
+            List<MapMarker> hillsInMapBounds = WalkingStick.SelectHillsInMapBounds(IEHillsInClassWithinBounds, fNeLat, fNeLng, fSwLat, fSwLng, Request.Url.GetLeftPart(System.UriPartial.Authority));
+
+            // Return the markers as a JSON list object which is an array
+            return Json(new { hillsinbounds = hillsInMapBounds.ToList() }, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         #endregion

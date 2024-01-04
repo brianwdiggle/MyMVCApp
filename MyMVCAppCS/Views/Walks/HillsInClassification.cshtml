@@ -185,6 +185,13 @@
         getAllHillsInMapBounds();
     }
 
+
+    // This function will call the specific "get all" function in LeafletHelper to add all hills in the current class to the map
+    function getAllInClass_Click() {
+            
+        getAllHillsInClassInMapBounds(window.location.pathname);
+     }
+
     // Add the "get all" icon to the map
     L.Control.Button = L.Control.extend({
         options: {
@@ -197,14 +204,38 @@
             L.DomEvent.disableClickPropagation(button);
             L.DomEvent.on(button, 'click', getAll_Click);
 
-            container.title = "Get all";
+            container.title = "Get all hills in map bounds";
 
             return container;
         },
         onRemove: function (map) { },
     });
-    var control = new L.Control.Button()
+
+    var control = new L.Control.Button();
     control.addTo(map);
+
+    // Add the "get all in class" icon to the map
+    L.Control.Button = L.Control.extend({
+        options: {
+            position: 'topleft'
+        },
+        onAdd: function (map) {
+            var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+            var button = L.DomUtil.create('a', 'leaflet-control-button', container);
+            button.innerHTML = '<img class="customClass" src="/Content/images/all-class-icon.png">'
+            L.DomEvent.disableClickPropagation(button);
+            L.DomEvent.on(button, 'click', getAllInClass_Click);
+
+            container.title = "Get all hills in map bounds of current hill class";
+
+            return container;
+        },
+        onRemove: function (map) { },
+    });
+
+    var control2 = new L.Control.Button();
+    control2.addTo(map);
+
 
     if (markerdata != null) {
 

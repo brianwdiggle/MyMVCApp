@@ -1,7 +1,13 @@
 ﻿@using MyMVCApp.DAL
-@model MyMVCAppCS.Models.PaginatedListMVC<MyMVCApp.DAL.Hill>
+@using Newtonsoft.Json
 
+@model MyMVCAppCS.Models.PaginatedListMVC<MyMVCApp.DAL.Hill>
     @{ ViewBag.Title = "Hills in " + ViewData["AreaName"]; }
+
+    @section ViewSpecificHead
+{
+        <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
+    }
 
     <h2>Hills in <em>@ViewData["AreaName"]</em></h2>
 
@@ -11,38 +17,43 @@
             <td class="alignright">Showing @Model.RecordsShowing Walks</td>
         </tr>
     </table>
+
+    <div class="spacerdiv"></div>
+    <div id="hillmap"></div>
+    <div class="spacerdiv"></div>
+
     <table class="walksbydate">
         <tr>
             <th>
                 @if (ViewData["OrderBy"].Equals("Name"))
                 {
-    <strong>
-        @if (ViewData["OrderAscDesc"].Equals("Asc"))
-        {
-@Html.ActionLink("Name <Asc>", "HillsByArea", new { OrderBy = "NameDesc" }) }
+                    <strong>
+                        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                        {
+                            @Html.ActionLink("Name <Asc>", "HillsByArea", new { OrderBy = "NameDesc" }) }
+                        else
+                        {
+                            @Html.ActionLink("Name <Desc>", "HillsByArea", new { OrderBy = "NameAsc" })}
+                    </strong> }
                 else
                 {
-@Html.ActionLink("Name <Desc>", "HillsByArea", new { OrderBy = "NameAsc" })}
-    </strong> }
-                else
-                {
-    @Html.ActionLink("Name", "HillsByArea", new { OrderBy = "NameDesc" })}
+                    @Html.ActionLink("Name", "HillsByArea", new { OrderBy = "NameDesc" })}
             </th>
             <th>Classification</th>
             <th>
                 @if (ViewData["OrderBy"].Equals("Metres"))
                 {
-    <strong>
-        @if (ViewData["OrderAscDesc"].Equals("Asc"))
-        {
-@Html.ActionLink("Metres <Asc>", "HillsByArea", new { OrderBy = "MetresDesc" }) }
+                    <strong>
+                        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                        {
+                            @Html.ActionLink("Metres <Asc>", "HillsByArea", new { OrderBy = "MetresDesc" }) }
+                        else
+                        {
+                            @Html.ActionLink("Metres <Desc>", "HillsByArea", new { OrderBy = "MetresAsc" })}
+                    </strong> }
                 else
                 {
-@Html.ActionLink("Metres <Desc>", "HillsByArea", new { OrderBy = "MetresAsc" })}
-    </strong> }
-                else
-                {
-    @Html.ActionLink("Metres", "HillsByArea", new { OrderBy = "MetresDesc" })}
+                    @Html.ActionLink("Metres", "HillsByArea", new { OrderBy = "MetresDesc" })}
             </th>
             <th>Feet</th>
             <th>Gridref</th>
@@ -50,17 +61,17 @@
             <th>
                 @if (ViewData["OrderBy"].Equals("FirstAscent"))
                 {
-    <strong>
-        @if (ViewData["OrderAscDesc"].Equals("Asc"))
-        {
-@Html.ActionLink("Date Climbed <Asc>", "HillsByArea", new { OrderBy = "FirstAscentDesc" }) }
+                    <strong>
+                        @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                        {
+                            @Html.ActionLink("Date Climbed <Asc>", "HillsByArea", new { OrderBy = "FirstAscentDesc" }) }
+                        else
+                        {
+                            @Html.ActionLink("Date Climbed <Desc>", "HillsByArea", new { OrderBy = "FirstAscentAsc" })}
+                    </strong> }
                 else
                 {
-@Html.ActionLink("Date Climbed <Desc>", "HillsByArea", new { OrderBy = "FirstAscentAsc" })}
-    </strong> }
-                else
-                {
-    @Html.ActionLink("Date Climbed", "HillsByArea", new { OrderBy = "FirstAscentDesc" })}
+                    @Html.ActionLink("Date Climbed", "HillsByArea", new { OrderBy = "FirstAscentDesc" })}
             </th>
             <th>Ascents</th>
         </tr>
@@ -68,42 +79,155 @@
 
         @{ int iHillNumberInClassification = ((Model.PageIndex - 1) * Model.PageSize) + 1;
 
-                        foreach (Hill item in Model)
+            foreach (Hill item in Model)
+            {
+
+                <tr style="background-color: @WalkingStick.NumberOfAscentsAsColour(item.NumberOfAscents)">
+                    <td>
+                        @Html.ActionLink(item.Hillname, "HillDetails", new { id = item.Hillnumber })
+                    </td>
+                    <td>
+                        @Html.Raw(WalkingStick.HillClassesToLinks(item.Classification, VirtualPathUtility.ToAbsolute("~/")))
+                    </td>
+                    <td>
+                        @Html.Encode(String.Format("{0:#}", item.Metres))
+                    </td>
+                    <td>
+                        @Html.Encode(String.Format("{0:#}", item.Feet))
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Gridref10))
                         {
+                            @item.Gridref10 }
+                        else
+                        {
+                            @item.Gridref}
+                    </td>
 
-            <tr style="background-color: @WalkingStick.NumberOfAscentsAsColour(item.NumberOfAscents)">
-                <td>
-                    @Html.ActionLink(item.Hillname, "HillDetails", new { id = item.Hillnumber })
-                </td>
-                <td>
-                    @Html.Raw(WalkingStick.HillClassesToLinks(item.Classification, VirtualPathUtility.ToAbsolute("~/")))
-                </td>
-                <td>
-                    @Html.Encode(String.Format("{0:#}", item.Metres))
-                </td>
-                <td>
-                    @Html.Encode(String.Format("{0:#}", item.Feet))
-                </td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.Gridref10))
-                    {
-    @item.Gridref10 }
-                    else
-                    {
-    @item.Gridref}
-                </td>
-
-                <td>
-                    @Html.Encode(String.Format("{0:#}", item.Drop))
-                </td>
-                <td>
-                    @Html.Encode(String.Format("{0:D}", item.FirstClimbedDate))
-                </td>
-                <td>
-                    @Html.Encode(String.Format("{0:#}", item.NumberOfAscents))
-                </td>
-            </tr> } }
+                    <td>
+                        @Html.Encode(String.Format("{0:#}", item.Drop))
+                    </td>
+                    <td>
+                        @Html.Encode(String.Format("{0:D}", item.FirstClimbedDate))
+                    </td>
+                    <td>
+                        @Html.Encode(String.Format("{0:#}", item.NumberOfAscents))
+                    </td>
+                </tr>
+            } }
     </table>
 
+
+    <script>
+
+    //---------------------------------------------------------------------------------------------------
+    // The following script loads a leaflet map where data is available
+    //----------------------------------------------------------------
+
+    var mineasting = 9999999;
+    var maxeasting = -9999999;
+    var minnorthing = 9999999;
+    var maxnorthing = -9999999;
+
+    //If there are any hills with GPS locations in the current page add them as markers to the map--------
+    var markerdata =  @(Html.Raw(JsonConvert.SerializeObject(ViewData["HillMarkers"])));
+
+    var markercoords = new Array(markerdata.length);
+    var markerpopups = new Array(markerdata.length);
+
+    for (let i = 0; i < markerdata.length; i++)
+    {
+        const epsg27000 = os.Transform.fromGridRef(markerdata[i].OSMap10);
+
+        if (epsg27000.ea > maxeasting) {
+            maxeasting = epsg27000.ea;
+        }
+
+        if (epsg27000.ea < mineasting) {
+            mineasting = epsg27000.ea;
+        }
+
+        if (epsg27000.no > maxnorthing) {
+            maxnorthing = epsg27000.no;
+        }
+
+        if (epsg27000.no < minnorthing) {
+            minnorthing = epsg27000.no;
+        }
+
+        markercoords[i] = [epsg27000.ea, epsg27000.no];
+        markerpopups[i] = markerdata[i].popupText;
+    }
+
+    // Initialize the lealfet map.
+    const map = L.map('hillmap', mapOptions);
+
+    // This function will call the specific "get all" function in LeafletHelper to add all hills to the map
+    function getAll_Click() {
+        getAllHillsInMapBounds();
+    }
+
+    // Add the "get all" icon to the map
+    L.Control.Button = L.Control.extend({
+        options: {
+            position: 'topleft'
+        },
+        onAdd: function (map) {
+            var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+            var button = L.DomUtil.create('a', 'leaflet-control-button', container);
+            button.innerHTML = '<img class="customClass" src="/Content/images/all-icon.png">'
+            L.DomEvent.disableClickPropagation(button);
+            L.DomEvent.on(button, 'click', getAll_Click);
+
+            container.title = "Get all hills in map bounds";
+
+            return container;
+        },
+        onRemove: function (map) { },
+    });
+
+    var control = new L.Control.Button();
+    control.addTo(map);
+
+    if (markerdata != null) {
+
+        //---Add the markers to the map
+
+        for (let i = 0; i < markerdata.length; i++) {
+            var thislat = markercoords[i][0];
+            var thislong = markercoords[i][1];
+            const popText = markerpopups[i];
+            const popupOptions = {
+                className: "markerPopup"
+            }
+
+            if (markerdata[i].numberOfAscents > 0) {
+                marker = new L.marker(transformCoords([thislat, thislong]), climbedmapmarkeroptions)
+                    .bindPopup(popText, popupOptions)
+                    .openPopup()
+                    .addTo(map);
+            } else {
+                marker = new L.marker(transformCoords([thislat, thislong]), unclimbedmapmarkeroptions)
+                    .bindPopup(popText, popupOptions)
+                    .openPopup()
+                    .addTo(map);
+            }
+
+        }
+
+        //----Set the bounds of the map so that all the markers are displayed
+        map.fitBounds(
+            [
+                transformCoords([mineasting, minnorthing]),
+                transformCoords([maxeasting, maxnorthing])
+            ]
+        );
+
+    }
+
+    // Finally load and display ZXY tile layer on the map.
+    const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
+
+    </script>
 
 

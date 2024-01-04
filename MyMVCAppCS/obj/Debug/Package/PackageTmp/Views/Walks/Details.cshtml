@@ -8,6 +8,10 @@
 @{
     ViewBag.Title = Model.WalkTitle + ", " + String.Format("{0:D}", Model.WalkDate);
 }
+@section ViewSpecificHead
+{
+    <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
+}
 <div class="details">
     <table>
         <tr>
@@ -335,7 +339,7 @@ if (routedata != null) {
 //If there are any ascents associated with this walk, add them as markers to the map--------
 var ascentdata = @(Html.Raw(JsonConvert.SerializeObject(ViewData["AscentMarkers"])));
 if (ascentdata != null) {
-    console.log("ascent data found");
+
     var ascentcoords = new Array(ascentdata.length);
     var ascentpopups = new Array(ascentdata.length);
 
@@ -352,19 +356,48 @@ if (markerdata != null) {
     var markerpopups = new Array(markerdata.length);
 
     for (let i = 0; i < markerdata.length; i++) {
-        const epsg27000 = os.Transform.fromGridRef(markerdata[i].OSMap10); 
+        const epsg27000 = os.Transform.fromGridRef(markerdata[i].OSMap10);
         markercoords[i] = [epsg27000.ea, epsg27000.no];
         markerpopups[i] = markerdata[i].popupText;
     }
 }
 
 
+ // Initialize the lealfet map.
+ const map = L.map('walkdetailsmap', mapOptions);
+
 //----If GPS data is available associated with the walk, then display the map----
 
 if (routedata != null || trackdata != null || ascentdata != null || markedata !=null) {
 
-    // Initialize the lealfet map.
-    const map = L.map('walkdetailsmap', mapOptions);
+ 
+
+    // This function will call the specific "get all" function in LeafletHelper to add all hills to the map
+    function getAll_Click() {
+        getAllHillsInMapBounds();
+    }
+
+    // Add the "get all" icon to the map
+    L.Control.Button = L.Control.extend({
+        options: {
+            position: 'topleft'
+        },
+        onAdd: function (map) {
+            var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+            var button = L.DomUtil.create('a', 'leaflet-control-button', container);
+            button.innerHTML = '<img class="customClass" src="/Content/images/all-icon.png">'
+            L.DomEvent.disableClickPropagation(button);
+            L.DomEvent.on(button, 'click', getAll_Click);
+
+            container.title = "Get all";
+
+            return container;
+        },
+        onRemove: function (map) { },
+    });
+    var control = new L.Control.Button()
+    control.addTo(map);
+
 
     if (trackdata != null) {
         //  Add the track to the map
@@ -437,7 +470,7 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
                 ]
             );
         }
-  
+
     }
 
     if (markerdata != null && markerdata.length>0) {
@@ -452,7 +485,7 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
         };
 
         for (let i = 0; i < markerdata.length; i++) {
-  
+
             var thislat = markercoords[i][0];
             var thislong =markercoords[i][1];
             const popText = markerpopups[i];
@@ -485,7 +518,7 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
         }
 
         //----Set the bounds of the map so that all the markers are displayed
-     
+
         if (trackdata == null && routedata == null) {
             console.log("setting map bounds for marker markers");
             map.fitBounds(

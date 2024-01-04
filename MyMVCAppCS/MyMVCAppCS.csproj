@@ -297,6 +297,7 @@
     <Content Include="Views\Shared\_NewSiteLayout.cshtml" />
     <Content Include="Views\Marker\_MarkersInMapBounds.cshtml" />
     <Content Include="Views\Walks\_HillsInMapBounds.cshtml" />
+    <Content Include="Views\Walks\_HillsInClassInBounds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

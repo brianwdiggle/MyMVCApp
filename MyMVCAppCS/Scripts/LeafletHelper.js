@@ -61,9 +61,19 @@ const climbedsummiticon = L.icon({
     shadowSize: [25, 25]
 });
 
+// Display red or green summit icon depending on whether the hill has been climbed
+const bluemarkericon = L.icon({
+    iconUrl: "/Content/images/marker-icon-blue.png"
+});
+
 let climbedmapmarkeroptions = {
     zIndexOffset: 500,
     icon: climbedsummiticon
+};
+
+let bluemapmarkeroptions = {
+    zIndexOffset: 400,
+    icon: bluemarkericon
 };
 
 const unclimbedsummiticon = L.icon({
@@ -78,17 +88,6 @@ const unclimbedsummiticon = L.icon({
 let unclimbedmapmarkeroptions = {
     zIndexOffset: 1000,
     icon: unclimbedsummiticon
-};
-
-
-// Set up marker icon
-const markericon = L.icon({
-    iconUrl: "/Content/images/marker-gold-small.png"
-});
-
-let markericonoptions = {
-    zIndexOffset: 500,
-    icon: markericon
 };
 
 // Get all the markers in the map bounds and add to the map
@@ -121,21 +120,13 @@ function addMarkersToMapAJAX(markerstoadd) {
 
     $.each(markerstoadd, function (index, item) {
 
-        const markeroptions = { zIndexOffset: 1000 };
         const popupOptions = { className: "markerPopup" }
 
-        if (item.numberOfAscents > 0) {
-            marker = new L.marker([item.latitude, item.longtitude], climbedmapmarkeroptions)
+        marker = new L.marker([item.latitude, item.longtitude], bluemapmarkeroptions)
                 .bindPopup(item.popupText, popupOptions)
                 .openPopup()
                 .addTo(map);
-        } else {
-            marker = new L.marker([item.latitude, item.longtitude], climbedmapmarkeroptions)
-                .bindPopup(item.popupText, popupOptions)
-                .openPopup()
-                .addTo(map);
-        }
-
+  
   
     });
 }
@@ -187,11 +178,32 @@ function getAllHillsInMapBounds() {
     });
 }
 
+// Get all the hills in the map bounds which of the specificed class, and add to the map
+function getAllHillsInClassInMapBounds(urlpathparam) {
+    var newbounds = map.getBounds();
 
+    $.ajax({
+        url: document.getElementById("ApplicationRoot").getAttribute("href") + "Walks/_HillsInClassInBounds",
+        type: "get",
+        data: {
+            urlpath: urlpathparam,
+            neLat: newbounds._northEast.lat,
+            neLng: newbounds._northEast.lng,
+            swLat: newbounds._southWest.lat,
+            swLng: newbounds._southWest.lng
+        },
+        success: function (result) {
+            addHillsToMapAJAX(result.hillsinbounds);
+        },
+        error: function (errorresponse) {
+            console.log("failure called ajax function: " + errorresponse);
+        }
+
+    });
+}
 
 function addMarkersToMap() {
     if (markerdata != null) {
-
 
         let markeroptions = {
             zIndexOffset: 1000
