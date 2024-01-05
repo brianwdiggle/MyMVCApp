@@ -49,7 +49,7 @@ BEGIN
 END
 
 GO
-PRINT N'Creating $(DatabaseName)...'
+PRINT N'Creating database $(DatabaseName)...'
 GO
 CREATE DATABASE [$(DatabaseName)] COLLATE Latin1_General_CI_AS
 GO
@@ -174,12 +174,74 @@ IF EXISTS (SELECT 1
 
 
 GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET AUTO_CREATE_STATISTICS ON(INCREMENTAL = OFF),
+                MEMORY_OPTIMIZED_ELEVATE_TO_SNAPSHOT = OFF,
+                DELAYED_DURABILITY = DISABLED 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET QUERY_STORE (QUERY_CAPTURE_MODE = ALL, DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_PLANS_PER_QUERY = 200, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 367), MAX_STORAGE_SIZE_MB = 100) 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET QUERY_STORE = OFF 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
+        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET MAXDOP = PRIMARY;
+        ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
+        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET LEGACY_CARDINALITY_ESTIMATION = PRIMARY;
+        ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
+        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET PARAMETER_SNIFFING = PRIMARY;
+        ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
+        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET QUERY_OPTIMIZER_HOTFIXES = PRIMARY;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET TEMPORAL_HISTORY_RETENTION ON 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
 IF fulltextserviceproperty(N'IsFulltextInstalled') = 1
     EXECUTE sp_fulltext_database 'enable';
 
 
 GO
-PRINT N'Creating [IIS APPPOOL\ASP.NET v4.0]...';
+PRINT N'Creating Login [IIS APPPOOL\ASP.NET v4.0]...';
 
 
 GO
@@ -188,7 +250,7 @@ CREATE LOGIN [IIS APPPOOL\ASP.NET v4.0]
 
 
 GO
-PRINT N'Creating [IIS APPPOOL\ASP.NET v4.0]...';
+PRINT N'Creating User [IIS APPPOOL\ASP.NET v4.0]...';
 
 
 GO
@@ -196,7 +258,7 @@ CREATE USER [IIS APPPOOL\ASP.NET v4.0] FOR LOGIN [IIS APPPOOL\ASP.NET v4.0];
 
 
 GO
-PRINT N'Creating <unnamed>...';
+PRINT N'Creating Role Membership [db_datareader] for [IIS APPPOOL\ASP.NET v4.0]...';
 
 
 GO
@@ -204,7 +266,7 @@ EXECUTE sp_addrolemember @rolename = N'db_datareader', @membername = N'IIS APPPO
 
 
 GO
-PRINT N'Creating <unnamed>...';
+PRINT N'Creating Role Membership [db_datawriter] for [IIS APPPOOL\ASP.NET v4.0]...';
 
 
 GO
@@ -212,7 +274,7 @@ EXECUTE sp_addrolemember @rolename = N'db_datawriter', @membername = N'IIS APPPO
 
 
 GO
-PRINT N'Creating [dbo].[WalkTypes]...';
+PRINT N'Creating Table [dbo].[WalkTypes]...';
 
 
 GO
@@ -223,7 +285,7 @@ CREATE TABLE [dbo].[WalkTypes] (
 
 
 GO
-PRINT N'Creating [dbo].[AreaTypes]...';
+PRINT N'Creating Table [dbo].[AreaTypes]...';
 
 
 GO
@@ -235,7 +297,7 @@ CREATE TABLE [dbo].[AreaTypes] (
 
 
 GO
-PRINT N'Creating [dbo].[Marker_Status]...';
+PRINT N'Creating Table [dbo].[Marker_Status]...';
 
 
 GO
@@ -246,7 +308,7 @@ CREATE TABLE [dbo].[Marker_Status] (
 
 
 GO
-PRINT N'Creating [dbo].[Walk_AssociatedFile_Types]...';
+PRINT N'Creating Table [dbo].[Walk_AssociatedFile_Types]...';
 
 
 GO
@@ -257,7 +319,7 @@ CREATE TABLE [dbo].[Walk_AssociatedFile_Types] (
 
 
 GO
-PRINT N'Creating [dbo].[HillAscent]...';
+PRINT N'Creating Table [dbo].[HillAscent]...';
 
 
 GO
@@ -271,7 +333,7 @@ CREATE TABLE [dbo].[HillAscent] (
 
 
 GO
-PRINT N'Creating [dbo].[Walk_AssociatedFiles]...';
+PRINT N'Creating Table [dbo].[Walk_AssociatedFiles]...';
 
 
 GO
@@ -288,7 +350,7 @@ CREATE TABLE [dbo].[Walk_AssociatedFiles] (
 
 
 GO
-PRINT N'Creating [dbo].[Hills]...';
+PRINT N'Creating Table [dbo].[Hills]...';
 
 
 GO
@@ -322,7 +384,7 @@ CREATE TABLE [dbo].[Hills] (
 
 
 GO
-PRINT N'Creating [dbo].[MarylynParentChild]...';
+PRINT N'Creating Table [dbo].[MarylynParentChild]...';
 
 
 GO
@@ -334,7 +396,7 @@ CREATE TABLE [dbo].[MarylynParentChild] (
 
 
 GO
-PRINT N'Creating [dbo].[Arealink]...';
+PRINT N'Creating Table [dbo].[Arealink]...';
 
 
 GO
@@ -348,7 +410,7 @@ CREATE TABLE [dbo].[Arealink] (
 
 
 GO
-PRINT N'Creating [dbo].[Areas]...';
+PRINT N'Creating Table [dbo].[Areas]...';
 
 
 GO
@@ -363,7 +425,7 @@ CREATE TABLE [dbo].[Areas] (
 
 
 GO
-PRINT N'Creating [dbo].[Marker]...';
+PRINT N'Creating Table [dbo].[Marker]...';
 
 
 GO
@@ -381,7 +443,7 @@ CREATE TABLE [dbo].[Marker] (
 
 
 GO
-PRINT N'Creating [dbo].[Classlink]...';
+PRINT N'Creating Table [dbo].[Classlink]...';
 
 
 GO
@@ -394,7 +456,7 @@ CREATE TABLE [dbo].[Classlink] (
 
 
 GO
-PRINT N'Creating [dbo].[Class]...';
+PRINT N'Creating Table [dbo].[Class]...';
 
 
 GO
@@ -408,7 +470,7 @@ CREATE TABLE [dbo].[Class] (
 
 
 GO
-PRINT N'Creating [dbo].[Marker_Observation]...';
+PRINT N'Creating Table [dbo].[Marker_Observation]...';
 
 
 GO
@@ -424,7 +486,7 @@ CREATE TABLE [dbo].[Marker_Observation] (
 
 
 GO
-PRINT N'Creating [dbo].[Walks]...';
+PRINT N'Creating Table [dbo].[Walks]...';
 
 
 GO
@@ -450,7 +512,7 @@ CREATE TABLE [dbo].[Walks] (
 
 
 GO
-PRINT N'Creating [dbo].[DF_Hills_NumberOfAscents]...';
+PRINT N'Creating Default Constraint [dbo].[DF_Hills_NumberOfAscents]...';
 
 
 GO
@@ -459,7 +521,7 @@ ALTER TABLE [dbo].[Hills]
 
 
 GO
-PRINT N'Creating [dbo].[FK_HillAscent_Hills]...';
+PRINT N'Creating Foreign Key [dbo].[FK_HillAscent_Hills]...';
 
 
 GO
@@ -468,7 +530,7 @@ ALTER TABLE [dbo].[HillAscent]
 
 
 GO
-PRINT N'Creating [dbo].[FK_HillAscent_Walks]...';
+PRINT N'Creating Foreign Key [dbo].[FK_HillAscent_Walks]...';
 
 
 GO
@@ -477,7 +539,7 @@ ALTER TABLE [dbo].[HillAscent]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Walk_AssociatedFiles_Marker]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Walk_AssociatedFiles_Marker]...';
 
 
 GO
@@ -486,7 +548,7 @@ ALTER TABLE [dbo].[Walk_AssociatedFiles]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Walk_AssociatedFiles_Walk_AssociatedFile_Types]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Walk_AssociatedFiles_Walk_AssociatedFile_Types]...';
 
 
 GO
@@ -495,7 +557,7 @@ ALTER TABLE [dbo].[Walk_AssociatedFiles]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Walk_AssociatedFiles_Walks]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Walk_AssociatedFiles_Walks]...';
 
 
 GO
@@ -504,7 +566,7 @@ ALTER TABLE [dbo].[Walk_AssociatedFiles]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Arealink_Hills]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Arealink_Hills]...';
 
 
 GO
@@ -513,7 +575,7 @@ ALTER TABLE [dbo].[Arealink]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Areas_AreaTypes]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Areas_AreaTypes]...';
 
 
 GO
@@ -522,7 +584,7 @@ ALTER TABLE [dbo].[Areas]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Marker_Hills]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Marker_Hills]...';
 
 
 GO
@@ -531,7 +593,7 @@ ALTER TABLE [dbo].[Marker]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Marker_Marker_Status]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Marker_Marker_Status]...';
 
 
 GO
@@ -540,7 +602,7 @@ ALTER TABLE [dbo].[Marker]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Marker_Walks]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Marker_Walks]...';
 
 
 GO
@@ -549,7 +611,7 @@ ALTER TABLE [dbo].[Marker]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Classlink_Class]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Classlink_Class]...';
 
 
 GO
@@ -558,7 +620,7 @@ ALTER TABLE [dbo].[Classlink]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Classlink_Hills]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Classlink_Hills]...';
 
 
 GO
@@ -567,7 +629,7 @@ ALTER TABLE [dbo].[Classlink]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Marker_Observation_Marker]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Marker_Observation_Marker]...';
 
 
 GO
@@ -576,7 +638,7 @@ ALTER TABLE [dbo].[Marker_Observation]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Marker_Observation_Walks]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Marker_Observation_Walks]...';
 
 
 GO
@@ -585,7 +647,7 @@ ALTER TABLE [dbo].[Marker_Observation]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Walks_Areas]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Walks_Areas]...';
 
 
 GO
@@ -594,7 +656,7 @@ ALTER TABLE [dbo].[Walks]
 
 
 GO
-PRINT N'Creating [dbo].[FK_Walks_WalkTypes]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Walks_WalkTypes]...';
 
 
 GO
@@ -603,7 +665,7 @@ ALTER TABLE [dbo].[Walks]
 
 
 GO
-PRINT N'Creating [dbo].[sp_InsertAreaTypes]...';
+PRINT N'Creating Procedure [dbo].[sp_InsertAreaTypes]...';
 
 
 GO
@@ -645,7 +707,7 @@ deallocate areascursor
 
 END
 GO
-PRINT N'Creating [dbo].[sp_GetMyProgressByClassType]...';
+PRINT N'Creating Procedure [dbo].[sp_GetMyProgressByClassType]...';
 
 
 GO
@@ -707,7 +769,7 @@ select * from #myprogress order by ClassName asc
 
 drop table #myprogress
 GO
-PRINT N'Creating [dbo].[sp_GetMyProgress]...';
+PRINT N'Creating Procedure [dbo].[sp_GetMyProgress]...';
 
 
 GO
@@ -764,7 +826,7 @@ select * from #myprogress order by ClassName asc
 
 drop table #myprogress
 GO
-PRINT N'Creating [dbo].[sp_DeleteWalk]...';
+PRINT N'Creating Procedure [dbo].[sp_DeleteWalk]...';
 
 
 GO
@@ -789,7 +851,7 @@ delete from Walks where WalkID=@WalkID
 
 END
 GO
-PRINT N'Creating Permission...';
+PRINT N'Creating Permission Permission...';
 
 
 GO
@@ -798,7 +860,7 @@ GRANT CONNECT TO [IIS APPPOOL\ASP.NET v4.0]
 
 
 GO
-PRINT N'Creating Permission...';
+PRINT N'Creating Permission Permission...';
 
 
 GO
@@ -808,7 +870,7 @@ GRANT EXECUTE
 
 
 GO
-PRINT N'Creating Permission...';
+PRINT N'Creating Permission Permission...';
 
 
 GO
@@ -817,7 +879,7 @@ GRANT EXECUTE
 
 
 GO
-PRINT N'Creating Permission...';
+PRINT N'Creating Permission Permission...';
 
 
 GO

@@ -1,12 +1,12 @@
 ﻿@using Newtonsoft.Json
 
 @model MyMVCAppCS.Models.PaginatedListMVC<MyMVCApp.DAL.Marker>
-@{ ViewBag.Title = "Markers Paged List"; }
+    @{ ViewBag.Title = "Markers Paged List"; }
 
-@section ViewSpecificHead
+    @section ViewSpecificHead
 {
         <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
-}
+    }
     <h2>Browse Markers</h2>
 
     <p>@Html.ActionLink("Create New Marker", "Create")</p>
@@ -114,23 +114,23 @@
                 <tr>
                     <td>@itemNumber.ToString()</td>
                     <td>@Html.ActionLink("Edit", "Edit", new { id = item.MarkerID })</td>
-                    <td>@Html.ActionLink(item.MarkerTitle, "Details", new { id = item.MarkerID })</td>
+                    <td>@Html.ActionLink((string)item.MarkerTitle, "Details", new { id = item.MarkerID })</td>
                     <td>
                         @if (item.Walk != null)
                         {
                             if (item.Walk.WalkTitle.Length > 40)
                             {
-                                @Html.ActionLink(item.Walk.WalkTitle.Substring(0, 40) + "..", "Details", "Walks", new { id = item.Walk.WalkID }, null) }
+                                @Html.ActionLink((string)item.Walk.WalkTitle.Substring(0, 40) + "..", "Details", "Walks", new { id = item.Walk.WalkID }, null) }
 
                             else
                             {
-                                @Html.ActionLink(item.Walk.WalkTitle, "Details", "Walks", new { id = item.Walk.WalkID }, null)}
+                                @Html.ActionLink((string)item.Walk.WalkTitle, "Details", "Walks", new { id = item.Walk.WalkID }, null)}
                         }
                     </td>
                     <td>
                         @if (item.Walk != null)
                         {
-                            @Html.ActionLink(item.Walk.Area.Areaname, "HillsByArea", "Walks", new { id = item.Walk.Area.Arearef.Trim() }, new { dummy = 1 });
+                            @Html.ActionLink((string)item.Walk.Area.Areaname, "HillsByArea", "Walks", new { id = item.Walk.Area.Arearef.Trim() }, new { dummy = 1 });
                         }
                     </td>
                     <td>
