@@ -704,3 +704,16 @@ FodyWeavers.xsd
 /MyMVCAppCS/obj/Debug/CSAutoParameterize.parameters.xml
 /MyMVCAppCS/obj/Debug/MyMVCAppCS.csproj.App.config
 /MyMVCAppCS/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/MyMVCAppCS/bin/Microsoft.Web.Infrastructure.dll
+/MyMVCAppCS/bin/Microsoft.Web.WebPages.OAuth.dll
+/MyMVCAppCS/bin/System.Net.Http.Extensions.dll
+/MyMVCAppCS/bin/System.Net.Http.Primitives.dll
+/MyMVCAppCS/bin/System.Web.Helpers.dll
+/MyMVCAppCS/bin/System.Web.Mvc.dll
+/MyMVCAppCS/bin/System.Web.Razor.dll
+/MyMVCAppCS/bin/System.Web.WebPages.Deployment.dll
+/MyMVCAppCS/bin/System.Web.WebPages.dll
+/MyMVCAppCS/bin/System.Web.WebPages.Razor.dll
+/MyMVCAppCS/bin/WebMatrix.Data.dll
+/MyMVCAppCS/bin/WebMatrix.WebData.dll
+/MyMVCAppCS/obj/Debug/MyMVCAppCS.csproj.CoreCompileInputs.cache
