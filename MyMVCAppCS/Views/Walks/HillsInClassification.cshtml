@@ -107,7 +107,7 @@
                     <td>@Html.Encode(String.Format("{0:#}", item.Metres))</td>
                     <td>@String.Format("{0:#}", item.Feet)</td>
                     <td class="gridref">
-                        @if (!string.IsNullOrEmpty(item.Gridref10))
+                        @if (!string.IsNullOrEmpty(item.Gridref))
                         {
                             @item.Gridref10 }
                         else

@@ -10,35 +10,33 @@
         @ViewData["CountryName"]
     } 
 </h2>
-    <table class="walksbydate">
-        <tr>
-            <th>Area ref</th>
- 
-            <th>
-                Area name
-            </th>
-            <th>
-                Area Type
-            </th>
-   
-        </tr>
+<table class="walksbydate">
+    <tr>
+        <th>Area ref</th>
+
+        <th>
+            Area name
+        </th>
+        <th>
+            Area Type
+        </th>
+
+    </tr>
 
     @foreach (Area hillArea in Model)
     {
-    
-        <tr>
-           <td>
-                @Html.Encode(hillArea.Arearef)
-            </td>        
-            <td>
-                @Html.ActionLink(hillArea.Areaname, "HillsByArea", new {id = hillArea.Arearef.Trim()})
-            </td>
-            <td>
-                @Html.Encode(hillArea.AreaType)
-            </td>
-        </tr>
-    
-     } 
+            <tr>
+                <td>
+                    @Html.Encode(hillArea.Arearef)
+                </td>
+                <td>
+                    @Html.ActionLink(hillArea.Areaname, "HillsByArea", new { id = hillArea.Arearef.Trim() })
+                </td>
+                <td>
+                    @Html.Encode(hillArea.AreaType)
+                </td>
+            </tr>
+    }
 
-    </table>
+</table>
 

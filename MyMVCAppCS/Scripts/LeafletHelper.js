@@ -72,8 +72,8 @@ let climbedmapmarkeroptions = {
 };
 
 let bluemapmarkeroptions = {
-    zIndexOffset: 400,
-    icon: bluemarkericon
+    zIndexOffset: 400
+   // icon: bluemarkericon
 };
 
 const unclimbedsummiticon = L.icon({
@@ -90,7 +90,7 @@ let unclimbedmapmarkeroptions = {
     icon: unclimbedsummiticon
 };
 
-// Get all the markers in the map bounds and add to the map
+// Get all the marker markers in the map bounds and add to the map
 function getAllMarkersInBounds() {
     var newbounds = map.getBounds();
 
@@ -202,7 +202,9 @@ function getAllHillsInClassInMapBounds(urlpathparam) {
     });
 }
 
-function addMarkersToMap() {
+
+//----This function used only for Marker markers!-------------
+function addMarkerMarkersToMap() {
     if (markerdata != null) {
 
         let markeroptions = {
@@ -218,7 +220,7 @@ function addMarkersToMap() {
             const popupOptions = {
                 className: "markerPopup"
             }
-            marker = new L.marker(transformCoords([thislat, thislong]), climbedmapmarkeroptions)
+            marker = new L.marker(transformCoords([thislat, thislong]), bluemapmarkeroptions)
                 .bindPopup(popText, popupOptions)
                 .openPopup()
                 .addTo(map);

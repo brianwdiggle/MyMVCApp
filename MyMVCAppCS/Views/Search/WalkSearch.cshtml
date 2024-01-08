@@ -31,9 +31,9 @@
             </tr>
 
             @{ int iResultCounter = 0;
-                                foreach (Walk walk in Model.WalksFound)
-                                {
-                                    iResultCounter++;
+                foreach (Walk walk in Model.WalksFound)
+                {
+                    iResultCounter++;
 
                 <tr>
                     <td>@iResultCounter.ToString(Thread.CurrentThread.CurrentCulture) </td>

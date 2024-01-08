@@ -205,6 +205,8 @@ namespace MyMVCAppCS.Controllers
         /// <returns></returns>
         public ActionResult HillDetails(int id)
         {
+            int iShowMap = 1;
+            bool bDisplayMapSummitMarker = true;
             List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
 
             var oHillDetails = this.repository.GetHillDetails(id);
@@ -213,15 +215,45 @@ namespace MyMVCAppCS.Controllers
 
             ViewData["HillAscents"] = oHillAscents.AsEnumerable().ToList();
 
-            MapMarker oMM = new MapMarker
+            MapMarker oMM = new MapMarker();
+
+            try
             {
-                OSMap10 = oHillDetails.Gridref10,
-                popupText = WalkingStick.HillPopup(oHillDetails),
-                latitude = (double)oHillDetails.Latitude,
-                longtitude = (double)oHillDetails.Longitude,
-                numberOfAscents = oHillDetails.NumberOfAscents
-            };
-            lstMarkerMarkers.Add(oMM);
+                oMM.popupText = WalkingStick.HillPopup(oHillDetails);
+            }catch(Exception e)
+            {
+                oMM.popupText = oHillDetails.Hillname;
+            }
+
+            try
+            {
+                oMM.latitude = (double)oHillDetails.Latitude;
+                oMM.longtitude = (double)oHillDetails.Longitude;
+      
+            }
+            catch (Exception e)
+            {
+                iShowMap = 0;
+                bDisplayMapSummitMarker =false;
+            }
+
+            oMM.numberOfAscents = oHillDetails.NumberOfAscents;
+                
+            if (bDisplayMapSummitMarker)
+            {
+                if (WalkingStick.ValidateGridRef10(oHillDetails.Gridref10))
+                {
+                    oMM.OSMap10 = oHillDetails.Gridref10;
+                    lstMarkerMarkers.Add(oMM);
+                }
+                else if (WalkingStick.ValidateGridRef6(oHillDetails.Gridref))
+                {
+                    oMM.OSMap10 = oHillDetails.Gridref.Substring(0, 2) + " " + oHillDetails.Gridref.Substring(2, 3) + "00 " + oHillDetails.Gridref.Substring(5, 3) + "00";
+                    lstMarkerMarkers.Add(oMM);
+                }
+            }
+
+            ViewData["ShowMap"] = iShowMap;
             ViewData["MarkerMarkers"] = lstMarkerMarkers;
 
             return this.View(oHillDetails);
@@ -323,7 +355,7 @@ namespace MyMVCAppCS.Controllers
          List<MapMarker> lstHillMarkers = new List<MapMarker>();
          foreach (Hill oHill in iqPaginatedHills)
          {
-                if (oHill.Gridref10 !=null && oHill.Gridref10.Trim() !="")
+                if (WalkingStick.ValidateGridRef10(oHill.Gridref10))
                 {
                     MapMarker oMM = new MapMarker
                     {
@@ -333,7 +365,7 @@ namespace MyMVCAppCS.Controllers
                     };
                     lstHillMarkers.Add(oMM);
                     iShowMap = 1;
-                }else if (oHill.Gridref != null && oHill.Gridref.Trim() != "")
+                }else if (WalkingStick.ValidateGridRef6(oHill.Gridref))
                 {
                     MapMarker oMM = new MapMarker
                     {

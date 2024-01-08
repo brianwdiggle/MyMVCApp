@@ -156,6 +156,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\HillAscentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -290,6 +291,7 @@
     <Content Include="Views\Marker\_MarkersInMapBounds.cshtml" />
     <Content Include="Views\Walks\_HillsInMapBounds.cshtml" />
     <Content Include="Views\Walks\_HillsInClassInBounds.cshtml" />
+    <Content Include="Views\Area\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

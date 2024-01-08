@@ -179,7 +179,7 @@ else
     var control = new L.Control.Button()
     control.addTo(map);
 
-    addMarkersToMap();
+    addMarkerMarkersToMap();
 
     // Finally load and display ZXY tile layer on the map.
     const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);

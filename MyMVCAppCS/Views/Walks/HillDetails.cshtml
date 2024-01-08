@@ -8,7 +8,7 @@
 
 @section ViewSpecificHead
 {
-<script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
 }
 
 <div class="spacerdiv"></div>
@@ -46,9 +46,17 @@
         </tr>
     </table>
 </div>
-<div class="spacerdiv"></div>
-<div id="hillmap"></div>
-<div class="spacerdiv"></div>
+@if (ViewData["ShowMap"].Equals(1))
+{
+    <div class="spacerdiv"></div>
+    <div id="hillmap"></div>
+    <div class="spacerdiv"></div>
+}
+else
+{
+    <div class="spacerdiv"></div>
+}
+
 <div class="walksbydate">
     <table class="datatable">
         @{

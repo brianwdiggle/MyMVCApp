@@ -928,6 +928,75 @@
         }
 
         /// <summary>
+        /// Given a gridref 10, check whether it is a valid reference
+        /// </summary>
+        /// <param name="strGridRef10"></param>
+        /// <returns></returns>
+       public static bool ValidateGridRef10(string strGridRef10)
+        {
+            if (string.IsNullOrEmpty(strGridRef10)) {
+                return false;
+            }
+
+            string strTestValue = strGridRef10.Replace(" ","");
+
+            // A valid value MUST be in format AA1234512345
+            if (strTestValue.Length!=12)
+            {
+                return false;
+            }
+
+            // Test that the first two characters are alphabetic
+            if (!Regex.IsMatch(strTestValue.Substring(0,2), @"^[a-zA-Z]+$"))
+            {
+                return false;
+            }
+
+            if (!Regex.IsMatch(strTestValue.Substring(2,10), @"^[0-9]+$"))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Given a gridref from the Hill.gridref colum , check whether it is a valid reference
+        /// It should be in format AB123123
+        /// </summary>
+        /// <param name="strGridRef6"></param>
+        /// <returns></returns>
+        public static bool ValidateGridRef6(string strGridRef6)
+        {
+            if (string.IsNullOrEmpty(strGridRef6))
+            {
+                return false;
+            }
+
+            string strTestValue = strGridRef6.Trim();
+
+            // A valid value MUST be in format AA123123
+            if (strTestValue.Length != 8)
+            {
+                return false;
+            }
+
+            // Test that the first two characters are alphabetic
+            if (!Regex.IsMatch(strTestValue.Substring(0,2), @"^[a-zA-Z]+$"))
+            {
+                return false;
+            }
+
+            if (!Regex.IsMatch(strTestValue.Substring(2, 6), @"^[0-9]+$"))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        /// <summary>
         /// Given a Hill, this returns the OS Grid Reference 10 digit version of the location of the marker 
         /// which is assumed to be 3 metres east of the summit location.
         /// </summary>
