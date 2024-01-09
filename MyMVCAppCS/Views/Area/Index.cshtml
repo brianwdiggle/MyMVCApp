@@ -2,7 +2,7 @@
 <div class="spacerdiv"></div>
 <table class="walksbydate">
     <tr>
-        <td class="aligntop">
+        <td class="aligntop" width="33%">
             <h3>Marylyn Areas</h3>
             <p>@Html.ActionLink("Marylyn Areas in England", "WalkingAreasByCountry", "Walks", new { strCountryCode = "EN", strAreaType = "M" }, null)</p>
             <p>@Html.ActionLink("Marylyn Areas in Scotland", "WalkingAreasByCountry", "Walks", new { strCountryCode = "SC", strAreaType = "M" }, null)</p>
@@ -15,6 +15,7 @@
             <p>@Html.ActionLink("Nuttall Areas in England", "WalkingAreasByCountry", "Walks", new { strCountryCode = "EN", strAreaType = "N" }, null)</p>
             <p>@Html.ActionLink("Nuttall Areas in Wales", "WalkingAreasByCountry", "Walks", new { strCountryCode = "WA", strAreaType = "N" }, null)</p>
             <p>&nbsp;</p>
+
             <h3>Overseas</h3>
             <p>@Html.ActionLink("Spain incl. islands", "WalkingAreasByCountry", "Walks", new { strCountryCode = "SP", strAreaType = "O" }, null)</p>
             <p>@Html.ActionLink("Greece incl. islands", "WalkingAreasByCountry", "Walks", new { strCountryCode = "GR", strAreaType = "O" }, null)</p>
@@ -22,8 +23,20 @@
             <p>@Html.ActionLink("Gambia", "WalkingAreasByCountry", "Walks", new { strCountryCode = "GM", strAreaType = "O" }, null)</p>
             <p>@Html.ActionLink("Nepal", "WalkingAreasByCountry", "Walks", new { strCountryCode = "NE", strAreaType = "O" }, null)</p>
             <p>&nbsp;</p>
+
+ 
         </td>
-        <td class="aligntop">
+        <td class="aligntop" width="33%">
+            <h3>Wainwright Areas</h3>
+            <p>@Html.ActionLink("Central Fells", "HillsByArea", "Walks", new { id = "NE04" }, null)</p>
+            <p>@Html.ActionLink("Eastern Fells", "HillsByArea", "Walks", new { id = "NE06" }, null)</p>
+            <p>@Html.ActionLink("Far Eastern Fells", "HillsByArea", "Walks", new { id = "NE07" }, null)</p>
+            <p>@Html.ActionLink("Southern Fells", "HillsByArea", "Walks", new { id = "NE05" }, null)</p>
+            <p>@Html.ActionLink("Western Fells", "HillsByArea", "Walks", new { id = "NE03" }, null)</p>
+            <p>@Html.ActionLink("North Western Fells", "HillsByArea", "Walks", new { id = "NE02" }, null)</p>
+            <p>@Html.ActionLink("Northern Fells", "HillsByArea", "Walks", new { id = "NE01" }, null)</p>
+            <p>&nbsp;</p>
+
             <h3>Hewitts</h3>
             <p>@Html.ActionLink("Hewitt Areas in England", "WalkingAreasByCountry", "Walks", new { strCountryCode = "EN", strAreaType = "H" }, null)</p>
             <p>@Html.ActionLink("Hewitt Areas in Wales", "WalkingAreasByCountry", "Walks", new { strCountryCode = "WA", strAreaType = "H" }, null)</p>
@@ -36,19 +49,15 @@
             <p>@Html.ActionLink("Administrative in Ireland", "WalkingAreasByCountry", "Walks", new { strCountryCode = "IR", strAreaType = "A" }, null)</p>
             <p>&nbsp;</p>
 
-            <h3>Southern Uplands of Scotland Areas- The Donalds</h3>
-            <p>@Html.ActionLink("Southern Uplands", "WalkingAreasByCountry", "Walks", new { strCountryCode = "SC", strAreaType = "D" }, null)</p>
-            <p>&nbsp;</p>
-
-
-
+ 
         </td>
-        <td class="aligntop">
+        <td class="aligntop" width="33%">
             <h3>Tumps by Topo Section</h3>
             <p>@Html.ActionLink("Tumps of England", "WalkingAreasByCountry", "Walks", new { strCountryCode = "EN", strAreaType = "T" }, null)</p>
             <p>@Html.ActionLink("Tumps of Wales", "WalkingAreasByCountry", "Walks", new { strCountryCode = "WA", strAreaType = "T" }, null)</p>
             <p>@Html.ActionLink("Tumps of Scotland", "WalkingAreasByCountry", "Walks", new { strCountryCode = "SC", strAreaType = "T" }, null)</p>
             <p>@Html.ActionLink("Tumps of Isle of Man", "WalkingAreasByCountry", "Walks", new { strCountryCode = "IM", strAreaType = "T" }, null)</p>
+            <p>&nbsp;</p>
 
             <h3>County Tops</h3>
             <p>@Html.ActionLink("County tops in England", "WalkingAreasByCountry", "Walks", new { strCountryCode = "EN", strAreaType = "C" }, null)</p>
@@ -61,6 +70,12 @@
             <p>@Html.ActionLink("Islands of Wales", "WalkingAreasByCountry", "Walks", new { strCountryCode = "WA", strAreaType = "I" }, null)</p>
             <p>@Html.ActionLink("Islands of Scotland", "WalkingAreasByCountry", "Walks", new { strCountryCode = "SC", strAreaType = "I" }, null)</p>
             <p>@Html.ActionLink("Islands of Isle of Man", "WalkingAreasByCountry", "Walks", new { strCountryCode = "IM", strAreaType = "I" }, null)</p>
+
+            <p>&nbsp;</p>
+            <h3>Southern Uplands of Scotland Areas- The Donalds</h3>
+            <p>@Html.ActionLink("Southern Uplands", "WalkingAreasByCountry", "Walks", new { strCountryCode = "SC", strAreaType = "D" }, null)</p>
+            <p>&nbsp;</p>
+
         </td>
     </tr>
 </table>

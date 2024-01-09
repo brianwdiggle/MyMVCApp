@@ -62,7 +62,6 @@ C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppC
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\obj\Debug\MyMVCAppCS.csprojAssemblyReference.cache
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\MyMVCAppCS\bin\GeoUk.dll
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\bin\Scripts\CreateEditWalk.js
-C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\bin\Content\Site.css
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\bin\MyMVCAppCS.dll.config
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\bin\MyMVCAppCS.dll
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\bin\MyMVCAppCS.pdb

@@ -17,7 +17,6 @@
     public class WalkingStick
     {
 
-    
         public static string HillClassToLink(string strHillClass, string strLinkText, string strApplicationRoot) 
         {
             if ((strLinkText == "")) 
@@ -886,7 +885,7 @@
         {
             string strPopupText = "";
             
-            strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>" + oMarker.Location_Description;
+            strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>Placed: " + oMarker.DateLeft.ToString("dd MMM yyyy") + "</br>" + oMarker.Location_Description;
 
             return strPopupText;
         }
@@ -906,7 +905,7 @@
             }else
             {
                 DateTime oDT = (DateTime)oHill.FirstClimbedDate;
-                strAscents = oHill.NumberOfAscents.ToString() + " ascents.</br>First ascent: " + oHill.FirstClimbedDate.ToString();
+                strAscents = oHill.NumberOfAscents.ToString() + " ascents.</br>First ascent: " + oDT.ToString("dd MMM yyyy");
             }
             strPopupText = "<a href=\"/Walks/HillDetails/" + oHill.Hillnumber.ToString() + "\">" + oHill.Hillname + " (" + oHill.Metres.ToString() + "m ," + oHill.Feet.ToString() + "ft)</a>" + "<br/>" + strAscents;
 

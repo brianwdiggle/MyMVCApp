@@ -7,6 +7,42 @@
 @section ViewSpecificHead
 {
 <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
+<script>
+
+    function ReloadWithNewPageSize() {
+        var newhref = window.location.pathname;
+        console.log("newhref with pathname: " + newhref);
+        var number_querystring_added = 0;
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.get('OrderBy') != null) {
+            newhref = newhref + "?OrderBy=" + urlParams.get('OrderBy');
+            number_querystring_added = 1;
+        } else {
+            newhref = newhref + "?OrderBy=NameAsc";
+        }
+
+        if (urlParams.get('page') != null) {
+            newhref = newhref + "&page=" + urlParams.get('page');
+        } else {
+                newhref = newhref + "&page=1";
+        }    
+
+        newhref = newhref + "&requestPageSize=" + $("#pagesize").val();
+        
+        console.log("newhref finally is now : " + newhref);
+        window.location.href = newhref;
+
+    }
+    /*----Update page size----*/
+    $(document).ready(function () {
+        $('#changepagesize').click(function () {
+            ReloadWithNewPageSize();
+        });
+    });
+
+    </script>
 }
 
     <h2>@ViewData["HillClassName"]s <em>(@ViewData["NumberClimbed"] of @Model.TotalCount climbed)</em></h2>
@@ -16,7 +52,7 @@
             <td>
                 @Html.Raw(Model.PageNavigationLinks)
             </td>
-            <td>Page Size: <input type="text" name="pagesize" size="3" value="@ViewData["pagesize"]" /> <input type="button" value="Change" /></td>
+            <td>Page Size: <input type="text" name="pagesize" id="pagesize" size="3" value="@ViewData["pagesize"]"  /><input type="button" value="Change" class="pagesizebutton" id="changepagesize"/></td>
             <td align="right">Showing @Model.RecordsShowing Hills</td>
         </tr>
     </table>
@@ -35,14 +71,14 @@
                     <strong>
                         @if (ViewData["OrderAscDesc"].Equals("Asc"))
                         {
-                            @Html.ActionLink("Name <Asc>", "HillsInClassification", new { OrderBy = "NameDesc" }) }
+                            @Html.ActionLink("Name <Asc>", "HillsInClassification", new { OrderBy = "NameDesc", requestPageSize = ViewData["pagesize"] }, new { @class="gold"}) }
                         else
                         {
-                            @Html.ActionLink("Name <Desc>", "HillsInClassification", new { OrderBy = "NameAsc" })}
+                            @Html.ActionLink("Name <Desc>", "HillsInClassification", new { OrderBy = "NameAsc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
                     </strong> }
                 else
                 {
-                    @Html.ActionLink("Name", "HillsInClassification", new { OrderBy = "NameDesc" })}
+                    @Html.ActionLink("Name", "HillsInClassification", new { OrderBy = "NameDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
             </th>
             <th>Classes</th>
             <th>
@@ -51,14 +87,14 @@
                     <strong>
                         @if (ViewData["OrderAscDesc"].Equals("Asc"))
                         {
-                            @Html.ActionLink("Metres <Asc>", "HillsInClassification", new { OrderBy = "MetresDesc" }) }
+                            @Html.ActionLink("Metres <Asc>", "HillsInClassification", new { OrderBy = "MetresDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" }) }
                         else
                         {
-                            @Html.ActionLink("Metres <Desc>", "HillsInClassification", new { OrderBy = "MetresAsc" })}
+                            @Html.ActionLink("Metres <Desc>", "HillsInClassification", new { OrderBy = "MetresAsc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
                     </strong> }
                 else
                 {
-                    @Html.ActionLink("Metres", "HillsInClassification", new { OrderBy = "MetresDesc" })}
+                    @Html.ActionLink("Metres", "HillsInClassification", new { OrderBy = "MetresDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
             </th>
             <th>Feet</th>
             <th>Gridref</th>
@@ -69,14 +105,14 @@
                     <strong>
                         @if (ViewData["OrderAscDesc"].Equals("Asc"))
                         {
-                            @Html.ActionLink("Date Climbed <Asc>", "HillsInClassification", new { OrderBy = "FirstAscentDesc" }) }
+                            @Html.ActionLink("Date Climbed <Asc>", "HillsInClassification", new { OrderBy = "FirstAscentDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" }) }
                         else
                         {
-                            @Html.ActionLink("Date Climbed <Desc>", "HillsInClassification", new { OrderBy = "FirstAscentAsc" })}
+                            @Html.ActionLink("Date Climbed <Desc>", "HillsInClassification", new { OrderBy = "FirstAscentAsc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
                     </strong> }
                 else
                 {
-                    @Html.ActionLink("Date Climbed", "HillsInClassification", new { OrderBy = "FirstAscentDesc" })}
+                    @Html.ActionLink("Date Climbed", "HillsInClassification", new { OrderBy = "FirstAscentDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
             </th>
             <th>
                 @if (ViewData["OrderBy"].Equals("NumberAscent"))
@@ -84,14 +120,14 @@
                     <strong>
                         @if (ViewData["OrderAscDesc"].Equals("Asc"))
                         {
-                            @Html.ActionLink("Ascents <Asc>", "HillsInClassification", new { OrderBy = "NumberAscentDesc" }) }
+                            @Html.ActionLink("Ascents <Asc>", "HillsInClassification", new { OrderBy = "NumberAscentDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" }) }
                         else
                         {
-                            @Html.ActionLink("Ascents <Desc>", "HillsInClassification", new { OrderBy = "NumberAscentAsc" })}
+                            @Html.ActionLink("Ascents <Desc>", "HillsInClassification", new { OrderBy = "NumberAscentAsc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
                     </strong> }
                 else
                 {
-                    @Html.ActionLink("Ascents", "HillsInClassification", new { OrderBy = "NumberAscentDesc" })}
+                    @Html.ActionLink("Ascents", "HillsInClassification", new { OrderBy = "NumberAscentDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
             </th>
         </tr>
 

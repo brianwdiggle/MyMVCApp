@@ -337,7 +337,7 @@ namespace MyMVCAppCS.Controllers
             requestPageSize = Int32.Parse(WebConfigurationManager.AppSettings["PAGINATION_PAGE_SIZE"]);
         }
 
-            ViewData["pagesize"] = requestPageSize;
+        ViewData["pagesize"] = requestPageSize;
 
         int maxPageLinks = Int32.Parse(WebConfigurationManager.AppSettings["PAGINATION_MAX_PAGE_LINKS"]);
 

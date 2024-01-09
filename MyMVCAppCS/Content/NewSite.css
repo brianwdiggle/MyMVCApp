@@ -63,12 +63,23 @@ select:focus {
     border: 2px solid #555;
 }
 
-input[type=button], input[type=submit], input[type=reset] {
-    background-color:  #555;
+.pagesizebutton {
+    background-color: #ebeaea;
+    border: 2px solid #444;
+    border-radius: 10px;
+    padding: 4px 3px;
+    margin: 4px 2px;
+    cursor: pointer;
+    color: #555;
+ 
+}
+
+.walksubmit {
+    background-color: #555;
     border: 3px solid grey;
     border-radius: 10px;
     font-size: larger;
-    font-style: bold;
+    font-weight: 400;
     padding: 15px 10px;
     margin: 4px 2px;
     cursor: pointer;

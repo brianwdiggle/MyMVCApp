@@ -19,8 +19,22 @@
         <h3>Walks</h3>
         <p>@Html.ActionLink("Browse Walks", "WalksByDate", new { OrderBy = "DateAsc" })</p>
         <p>@Html.ActionLink("Progress", "Index", "Progress")</p>
+
+        <h3>Southern Uplands</h3>
+        <p>@Html.ActionLink("Southern Uplands", "WalkingAreasByCountry", new { strCountryCode = "SC", strAreaType = "D" })</p>
+        <p>&nbsp;</p>
     </td>
     <td class="aligntop">
+        <h3>Wainwright Areas</h3>
+        <p>@Html.ActionLink("Central Fells", "HillsByArea", "Walks", new { id = "NE04" }, null)</p>
+        <p>@Html.ActionLink("Eastern Fells", "HillsByArea", "Walks", new { id = "NE06" }, null)</p>
+        <p>@Html.ActionLink("Far Eastern Fells", "HillsByArea", "Walks", new { id = "NE07" }, null)</p>
+        <p>@Html.ActionLink("Southern Fells", "HillsByArea", "Walks", new { id = "NE05" }, null)</p>
+        <p>@Html.ActionLink("Western Fells", "HillsByArea", "Walks", new { id = "NE03" }, null)</p>
+        <p>@Html.ActionLink("North Western Fells", "HillsByArea", "Walks", new { id = "NE02" }, null)</p>
+        <p>@Html.ActionLink("Northern Fells", "HillsByArea", "Walks", new { id = "NE01" }, null)</p>
+        <p>&nbsp;</p>
+
         <h3>Hewitts</h3>
         <p>@Html.ActionLink("Nuttall Areas in England", "WalkingAreasByCountry", new { strCountryCode = "EN", strAreaType = "H" })</p>
         <p>@Html.ActionLink("Nuttall Areas in Wales", "WalkingAreasByCountry", new { strCountryCode = "WA", strAreaType = "H" })</p>
@@ -32,13 +46,9 @@
         <p>@Html.ActionLink("Administrative in Scotland", "WalkingAreasByCountry", new { strCountryCode = "SC", strAreaType = "A" })</p>
         <p>&nbsp;</p>
 
-        <h3>Southern Uplands</h3>
-        <p>@Html.ActionLink("Southern Uplands", "WalkingAreasByCountry", new { strCountryCode = "SC", strAreaType = "D" })</p>
-        <p>&nbsp;</p>
+ 
 
-        <h3><em>All Hills</em></h3>
-        <p>@Html.ActionLink("All Hills", "HillsInClassification", "Walks", new { id = string.Empty }, new { dummy = 0 })</p>
-
+  
     </td>
     <td class="aligntop">
         <h3>Munros Areas</h3>

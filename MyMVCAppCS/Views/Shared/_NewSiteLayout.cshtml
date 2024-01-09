@@ -26,7 +26,7 @@
         <div class="navbarcontainer">
             <ul class="navbarlist">
                 <li class="left">
-                    <a class="gold" href="#home">Brian's Walking Site</a>
+                    @Html.ActionLink("Brian's Walking Site", "Index", "Walks", null, new { @class = "color: gold" })
                     @if (SessionSingleton.Current.DataTierTarget.Equals(WalkingConstants.LIVE_DB_TIER))
                     {
                         <sup>@Html.ActionLink("LIVE", "Index", "Config")</sup>
@@ -58,7 +58,7 @@
         <div class="navbarcontainer">
             <ul class="navbarlist">
                 <li class="left">
-                    <a class="gold" href="#home">Brian's Walking Site</a>
+                    @Html.ActionLink("Brian's Walking Site", "Index", "Walks", null, new { @class = "color: gold" })
                     @if (SessionSingleton.Current.DataTierTarget.Equals(WalkingConstants.LIVE_DB_TIER))
                     {
                         <sup>@Html.ActionLink("LIVE", "Index", "Config")</sup>
