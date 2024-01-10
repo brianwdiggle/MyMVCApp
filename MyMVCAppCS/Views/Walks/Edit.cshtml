@@ -21,48 +21,48 @@
     {
       @Html.Hidden("previousUrl")
         @Html.ValidationSummary(true)
-        <fieldset>
+<fieldset>
 
-            <div>
-                @Html.LabelFor(walk => walk.WalkDate)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkDate, "{0:dd MMMM yyyy}", new { size = 40 })
-            </div>
-            &nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.WalkTitle)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkTitle, new { size = 80 })
-            </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkDate)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkDate, "{0:dd MMMM yyyy}", new { size = 40 })
+    </div>
+    &nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkTitle)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkTitle, new { size = 80 })
+    </div>&nbsp;
 
-            <!---Section: Walk Area-------------------------------------------------------------------------------->
-            <div>
-                @Html.LabelFor(walk => walk.WalkAreaName)
+    <!---Section: Walk Area-------------------------------------------------------------------------------->
+    <div>
+        @Html.LabelFor(walk => walk.WalkAreaName)
 
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkAreaName, new { size = 80 }) @Html.Hidden("WalkAreaID", Model.Area.Arearef)
-            </div>&nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.WalkSummary)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkSummary, new { size = 80 }) Auto: <input type="checkbox" name="summary_auto" id="summary_auto" checked />
-            </div>&nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.WalkConditions)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkConditions, new { size = 80 })
-            </div>&nbsp;
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkAreaName, new { size = 80 }) @Html.Hidden("WalkAreaID", Model.Area.Arearef)
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkSummary)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkSummary, new { size = 80 }) Auto: <input type="checkbox" name="summary_auto" id="summary_auto" checked />
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkConditions)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkConditions, new { size = 80 })
+    </div>&nbsp;
 
 
-            @*---Section: Summits Visited-----------------------------------------------------------------------------------------> *@
-            
+    @*---Section: Summits Visited-----------------------------------------------------------------------------------------> *@
 
-            <div><strong>@Html.Label("Summits Visited")</strong></div>
+
+    <div><strong>@Html.Label("Summits Visited")</strong></div>
 
     @for (int iHillAscentsCounter = 1; iHillAscentsCounter <= Model.HillAscents.Count; iHillAscentsCounter++)
     {
@@ -79,60 +79,62 @@
         </div>
     }
 
-          <!-- Section: Markers Created---------------------------------------------------------------------------------------------------->
+    <!-- Section: Markers Created---------------------------------------------------------------------------------------------------->
 
-            @{
-                var oWalkMarkersAlreadyCreated = (List<Marker>)ViewData["WalkMarkersAlreadyCreated"];
-                if (oWalkMarkersAlreadyCreated.Count > 0)
-                {
-                    @:&nbsp;
-                    <div><strong>Markers created for this walk</strong></div>
-                    <div class="editor-field">
-                        <table class="markercreated">
-                            <tr>
-                                <th>Name</th>
-                                <th>GPS Reference</th>
-                                <th>Description</th>
-                            </tr>
-                            @foreach (Marker oWalkMarker in oWalkMarkersAlreadyCreated)
-                            {
-                                <tr>
-                                    <td>@oWalkMarker.MarkerTitle</td>
-                                    <td>@oWalkMarker.GPS_Reference</td>
-                                    <td>@oWalkMarker.Location_Description.Replace(Environment.NewLine, "<br />")</td>
-                                </tr>
-                            }
-                        </table>
-                    </div>
-                }
-            }
-            
-
-            @*--- Section: Create New Marker -----------------------------------------------------------------------------------------> *@
-
-            &nbsp;<div class="editor-field" id="WalkMarkers">
-                      <button id="CreateMarkerButton" type="button">Create New Marker</button><input type="hidden" id="markers_added" name="markers_added" value=""/>
-                  </div>  &nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.WalkDescription)
-            </div>
+    @{
+        var oWalkMarkersAlreadyCreated = (List<Marker>)ViewData["WalkMarkersAlreadyCreated"];
+        if (oWalkMarkersAlreadyCreated.Count > 0)
+        {
+            @:&nbsp;
+            <div><strong>Markers created for this walk</strong></div>
             <div class="editor-field">
-                @Html.TextAreaFor(walk => walk.WalkDescription, 8, 100, null)
-            </div>&nbsp;
-            
-            @*<!--- Section: New Images ------------------------------------------------------------------------------------------------->*@
- 
-
-            <div>
-                <strong>New Images</strong>
-                <label for="images_path">Relative path from images directory and name prefix of images ending in _</label>E.g. <pre>lakes\212\BlackFell_22April2003_</pre>
+                <table class="markercreated">
+                    <tr>
+                        <th>Name</th>
+                        <th>GPS Reference</th>
+                        <th>Description</th>
+                    </tr>
+                    @foreach (Marker oWalkMarker in oWalkMarkersAlreadyCreated)
+                    {
+                        <tr>
+                            <td>@oWalkMarker.MarkerTitle</td>
+                            <td>@oWalkMarker.GPS_Reference</td>
+                            <td>@oWalkMarker.Location_Description.Replace(Environment.NewLine, "<br />")</td>
+                        </tr>
+                    }
+                </table>
             </div>
-            <div class="editor-field">
-                <input type="text" name="images_path" id="images_path" size="80" maxlength="160"  value="" />
-                <input type="button" name="getimages" id="getimages" value="Get images" />
-            </div>   &nbsp;
+        }
+    }
 
-            @*--- Section: Existing Images --------------------------------------------------------------------------------------------->*@
+
+    @*--- Section: Create New Marker -----------------------------------------------------------------------------------------> *@
+
+    &nbsp;<div class="editor-field" id="WalkMarkers">
+        <button id="CreateMarkerButton" type="button">Create New Marker</button><input type="hidden" id="markers_added" name="markers_added" value="" />
+    </div>  &nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkDescription)
+    </div>
+    <div class="editor-field">
+        @Html.TextAreaFor(walk => walk.WalkDescription, 8, 100, null)
+    </div>&nbsp;
+
+    @*<!--- Section: New Images ------------------------------------------------------------------------------------------------->*@
+
+
+    <div>
+        <strong>New Images</strong>
+        <label for="images_path">Relative path from images directory and name prefix of images ending in _</label>E.g. <pre>lakes\212\BlackFell_22April2003_</pre>
+    </div>
+    <div class="editor-field">
+        <input type="text" name="images_path" id="images_path" size="80" maxlength="160" value="" />
+        <input type="button" name="getimages" id="getimages" value="Get images" class="pagesizebutton" />
+    </div>   &nbsp;
+
+    <div class="editor-field" id="walkimages"></div>&nbsp;
+
+    @*--- Section: Existing Images --------------------------------------------------------------------------------------------->*@
 
     <div class="editor-field">
         @{
@@ -148,33 +150,33 @@
 
                 <div class="editwalkdetailsimage">
                     <div><img src="~/@oWalkImage.Walk_AssociatedFile_Name" class="walkimage" alt="existing image" /></div>
-                Delete? <input type="checkbox" id="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" /><br />
-                <input type="text" name="existingimagecaption@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_Caption" size="100" />
-                <input type="hidden" name="existingimagename@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_Name" />
-                &nbsp;
+                    Delete? <input type="checkbox" id="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="deletexistingimage@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" /><br />
+                    <input type="text" name="existingimagecaption@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_Caption" size="100" />
+                    <input type="hidden" name="existingimagename@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_Name" />
+                    &nbsp;
 
-                Marker?
-                @if (oWalkImage.Walk_AssociatedFile_MarkerID != null)
-                {
-                    <input type="checkbox" id="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" checked class="imageismarker" />
-                }
-                else
-                {
-                    <input type="checkbox" id="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" class="imageismarker" />
-                }
-                <span id="existingimagemarkerdetails@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" class="existingimagemarkerdetails">
+                    Marker?
+                    @if (oWalkImage.Walk_AssociatedFile_MarkerID != null)
+                    {
+                        <input type="checkbox" id="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" checked class="imageismarker" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" id="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimageismarker@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" class="imageismarker" />
+                    }
+                    <span id="existingimagemarkerdetails@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" class="existingimagemarkerdetails">
 
-                    <br />Marker name:
-                    <input type="text" size="50" name="existingimagemarkername@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" id="existingimagemarkername@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@WalkingStick.FormatMarkerAsLine(oWalkImage.Marker)" class="markersuggestions" />
-                    Not Found? <input type="checkbox" id="existingimagemarkernotfound@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimagemarkernotfound@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" />
-                    <input type="hidden" id="existingimagemarkerid@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimagemarkerid@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_MarkerID.ToString()" />
-                </span>
-              
-                <br />
-           
-                 </div>
+                        <br />Marker name:
+                        <input type="text" size="50" name="existingimagemarkername@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" id="existingimagemarkername@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@WalkingStick.FormatMarkerAsLine(oWalkImage.Marker)" class="markersuggestions" />
+                        Not Found? <input type="checkbox" id="existingimagemarkernotfound@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimagemarkernotfound@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" />
+                        <input type="hidden" id="existingimagemarkerid@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" name="existingimagemarkerid@(iExistingImageCount.ToString(Thread.CurrentThread.CurrentCulture))" value="@oWalkImage.Walk_AssociatedFile_MarkerID.ToString()" />
+                    </span>
+
+                    <br />
+
+                </div>
                 iExistingImageCount = iExistingImageCount + 1;
-                    
+
             }
 
             <input id="numexistingimages" type="hidden" name="numexistingimages" value="@(iExistingImageCount - 1)" />
@@ -222,69 +224,69 @@
 
     @*<!--- Section: Other walk statistics--------------------------------------------------------------------------------->*@
 
-            <div>
-                @Html.LabelFor(walk => walk.WalkStartPoint)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkStartPoint, new { size = 80, maxlength = 100 })
-            </div>&nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.WalkEndPoint)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkEndPoint, new { size = 80, maxlength = 100 })
-            </div>  &nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.WalkCompanions)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkCompanions, new { size = 50, maxlength = 50 })
-            </div>  &nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.WalkType)
-            </div>
-            <div class="editor-field">
-                @Html.DropDownList("WalkTypes")
-            </div>&nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.CartographicLength)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.CartographicLength)
-            </div>&nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.MetresOfAscent)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.MetresOfAscent)
-            </div>&nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.WalkTotalTime)
-            </div>
-            
-            <div class="editor-field">
-                Hours: <input type="text" name="total_time_hours" size="3" maxlength="3" value="@ViewBag.WalkHours" id="total_time_hours"/>
-                Mins:<input type="text" name="total_time_mins" size="3" maxlength="2" value="@ViewBag.WalkMinutes" id="total_time_mins"/>
-            </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkStartPoint)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkStartPoint, new { size = 80, maxlength = 100 })
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkEndPoint)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkEndPoint, new { size = 80, maxlength = 100 })
+    </div>  &nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkCompanions)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkCompanions, new { size = 50, maxlength = 50 })
+    </div>  &nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkType)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownList("WalkTypes")
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.CartographicLength)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.CartographicLength)
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.MetresOfAscent)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.MetresOfAscent)
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkTotalTime)
+    </div>
 
-            <div>
-                @Html.LabelFor(walk => walk.WalkAverageSpeedKmh)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.WalkAverageSpeedKmh)
-            </div>&nbsp;
-            <div>
-                @Html.LabelFor(walk => walk.MovingAverageKmh)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(walk => walk.MovingAverageKmh)
-            </div>
-            <div id="walksubmit">
-                <br />
-                <input type="button" id="submitwalkbutton" value=" Update Walk " />
-            </div>
-   
-        </fieldset>
+    <div class="editor-field">
+        Hours: <input type="text" name="total_time_hours" size="3" maxlength="3" value="@ViewBag.WalkHours" id="total_time_hours" />
+        Mins:<input type="text" name="total_time_mins" size="3" maxlength="2" value="@ViewBag.WalkMinutes" id="total_time_mins" />
+    </div>&nbsp;
+
+    <div>
+        @Html.LabelFor(walk => walk.WalkAverageSpeedKmh)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.WalkAverageSpeedKmh)
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.MovingAverageKmh)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(walk => walk.MovingAverageKmh)
+    </div>
+    <div id="walksubmit">
+        <br />
+        <input type="button" id="submitwalkbutton" value=" Update Walk " />
+    </div>
+
+</fieldset>
 
     }
   

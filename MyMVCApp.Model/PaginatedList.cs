@@ -43,8 +43,6 @@ namespace MyMVCAppCS.Models
 
         }
 
-
-
         public PaginatedList(IQueryable<T> source, int iPageIndex, int iPageSize)
         {
             //-----Set the private variables which as exposed publically as properties-----------

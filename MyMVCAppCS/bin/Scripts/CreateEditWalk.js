@@ -221,10 +221,10 @@ $(document).ready(function () {
 
             for (var iImageCount = 1; iImageCount <= oResults.imagesfound; iImageCount = iImageCount + 1) {
 
-                $("#walkimages").append('<br/><b>Image ' + iImageCount + '</b><br/><input type="text" id="imagecaption' + iImageCount + '" name="imagecaption' + iImageCount + '" size="100" />&nbsp;Marker? <input type="checkbox" class="imageismarker" id="imageismarker' + iImageCount + '" name="imageismarker' + iImageCount + '"/>');
+                $("#walkimages").append('<b>Image ' + iImageCount + '</b><br/><input type="text" id="imagecaption' + iImageCount + '" name="imagecaption' + iImageCount + '" size="100">' + 'Marker? <input type="checkbox" class="imageismarker" id="imageismarker' + iImageCount + '" name="imageismarker' + iImageCount + '">');
 
                 if (oResults.atwork == "True") {
-                    $("#walkimages").append("&nbsp;" + oResults.filenameprefix + iImageCount + '.jpg</br>');
+                    $("#walkimages").append(oResults.filenameprefix + iImageCount + '.jpg<br/>');
                 } else {
                     $("#walkimages").append('<br/><img src="' + oResults.path + iImageCount + '.jpg" border="1" />');
                 }
@@ -234,7 +234,7 @@ $(document).ready(function () {
                 var markermarkup = '<span id="imagemarkerdetails' + iImageCount + '">' +
                     '<br/>Marker name: ' + '<input type="text" size="50" name="imagemarkername' + iImageCount + '" id="imagemarkername' + iImageCount + '" class="markersuggestions" />' +
                     '<input type="hidden" id="imagemarkerid' + iImageCount + '" name="imagemarkerid' + iImageCount + '" />' +
-                    'Not Found? <input type="checkbox" id="imagemarkernotfound' + iImageCount + '" name="imagemarkernotfound' + iImageCount + '" /></span>';
+                    'Not Found? <input type="checkbox" id="imagemarkernotfound' + iImageCount + '" name="imagemarkernotfound' + iImageCount + '" /></span></div>';
 
                 $("#walkimages").append(markermarkup);
                 $("#imagemarkerdetails" + iImageCount).hide();

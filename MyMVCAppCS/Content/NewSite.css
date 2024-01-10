@@ -74,6 +74,12 @@ select:focus {
  
 }
 
+.progressbar {
+    margin: 0px 0px;
+    padding: 0px 0px;
+    line-height:0;
+}
+
 .walksubmit {
     background-color: #555;
     border: 3px solid grey;
