@@ -72,7 +72,7 @@ let climbedmapmarkeroptions = {
 };
 
 let bluemapmarkeroptions = {
-    zIndexOffset: 400
+    zIndexOffset: 1600
    // icon: bluemarkericon
 };
 
@@ -86,7 +86,7 @@ const unclimbedsummiticon = L.icon({
 });
 
 let unclimbedmapmarkeroptions = {
-    zIndexOffset: 1000,
+    zIndexOffset: 500,
     icon: unclimbedsummiticon
 };
 

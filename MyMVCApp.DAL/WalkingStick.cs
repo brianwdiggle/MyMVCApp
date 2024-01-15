@@ -872,11 +872,18 @@
             return strPopupText;
         }
 
-        public static string MarkerObservationPopup(Marker_Observation oMO)
+        public static string MarkerObservationPopup(Marker_Observation oMO, bool bGridRef6)
         {
             string strPopupText = "";
 
-            strPopupText = "<a href=\"/Marker/Details/"  + oMO.MarkerID.ToString() + "\">" + oMO.Marker.MarkerTitle + "</a>" + " " + oMO.ObservationText.ToLower();
+            if (!bGridRef6)
+            {
+                strPopupText = "<a href=\"/Marker/Details/" + oMO.MarkerID.ToString() + "\">" + oMO.Marker.MarkerTitle + "</a>" + " " + oMO.ObservationText.ToLower();
+            }else { 
+                strPopupText = "<a href=\"/Marker/Details/" + oMO.MarkerID.ToString() + "\">" + oMO.Marker.MarkerTitle + "</a>" + " " + oMO.ObservationText.ToLower() + ".<br/>Location is 6 digit estimate from hill.";
+            }
+
+   
 
             return strPopupText;
         }
@@ -885,7 +892,16 @@
         {
             string strPopupText = "";
             
-            strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>Placed: " + oMarker.DateLeft.ToString("dd MMM yyyy") + "</br>" + oMarker.Location_Description;
+            if (oMarker.GPS_Reference == null )
+            {
+                strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>Placed: " + oMarker.DateLeft.ToString("dd MMM yyyy") + "</br>" + oMarker.Location_Description;
+            }else if (oMarker.Hill != null && oMarker.Hill.Gridref10 !=null)
+            {
+                strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>Placed: " + oMarker.DateLeft.ToString("dd MMM yyyy") + "</br>" + oMarker.Location_Description + ".<br/>Location taken from Hill";
+            }else if (oMarker.Hill != null && oMarker.Hill.Gridref != null)
+            {
+                strPopupText = "<a href=\"/Marker/Details/" + oMarker.MarkerID.ToString() + "\">" + oMarker.MarkerTitle + "</a>" + "<br/>Placed: " + oMarker.DateLeft.ToString("dd MMM yyyy") + "</br>" + oMarker.Location_Description + ".<br/>Location taken from Hill 6 digit estimate.";
+            }
 
             return strPopupText;
         }

@@ -1,5 +1,294 @@
-﻿
-@{ViewBag.Title = "Hill Search"; }
+﻿@using System.Threading
+@using MyMVCApp.DAL
+@using Newtonsoft.Json
+@model MyMVCAppCS.ViewModels.HillSearchViewModel
+
+@{ViewBag.Title = "Search walking database for Hills"; }
+
+@section ViewSpecificHead
+{
+    <script src="../../Scripts/MicrosoftAjax.js" type="text/javascript"></script>
+    <script src="../../Scripts/MicrosoftMvcValidation.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-2.1.1.js"></script>
+}
 
 <h2>Hill Search</h2>
+
+@if (Model.HillResultsAvailable)
+{
+    @Html.Raw(Model.SearchSummary)
+    <p><strong> @(Model.HillsFound.Count().ToString(Thread.CurrentThread.CurrentCulture)) found </strong></p>
+
+    <div class="spacerdiv"></div>
+    <div id="hillmap"></div>
+    <div class="spacerdiv"></div>
+
+<table class="walksbydate">
+    <tr class="heightcell">
+        <th>No.</th>
+        <th>
+            @if (ViewData["OrderBy"].Equals("Name"))
+            {
+                <strong>
+                    @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                    {
+                        @Html.ActionLink("Name <Asc>", "HillsInClassification", new { OrderBy = "NameDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" }) }
+                    else
+                    {
+                        @Html.ActionLink("Name <Desc>", "HillsInClassification", new { OrderBy = "NameAsc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
+                </strong> }
+            else
+            {
+                @Html.ActionLink("Name", "HillsInClassification", new { OrderBy = "NameDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
+        </th>
+        <th>Classes</th>
+        <th>
+            @if (ViewData["OrderBy"].Equals("Metres"))
+            {
+                <strong>
+                    @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                    {
+                        @Html.ActionLink("Metres <Asc>", "HillsInClassification", new { OrderBy = "MetresDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" }) }
+                    else
+                    {
+                        @Html.ActionLink("Metres <Desc>", "HillsInClassification", new { OrderBy = "MetresAsc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
+                </strong> }
+            else
+            {
+                @Html.ActionLink("Metres", "HillsInClassification", new { OrderBy = "MetresDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
+        </th>
+        <th>Feet</th>
+        <th>Gridref</th>
+        <th>
+            @if (ViewData["OrderBy"].Equals("FirstAscent"))
+            {
+                <strong>
+                    @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                    {
+                        @Html.ActionLink("Date Climbed <Asc>", "HillsInClassification", new { OrderBy = "FirstAscentDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" }) }
+                    else
+                    {
+                        @Html.ActionLink("Date Climbed <Desc>", "HillsInClassification", new { OrderBy = "FirstAscentAsc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
+                </strong> }
+            else
+            {
+                @Html.ActionLink("Date Climbed", "HillsInClassification", new { OrderBy = "FirstAscentDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
+        </th>
+        <th>
+            @if (ViewData["OrderBy"].Equals("NumberAscent"))
+            {
+                <strong>
+                    @if (ViewData["OrderAscDesc"].Equals("Asc"))
+                    {
+                        @Html.ActionLink("Ascents <Asc>", "HillsInClassification", new { OrderBy = "NumberAscentDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" }) }
+                    else
+                    {
+                        @Html.ActionLink("Ascents <Desc>", "HillsInClassification", new { OrderBy = "NumberAscentAsc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
+                </strong> }
+            else
+            {
+                @Html.ActionLink("Ascents", "HillsInClassification", new { OrderBy = "NumberAscentDesc", requestPageSize = ViewData["pagesize"] }, new { @class = "gold" })}
+        </th>
+    </tr>
+
+    @{ int iResultCounter = 0;
+        foreach (Hill oHill in Model.HillsFound)
+        {
+            iResultCounter++;
+
+                <tr>
+                    <td>@iResultCounter.ToString(Thread.CurrentThread.CurrentCulture) </td>
+                    <td>@Html.ActionLink(oHill.Hillname, "HillDetails", "Walks", new { id = oHill.Hillnumber }, new { dummy = 1 })</td>
+                    <td>@oHill.Classification</td>
+                    <td>@oHill.Feet</td>
+                    <td>@oHill.FirstClimbedDate</td>
+                    <td>@oHill.NumberOfAscents</td>
+                </tr>
+        } }
+</table>
+}
+
+<div class="spacerdiv"></div>
+<div><strong>Modify your search:</strong></div>
+<div class="spacerdiv"></div>
+
+@using (Html.BeginForm())
+{
+
+    @Html.ValidationSummary(true)
+
+
+<table class="walksbydate">
+    <tr>
+        <td class="header">Hill Name</td>
+        <td>
+            @Html.TextBoxFor(m => m.SearchHillName, new { style = "width:300px" })
+            @Html.ValidationMessageFor(m => m.SearchHillName) use AND for multiple terms
+        </td>
+    </tr>
+
+
+    <tr>
+        <td class="header">Class</td>
+        <td>
+            @Html.DropDownListFor(m => m.HillClass, Model.HillClassList)
+
+        </td>
+    </tr>
+    <tr>
+        <td class="header">Area</td>
+        <td>
+            @Html.DropDownListFor(m => m.HillArea, Model.HillAreaList)
+        </td>
+    </tr>
+    <tr>
+        <td class="header">Class</td>
+        <td>
+            @Html.DropDownListFor(m => m.HillClass, Model.HillClassList)
+        </td>
+    </tr>
+    <tr>
+        <td class="header">First climbed from</td>
+        <td>
+            @Html.TextBoxFor(m => m.FirstClimbedDateFromDay, new { style = "width:50px" })
+            @Html.DropDownListFor(m => m.FirstClimbedDateFromMonth, Model.FirstClimbedDateFromMonthList)
+            @Html.TextBoxFor(m => m.FirstClimbedDateFromYear, new { style = "width:50px" })<br />
+        </td>
+    </tr>
+    <tr>
+        <td class="header">First climbed to</td>
+        <td>
+            @Html.TextBoxFor(m => m.FirstClimbedDateToDay, new { style = "width:50px" })
+            @Html.DropDownListFor(m => m.FirstClimbedDateToMonth, Model.FirstClimbedDateToMonthList)
+            @Html.TextBoxFor(m => m.FirstClimbedDateToYear, new { style = "width:50px" })
+        </td>
+    </tr>
+    <tr>
+        <td class="header">Number of ascents</td>
+        <td>
+            @Html.DropDownListFor(m => m.NumberOfAscentsGtLtEq, Model.NumberOfAscentsGtLtEqList)
+            @Html.TextBoxFor(m => m.NumberOfAscents, new { style = "width:50px" })<br />
+
+        </td>
+    </tr>
+    <tr>
+        <td class="header">Show</td>
+        <td>
+            @Html.RadioButtonFor(x => x.ShowOption, Model.ShowRadioGroup);
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td>
+            <input type="submit" value="Search for Matching Hills" />
+        </td>
+    </tr>
+</table>
+}
+
+        <script>
+
+    var mineasting = 9999999;
+    var maxeasting = -9999999;
+    var minnorthing = 9999999;
+    var maxnorthing = -9999999;
+
+    //If there are any markers with GPS locations in the current page add them as markers to the map--------
+    var markerdata =  @(Html.Raw(JsonConvert.SerializeObject(ViewData["MarkerMarkers"])));
+
+    var markercoords = new Array(markerdata.length);
+    var markerpopups = new Array(markerdata.length);
+
+    for (let i = 0; i < markerdata.length; i++)
+    {
+        const epsg27000 = os.Transform.fromGridRef(markerdata[i].OSMap10);
+
+        if (epsg27000.ea > maxeasting) {
+            maxeasting = epsg27000.ea;
+        }
+
+        if (epsg27000.ea < mineasting) {
+            mineasting = epsg27000.ea;
+        }
+
+        if (epsg27000.no > maxnorthing) {
+            maxnorthing = epsg27000.no;
+        }
+
+        if (epsg27000.no < minnorthing) {
+            minnorthing = epsg27000.no;
+        }
+
+        markercoords[i] = [epsg27000.ea, epsg27000.no];
+        markerpopups[i] = markerdata[i].popupText;
+    }
+
+    // Initialize the lealfet map.
+    const map = L.map('hillmap', mapOptions);
+
+    function getAll_Click() {
+        getAllMarkersInBounds()
+    }
+
+    // This function will call the specific "get all" function in LeafletHelper to add all hills to the map
+    function getAllHills_Click() {
+        getAllHillsInMapBounds();
+    }
+
+    if (markerdata != null) {
+
+
+        // Add the "get all" icon to the map
+        L.Control.Button = L.Control.extend({
+            options: {
+                position: 'topleft'
+            },
+            onAdd: function (map) {
+                var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+                var button = L.DomUtil.create('a', 'leaflet-control-button', container);
+                button.innerHTML = '<img class="customClass" src="/Content/images/all-markers-icon.png">'
+                L.DomEvent.disableClickPropagation(button);
+                L.DomEvent.on(button, 'click', getAll_Click);
+
+                container.title = "Get all markers in map bounds";
+
+                return container;
+            },
+            onRemove: function (map) { },
+        });
+
+        var control = new L.Control.Button()
+        control.addTo(map);
+
+        // Add the "get all in class" icon to the map
+        L.Control.Button = L.Control.extend({
+            options: {
+                position: 'topleft'
+            },
+            onAdd: function (map) {
+                var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+                var button = L.DomUtil.create('a', 'leaflet-control-button', container);
+                button.innerHTML = '<img class="customClass" src="/Content/images/all-hills-icon.png">'
+                L.DomEvent.disableClickPropagation(button);
+                L.DomEvent.on(button, 'click', getAllHills_Click);
+
+                container.title = "Get all hills in map bounds";
+
+                return container;
+            },
+            onRemove: function (map) { },
+        });
+
+        var control2 = new L.Control.Button();
+        control2.addTo(map);
+
+        addMarkerMarkersToMap();
+
+    }
+
+    // Finally load and display ZXY tile layer on the map.
+    const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
+
+        </script>
 

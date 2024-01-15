@@ -35,8 +35,9 @@ namespace MyMVCApp.DAL
         void DeleteWalk(Walk walk);
         IQueryable<Walk> SearchForWalks(string searchTerms);
 
-        //-----Hill related methods-------------
+        int DeleteAssociateFilesForWalk(int iWalkID);
 
+        //-----Hill related methods-------------
         IQueryable<Hill> FindAllHills();
         IQueryable<Hill> FindHillsByArea(string strAreaRef);
         Hill GetHillDetails(int id);
@@ -52,12 +53,13 @@ namespace MyMVCApp.DAL
         IQueryable<HillAscent> GetHillAscents(int iHillId);
         int GetNumberOfHillAscentsByHillID(int iHillID);
         int DeleteHillAscentsForWalk(int iWalkID);
-        int DeleteAssociateFilesForWalk(int iWalkID);
+    
         IQueryable<HillAscent> GetAllHillAscents();
-
         IEnumerable<Hill> GetAllHillsWithLocation();
 
         IEnumerable<Hill> GetAllHillsWithinBounds(EastingNorthing swPoint, EastingNorthing nePoint);
+
+        IEnumerable<Hill> HillSearch(System.Collections.Specialized.NameValueCollection oSearchForm);
 
         //------Hill Classifications------------------------
         IQueryable<Class> GetAllHillClassifications();

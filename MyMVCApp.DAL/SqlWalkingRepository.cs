@@ -911,5 +911,19 @@
             return mp.ToList();
         }
 
+        /// <summary>
+        /// Give the submitted hill search form, construct a sql query to execute directly
+        /// against the database. Avoiding link-to-sql where large collections are being manipulated 
+        /// in memory.
+        /// </summary>
+        /// <param name="oSearchForm"></param>
+        /// <returns>hills found</returns>
+        public IEnumerable<Hill> HillSearch(NameValueCollection oSearchForm)
+        {
+            IEnumerable<Hill> hillsFound = new List<Hill>();
+
+            return hillsFound;
+        }
+
     }
 }

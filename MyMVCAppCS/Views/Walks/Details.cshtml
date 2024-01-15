@@ -411,6 +411,65 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
         map.fitBounds(polyline.getBounds());
     }
 
+    // add the marker markers to the map.
+    if (markerdata != null && markerdata.length > 0) {
+
+        var mineasting = 9999999;
+        var maxeasting = -9999999;
+        var minnorthing = 9999999;
+        var maxnorthing = -9999999;
+
+        let markeroptions = {
+            zIndexOffset: 300
+        };
+
+        for (let i = 0; i < markerdata.length; i++) {
+
+            var thislat = markercoords[i][0];
+            var thislong = markercoords[i][1];
+            const popText = markerpopups[i];
+            const popupOptions = {
+                className: "markerPopup"
+            }
+
+            const epsg27000 = os.Transform.fromGridRef(markerdata[i].OSMap10);
+
+            if (epsg27000.ea > maxeasting) {
+                maxeasting = epsg27000.ea;
+            }
+
+            if (epsg27000.ea < mineasting) {
+                mineasting = epsg27000.ea;
+            }
+
+            if (epsg27000.no > maxnorthing) {
+                maxnorthing = epsg27000.no;
+            }
+
+            if (epsg27000.no < minnorthing) {
+                minnorthing = epsg27000.no;
+            }
+
+            marker = new L.marker(transformCoords([thislat, thislong]), markeroptions)
+                .bindPopup(popText, popupOptions).
+                openPopup()
+                .addTo(map);
+        }
+
+        //----Set the bounds of the map so that all the markers are displayed
+
+        if (trackdata == null && routedata == null) {
+            console.log("setting map bounds for marker markers");
+            map.fitBounds(
+                [
+                    transformCoords([mineasting, minnorthing]),
+                    transformCoords([maxeasting, maxnorthing])
+                ]
+            );
+        }
+    }
+
+    //---add ascent markers to the map
     if (ascentdata != null && ascentdata.length>0) {
 
         var mineasting = 9999999;
@@ -471,63 +530,6 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
             );
         }
 
-    }
-
-    if (markerdata != null && markerdata.length>0) {
-
-        var mineasting = 9999999;
-        var maxeasting = -9999999;
-        var minnorthing = 9999999;
-        var maxnorthing = -9999999;
-
-        let markeroptions = {
-            zIndexOffset: 1000
-        };
-
-        for (let i = 0; i < markerdata.length; i++) {
-
-            var thislat = markercoords[i][0];
-            var thislong =markercoords[i][1];
-            const popText = markerpopups[i];
-            const popupOptions = {
-                className: "markerPopup"
-            }
-
-            const epsg27000 = os.Transform.fromGridRef(markerdata[i].OSMap10);
-
-            if (epsg27000.ea > maxeasting) {
-                maxeasting = epsg27000.ea;
-            }
-
-            if (epsg27000.ea < mineasting) {
-                mineasting = epsg27000.ea;
-            }
-
-            if (epsg27000.no > maxnorthing) {
-                maxnorthing = epsg27000.no;
-            }
-
-            if (epsg27000.no < minnorthing) {
-                minnorthing = epsg27000.no;
-            }
-
-            marker = new L.marker(transformCoords([thislat, thislong]), markeroptions)
-                .bindPopup(popText, popupOptions).
-                openPopup()
-                .addTo(map);
-        }
-
-        //----Set the bounds of the map so that all the markers are displayed
-
-        if (trackdata == null && routedata == null) {
-            console.log("setting map bounds for marker markers");
-            map.fitBounds(
-                [
-                    transformCoords([mineasting, minnorthing]),
-                    transformCoords([maxeasting, maxnorthing])
-                ]
-            );
-        }
     }
 
     // Finally load and display ZXY tile layer on the map.

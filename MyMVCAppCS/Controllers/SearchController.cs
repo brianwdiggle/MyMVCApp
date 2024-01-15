@@ -161,8 +161,57 @@ namespace MyMVCAppCS.Controllers
 
         public ActionResult HillSearch()
         {
-            return this.View();
+            var searchViewModel = new HillSearchViewModel();
+            return View(searchViewModel);
         }
+        [ValidateInput(false)]
+        [HttpPost]
+        public ActionResult HillSearch(HillSearchViewModel searchViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(searchViewModel);
+            }
+
+            searchViewModel.HillsFound = this.repository.HillSearch(Request.Form);
+
+            searchViewModel.SearchSummary = "This will be the search summary";
+            searchViewModel.HillResultsAvailable = true;
+
+            int iShowMap = 0;
+
+            ///----Prepare data about markers to be used on the map
+            List<MapMarker> lstHillMarkers = new List<MapMarker>();
+            foreach (Hill oHill in searchViewModel.HillsFound)
+            {
+                if (oHill.Gridref10.Trim() != "")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = oHill.Gridref10,
+                        popupText = WalkingStick.HillPopup(oHill)
+                    };
+                    lstHillMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+                else if (oHill != null && ( oHill.Gridref != ""))
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = WalkingStick.GridrefToGridRef10(oHill.Gridref),
+                        popupText = WalkingStick.HillPopup(oHill)
+                    };
+                    lstHillMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+            }
+
+            ViewData["ShowMap"] = iShowMap;
+            ViewData["MarkerMarkers"] = lstHillMarkers;
+
+            return this.View(searchViewModel);
+        }
+
 
         public ActionResult AscentSearch()
         {

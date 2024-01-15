@@ -571,7 +571,7 @@ namespace MyMVCAppCS.Controllers
        
             }
 
-            ///----Prepare data about markers associated the walk
+            ///----Prepare data about marker markers associated the walk
             List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
             foreach(Marker_Observation oMO in oWalk.Marker_Observations)
             {
@@ -580,7 +580,26 @@ namespace MyMVCAppCS.Controllers
                     MapMarker oMM = new MapMarker
                     {
                         OSMap10= oMO.Marker.GPS_Reference,
-                        popupText = WalkingStick.MarkerObservationPopup(oMO)
+                        popupText = WalkingStick.MarkerObservationPopup(oMO, false)
+                    };
+                    lstMarkerMarkers.Add(oMM);
+                    iShowMap = 1;
+                }else if (oMO.Marker.Hill !=null && oMO.Marker.Hill.Gridref10!=null && oMO.Marker.Hill.Gridref10.Trim() !="")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = oMO.Marker.Hill.Gridref10,
+                        popupText = WalkingStick.MarkerObservationPopup(oMO, false)
+                    };
+                    lstMarkerMarkers.Add(oMM);
+                    iShowMap = 1;
+                }
+                else if (oMO.Marker.Hill != null && oMO.Marker.Hill.Gridref != null && oMO.Marker.Hill.Gridref.Trim() != "")
+                {
+                    MapMarker oMM = new MapMarker
+                    {
+                        OSMap10 = WalkingStick.GridrefToGridRef10(oMO.Marker.Hill.Gridref),
+                        popupText = WalkingStick.MarkerObservationPopup(oMO, true)
                     };
                     lstMarkerMarkers.Add(oMM);
                     iShowMap = 1;
@@ -949,22 +968,21 @@ namespace MyMVCAppCS.Controllers
             return Json(oResults, JsonRequestBehavior.AllowGet);
         }
 
-
+        /// <summary>
+        /// Used to populate hill name suggestion text boxes. 
+        /// Querying by area ID has been removed as tumps and synges are in "Tump by Topo area" areas - not marylyn areas.
+        /// </summary>
+        /// <param name="term"></param>
+        /// <param name="areaid"></param>
+        /// <returns></returns>
         public JsonResult HillSuggestions(string term, string areaid="")
         {
             var hillsuggestions = new List<AutocompleteSuggestionOption>();
 
             IQueryable<Hill> IQHillsAboveHeight;
 
-            if (areaid.Equals("") && areaid.Length <2)
-            {
-                IQHillsAboveHeight = this.repository.FindHillsByNameLike(term);
-            }
-            else
-            {
-                IQHillsAboveHeight = this.repository.FindHillsInAreaByNameLike(term, areaid);
-            }
-
+            IQHillsAboveHeight = this.repository.FindHillsByNameLike(term);
+           
             foreach (Hill item in IQHillsAboveHeight)
             {
                 var optionlabel = WalkingStick.FormatHillSummaryAsLine(item);
