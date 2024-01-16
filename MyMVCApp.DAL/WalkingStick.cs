@@ -109,16 +109,16 @@
             {
                 if ((!string.IsNullOrEmpty(oHill.Gridref)) && (oHill.Gridref.Length > 0)) 
                 {
-                    strLine = (strLine + oHill.Gridref);
+                    strLine += oHill.Gridref;
                 }
             }
             else 
             {
-                strLine = (strLine + oHill.Gridref10);
+                strLine += oHill.Gridref10;
             }
             if (!(oHill.Classification == null)) 
             {
-                strLine = (strLine + (", " + oHill.Classification.Replace(",", " ")));
+                strLine += (", " + oHill.Classification.Replace(",", " "));
             }
             return strLine;
         }
@@ -287,7 +287,7 @@
             try {
                 if ((oForm["total_time_mins"] != null && (oForm["total_time_mins"].Length > 0))) 
                 {
-                    iWalkTotalTime = (iWalkTotalTime + int.Parse(oForm["total_time_mins"]));
+                    iWalkTotalTime += int.Parse(oForm["total_time_mins"]);
                 }
             }
             catch (Exception) 
@@ -322,7 +322,7 @@
                         else {
                             oSB.Append((oForm[("VisitedSummit" + iCounter)]).Substring(0, iFirstLocation));
                         }
-                        iCounter = (iCounter + 1);
+                        iCounter++;
                     }
                     else {
                         bContinue = false;
@@ -387,8 +387,10 @@
             while (bContinue) {
                 if ((oForm[("VisitedSummit" + (iCounter + "HillID"))] != null && ((oForm[("VisitedSummit" + (iCounter + "HillID"))].Length > 0) 
                             && (oForm[("VisitedSummit" + iCounter)].Trim().Length > 0)))) {
-                    var oHillAscent = new HillAscent();
-                    oHillAscent.AscentDate = dAscentDate;
+                    var oHillAscent = new HillAscent
+                    {
+                        AscentDate = dAscentDate
+                    };
                     try {
                         oHillAscent.Hillnumber = Int16.Parse(oForm[("VisitedSummit" + iCounter + "HillID")]);
                         oHillAscent.WalkID = iWalkID;
@@ -397,7 +399,7 @@
                     catch (Exception) 
                     {
                     }
-                    iCounter = (iCounter + 1);
+                    iCounter++;
                 }
                 else {
                     bContinue = false;
@@ -426,18 +428,20 @@
             {
                 if ((oForm[("imagerelpath" + iCounter)] != null 
                             && (oForm[("imagerelpath" + iCounter)]).Length > 0)) {
-                    var oHillAssociateFile = new Walk_AssociatedFile();
-                    oHillAssociateFile.WalkID = iWalkID;
-                    oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(oForm[("imagerelpath" + iCounter)], "Content/images/");
-                    oHillAssociateFile.Walk_AssociatedFile_Type = "Image";
-                    oHillAssociateFile.Walk_AssociatedFile_Caption = oForm[("imagecaption" + iCounter)];
-                    oHillAssociateFile.Walk_AssociatedFile_Sequence = (short)(iCounter);
+                    var oHillAssociateFile = new Walk_AssociatedFile
+                    {
+                        WalkID = iWalkID,
+                        Walk_AssociatedFile_Name = CleanUpAssociateFilePath(oForm[("imagerelpath" + iCounter)], "Content/images/"),
+                        Walk_AssociatedFile_Type = "Image",
+                        Walk_AssociatedFile_Caption = oForm[("imagecaption" + iCounter)],
+                        Walk_AssociatedFile_Sequence = (short)(iCounter)
+                    };
                     if ((oForm[("imageismarker" + iCounter)] != null 
                                 && (oForm[("imageismarker" + iCounter)].Length > 0))) {
                         oHillAssociateFile.Walk_AssociatedFile_MarkerID = Int32.Parse(oForm[("imagemarkerid" + iCounter)]);
                     }
                     collHillAssociatedFiles.Add(oHillAssociateFile);
-                    iCounter = (iCounter + 1);
+                    iCounter++;
                 }
                 else {
                     bContinue = false;
@@ -450,14 +454,16 @@
                 if ((oForm[("auxilliary_file" + iCounter)] != null 
                             && (oForm[("auxilliary_file" + iCounter)].Length > 0))) 
                 {
-                    Walk_AssociatedFile oHillAssociateFile = new Walk_AssociatedFile();
-                    oHillAssociateFile.WalkID = iWalkID;
-                    oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(oForm[("auxilliary_file" + iCounter)], "Content/images/");
-                    oHillAssociateFile.Walk_AssociatedFile_Type = oForm[("auxilliary_filetype" + iCounter)];
-                    oHillAssociateFile.Walk_AssociatedFile_Sequence = (short)(iCounter + iNumImages);
-                    oHillAssociateFile.Walk_AssociatedFile_Caption = oForm[("auxilliary_caption" + iCounter)];
+                    Walk_AssociatedFile oHillAssociateFile = new Walk_AssociatedFile
+                    {
+                        WalkID = iWalkID,
+                        Walk_AssociatedFile_Name = CleanUpAssociateFilePath(oForm[("auxilliary_file" + iCounter)], "Content/images/"),
+                        Walk_AssociatedFile_Type = oForm[("auxilliary_filetype" + iCounter)],
+                        Walk_AssociatedFile_Sequence = (short)(iCounter + iNumImages),
+                        Walk_AssociatedFile_Caption = oForm[("auxilliary_caption" + iCounter)]
+                    };
                     collHillAssociatedFiles.Add(oHillAssociateFile);
-                    iCounter = (iCounter + 1);
+                    iCounter++;
                 }
                 else {
                     bContinue = false;
@@ -530,12 +536,14 @@
                         iLocFileExtStart = filesindir[iCount].LastIndexOf(".");
                         string strImageFileExt = filesindir[iCount].Substring(iLocFileExtStart, 4);
 
-                        var oHillAssociateFile = new Walk_AssociatedFile();
-                        oHillAssociateFile.WalkID = iWalkID;
-                        oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + walkfiles_nameprefix + "_" + imageNumber.ToString() + strImageFileExt, "Content/images/");
-                        oHillAssociateFile.Walk_AssociatedFile_Type = "Image";
-                        oHillAssociateFile.Walk_AssociatedFile_Sequence = siFileSequenceCounter++;
-      
+                        var oHillAssociateFile = new Walk_AssociatedFile
+                        {
+                            WalkID = iWalkID,
+                            Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + walkfiles_nameprefix + "_" + imageNumber.ToString() + strImageFileExt, "Content/images/"),
+                            Walk_AssociatedFile_Type = "Image",
+                            Walk_AssociatedFile_Sequence = siFileSequenceCounter++
+                        };
+
                         collWalkAssociatedFiles.Add(oHillAssociateFile);
                         break;
                     }
@@ -556,9 +564,11 @@
                 string strDesc = "";
                 string strAuxFileType = "";
 
-                var oHillAssociateFile = new Walk_AssociatedFile();
-                oHillAssociateFile.WalkID = iWalkID;
-                oHillAssociateFile.Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + filesindir[iCount], "Content/images/");
+                var oHillAssociateFile = new Walk_AssociatedFile
+                {
+                    WalkID = iWalkID,
+                    Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + filesindir[iCount], "Content/images/")
+                };
                 strAuxFileType = DetermineAuxFileType(filesindir[iCount], walkfiles_nameprefix, ref strDesc);
 
                 if (strAuxFileType.Length>0)
@@ -582,7 +592,7 @@
         public static string DetermineAuxFileType(string filename, string name_prefix, ref string strDescription)
         {
             string strAuxFileType = "";
-            int iLoc = 0;
+     
             // create a string enum from the types in the database, if one does not exist.
 
             if (filename.Contains(name_prefix + "-Track"))
@@ -644,7 +654,7 @@
         public static string ExtractDescFromAuxFileName(string strAuxFilename, string strAuxFiletype)
         {
             int iLocStart = 0;
-            int iLocEnd = 0;
+            int iLocEnd;
             iLocStart = strAuxFilename.IndexOf(strAuxFiletype)+ strAuxFiletype.Length;
             iLocEnd = strAuxFilename.IndexOf(".", iLocStart);
 
@@ -701,17 +711,19 @@
                             && ((oForm[("existingimagename" + iExistingImagesCount)].Length > 0) 
                             && (oForm[("deletexistingimage" + iExistingImagesCount)] != "on")))) 
                 {
-                    Walk_AssociatedFile oHillAssociateFile = new Walk_AssociatedFile();
-                    oHillAssociateFile.WalkID = iWalkID;
-                    oHillAssociateFile.Walk_AssociatedFile_Name = oForm[("existingimagename" + iExistingImagesCount)];
-                    oHillAssociateFile.Walk_AssociatedFile_Type = "Image";
-                    oHillAssociateFile.Walk_AssociatedFile_Caption = oForm[("existingimagecaption" + iExistingImagesCount)];
-                    oHillAssociateFile.Walk_AssociatedFile_Sequence = (short)iSequenceCounter;
+                    Walk_AssociatedFile oHillAssociateFile = new Walk_AssociatedFile
+                    {
+                        WalkID = iWalkID,
+                        Walk_AssociatedFile_Name = oForm[("existingimagename" + iExistingImagesCount)],
+                        Walk_AssociatedFile_Type = "Image",
+                        Walk_AssociatedFile_Caption = oForm[("existingimagecaption" + iExistingImagesCount)],
+                        Walk_AssociatedFile_Sequence = (short)iSequenceCounter
+                    };
                     if ((oForm[("existingimageismarker" + iExistingImagesCount)] != null 
                                 && (oForm[("existingimageismarker" + iExistingImagesCount)].Length > 0))) {
                         oHillAssociateFile.Walk_AssociatedFile_MarkerID = int.Parse(oForm[("existingimagemarkerid" + iExistingImagesCount)]);
                     }
-                    iSequenceCounter = (iSequenceCounter + 1);
+                    iSequenceCounter++;
                     collHillAssociatedFiles.Add(oHillAssociateFile);
                 }
             }
@@ -722,13 +734,15 @@
                 if ((oForm[("existingauxfilename" + iCounter)] != null 
                             && ((oForm[("existingauxfilename" + iCounter)].Length > 0) 
                             && (oForm[("delexisting_auxilliary_file" + iCounter)] != "on")))) {
-                    var oHillAssociateFile = new Walk_AssociatedFile();
-                    oHillAssociateFile.WalkID = iWalkID;
-                    oHillAssociateFile.Walk_AssociatedFile_Name = oForm[("existingauxfilename" + iCounter)];
-                    oHillAssociateFile.Walk_AssociatedFile_Type = oForm[("existingauxfiletype" + iCounter)];
-                    oHillAssociateFile.Walk_AssociatedFile_Sequence = (short)(iCounter + iSequenceCounter);
+                    var oHillAssociateFile = new Walk_AssociatedFile
+                    {
+                        WalkID = iWalkID,
+                        Walk_AssociatedFile_Name = oForm[("existingauxfilename" + iCounter)],
+                        Walk_AssociatedFile_Type = oForm[("existingauxfiletype" + iCounter)],
+                        Walk_AssociatedFile_Sequence = (short)(iCounter + iSequenceCounter)
+                    };
                     collHillAssociatedFiles.Add(oHillAssociateFile);
-                    iCounter = (iCounter + 1);
+                    iCounter++;
                 }
                 else {
                     bContinue = false;
@@ -812,22 +826,22 @@
             {
                 strRet = iNumHours.ToString();
                 if ((iNumHours > 1)) {
-                    strRet = (strRet + (" " 
-                                + (strHour + "s ")));
+                    strRet += (" "
+                                + (strHour + "s "));
                 }
                 else {
-                    strRet = (strRet + (" " 
-                                + (strHour + " ")));
+                    strRet += (" " 
+                                + (strHour + " "));
                 }
             }
             if ((iNumMins > 0)) {
-                strRet = (strRet + iNumMins.ToString());
+                strRet += iNumMins.ToString();
                 if ((iNumMins > 1)) {
-                    strRet = (strRet + (" " 
-                                + (strMinute + "s")));
+                    strRet += (" " 
+                                + (strMinute + "s"));
                 }
                 else {
-                    strRet = (strRet + (" " + strMinute));
+                    strRet += (" " + strMinute);
                 }
             }
             return strRet;
@@ -836,8 +850,8 @@
 
         public static string HillAscentMarkerPopup(HillAscent oHA)
         {
-            string strPopupText = "";
-            string strNumberOfAscents = "";
+            string strPopupText;
+            string strNumberOfAscents; ;
 
             switch (oHA.Hill.HillAscents.Count)
             {
@@ -908,8 +922,8 @@
 
         public static string HillPopup(Hill oHill)
         {
-            string strPopupText = "";
-            string strAscents = "";
+            string strPopupText;
+            string strAscents;
 
             if (oHill.NumberOfAscents==0)
             {
@@ -1062,7 +1076,7 @@
                 strGridRef10 = strGridRef.Substring(0, 2) + " " + strGridRef.Substring(2, 3) + "00 " + strGridRef.Substring(5, 3) + "00";
             }catch (Exception e)
             {
-                Console.WriteLine("problem with gridref [" + strGridRef + "]");
+                Console.WriteLine("problem with gridref [" + strGridRef + "]" + e.Message);
             }
             return strGridRef10;
         }
@@ -1098,7 +1112,7 @@
             try
             {
                 gpxDoc.Load(strFullPath);
-            }catch(Exception e)
+            }catch(Exception)
             {
                 return trackpoints;
             }
@@ -1110,10 +1124,11 @@
             //---Pull out the trackpoints
             foreach (XmlElement xelement in nl)
             {
-                Trackpoint oTP = new Trackpoint();
-                
-                oTP.latitude = float.Parse(xelement.GetAttribute("lat"));
-                oTP.longtitude = float.Parse(xelement.GetAttribute("lon"));
+                Trackpoint oTP = new Trackpoint
+                {
+                    latitude = float.Parse(xelement.GetAttribute("lat")),
+                    longtitude = float.Parse(xelement.GetAttribute("lon"))
+                };
 
                 if (xelement.HasChildNodes)
                 {
@@ -1203,10 +1218,9 @@
                     MapMarker mmToAdd = new MapMarker
                     {
                         latitude = latlong.Latitude,
-                        longtitude = latlong.Longitude
+                        longtitude = latlong.Longitude,
+                        popupText = MarkerPopup(marker, strVirtualRoot)
                     };
-
-                    mmToAdd.popupText = MarkerPopup(marker, strVirtualRoot);
                     selectedMarkers.Add(mmToAdd);
                 }
 
@@ -1241,10 +1255,9 @@
                 {
                     latitude = latlong.Latitude,
                     longtitude = latlong.Longitude,
-                    numberOfAscents = hill.NumberOfAscents
+                    numberOfAscents = hill.NumberOfAscents,
+                    popupText = HillPopup(hill)
                 };
-
-                mmToAdd.popupText = HillPopup(hill);
                 selectedHills.Add(mmToAdd);
             }
 
@@ -1371,7 +1384,7 @@
                 strGridLetters = strGridRef.Substring(0, 2);
                 eastingWithinGridSquare = Double.Parse(strGridRef.Substring(2, 5));
                 northingWithinGridSquare = Double.Parse(strGridRef.Substring(7, 5));
-            }catch (Exception e)
+            }catch (Exception)
             {
                 return en;
             }

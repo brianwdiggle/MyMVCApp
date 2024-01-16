@@ -514,11 +514,13 @@
                         Marker oMarker = this.myWalkingDB.Markers.SingleOrDefault(m => m.MarkerID == iMarkerId);
                         oMarker.WalkID = iWalkID;
                         // ----Write a "created" marker observation--------
-                        Marker_Observation oMarkerObs = new Marker_Observation();
-                        oMarkerObs.MarkerID = iMarkerId;
-                        oMarkerObs.FoundFlag = false;
-                        oMarkerObs.WalkID = iWalkID;
-                        oMarkerObs.ObservationText = "Set in place";
+                        Marker_Observation oMarkerObs = new Marker_Observation
+                        {
+                            MarkerID = iMarkerId,
+                            FoundFlag = false,
+                            WalkID = iWalkID,
+                            ObservationText = "Set in place"
+                        };
                         try
                         {
                             oMarkerObs.DateOfObservation = DateTime.Parse(oForm["WalkDate"]);
@@ -599,7 +601,7 @@
                         throw new Exception("An error occurred when preparing the marker observation for new images:" + ex.Message, ex);
                     }
                 }
-                iImageCounter = (iImageCounter + 1);
+                iImageCounter++;
             }
 
             int iNumExistingImages = 0;
@@ -631,9 +633,11 @@
                             {
                                 oMarker.WalkID = iWalkID;
                             }
-                            Marker_Observation oMarkerObs = new Marker_Observation();
-                            oMarkerObs.MarkerID = iMarkerId;
-                            oMarkerObs.WalkID = iWalkID;
+                            Marker_Observation oMarkerObs = new Marker_Observation
+                            {
+                                MarkerID = iMarkerId,
+                                WalkID = iWalkID
+                            };
                             if ((oForm[("existingimagemarkernotfound" + iExistingImageCount)] == "on"))
                             {
                                 oMarker.Status = "Marker Left - Revisited, not found      ";

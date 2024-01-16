@@ -74,6 +74,17 @@ select:focus {
  
 }
 
+.searchsubmitbutton {
+    background-color: #ebeaea;
+    border: 2px solid #444;
+    border-radius: 10px;
+    padding: 4px 3px;
+    margin: 4px 2px;
+    font-size: larger;
+    cursor: pointer;
+    color: #555;
+}
+
 .progressbar {
     margin: 0px 0px;
     padding: 0px 0px;

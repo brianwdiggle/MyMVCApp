@@ -161,7 +161,8 @@ namespace MyMVCAppCS.Controllers
 
         public ActionResult HillSearch()
         {
-            var searchViewModel = new HillSearchViewModel();
+
+            var searchViewModel = new HillSearchViewModel(this.repository.GetAllHillClassifications(), repository.GetAllWalkingAreas());
             return View(searchViewModel);
         }
         [ValidateInput(false)]

@@ -1,6 +1,7 @@
 ﻿
 namespace MyMVCAppCS.ViewModels
 {
+    using DotNetOpenAuth.Messaging;
     using MyMVCApp.DAL;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,12 +10,16 @@ namespace MyMVCAppCS.ViewModels
     public class HillSearchViewModel
     {
 
-        public HillSearchViewModel()
+        public HillSearchViewModel(IQueryable<Class> hillClasses, IQueryable<Area> hillAreas)
         {
+            this.HillClassList = this.hillClassesAsSelectList(hillClasses);
+            this.HillAreaList = this.hillAreasAsSelectList(hillAreas);
             //---Populate the drop down lists-------------------
             //this.FieldCombinationList = new SelectList(new string[] { "AND", "OR" }.Select(x => new { value = x, text = x }), "value", "text", "AND");
-            //this.DateFromMonthList = new SelectList(new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }.Select(x => new { value = x, text = x }), "value", "text", "Jan");
-            //this.DateToMonthList = new SelectList(new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }.Select(x => new { value = x, text = x }), "value", "text", "Jan");
+            this.FirstClimbedDateFromMonthList = new SelectList(new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }.Select(x => new { value = x, text = x }), "value", "text", "Jan");
+            this.FirstClimbedDateToMonthList = new SelectList(new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }.Select(x => new { value = x, text = x }), "value", "text", "Jan");
+            this.SearchHeightGtLtList = new SelectList(new string[] { ">", "<" }.Select(x => new { value = x, text = x }), "value", "text", ">");
+            this.NumberOfAscentsGtLtEqList = new SelectList(new string[] { ">", "<", "=" }.Select(x => new { value = x, text = x }), "value", "text", ">");
         }
 
         // Form fields-------------
@@ -54,7 +59,6 @@ namespace MyMVCAppCS.ViewModels
 
         // Show climbed, unclimbed, all
         public string ShowOption {  get; set; }
-        public string[] ShowRadioGroup = new[] { "All", "Unclimbed", "Climbed" };
 
         // Results below
         public string SearchSummary { get; set; }
@@ -62,5 +66,42 @@ namespace MyMVCAppCS.ViewModels
 
         public IEnumerable<Hill> HillsFound;
 
+        private SelectList hillClassesAsSelectList(IQueryable<Class> hillClasses)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (var hillClass in hillClasses)
+            {
+                if (hillClass.ClassType != null)
+                {
+                    SelectListItem newItem = new SelectListItem { Text = hillClass.Classname + "(" + hillClass.ClassType + ")", Value = hillClass.Classref };
+                    items.Add(newItem);
+                }
+                else
+                {
+                    SelectListItem newItem = new SelectListItem { Text = hillClass.Classname, Value = hillClass.Classref };
+                    items.Add(newItem);
+                }
+            }
+
+            SelectList hillClassesSL = new SelectList(items, "Value", "Text", 1);
+
+            return hillClassesSL;
+        }
+
+        private SelectList hillAreasAsSelectList(IQueryable<Area> hillAreas)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (var hillArea in hillAreas)
+            {
+                SelectListItem newItem = new SelectListItem { Text = hillArea.Areaname, Value = hillArea.Arearef };
+                items.Add(newItem);
+            }
+
+            SelectList hillAreasSL = new SelectList(items, "Value", "Text", 1);
+
+            return hillAreasSL;
+        }
     }
 }

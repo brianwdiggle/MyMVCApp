@@ -220,7 +220,7 @@ namespace MyMVCAppCS.Controllers
             try
             {
                 oMM.popupText = WalkingStick.HillPopup(oHillDetails);
-            }catch(Exception e)
+            }catch(Exception)
             {
                 oMM.popupText = oHillDetails.Hillname;
             }
@@ -231,7 +231,7 @@ namespace MyMVCAppCS.Controllers
                 oMM.longtitude = (double)oHillDetails.Longitude;
       
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 iShowMap = 0;
                 bDisplayMapSummitMarker =false;

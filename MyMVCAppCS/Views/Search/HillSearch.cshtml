@@ -174,14 +174,16 @@
     <tr>
         <td class="header">Show</td>
         <td>
-            @Html.RadioButtonFor(x => x.ShowOption, Model.ShowRadioGroup);
+            @Html.RadioButtonFor(x => x.ShowOption, "All") All<br/>
+            @Html.RadioButtonFor(x => x.ShowOption, "Unclimbed") Unclimbed<br />
+            @Html.RadioButtonFor(x => x.ShowOption, "Climbed") Climbed
         </td>
     </tr>
 
     <tr>
         <td></td>
         <td>
-            <input type="submit" value="Search for Matching Hills" />
+            <input type="submit" class="searchsubmitbutton" value="Search for Matching Hills" />
         </td>
     </tr>
 </table>
