@@ -402,12 +402,15 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
     if (trackdata != null) {
         //  Add the track to the map
         const polyline = L.polyline(trackcoords, { color: '#C0392B', weight: 4 }).addTo(map);
+        console.log("fitting track bounds");
         map.fitBounds(polyline.getBounds());
+        console.log("completed fitting track bounds");
     }
 
     if (routedata != null) {
         //   Add the route to the map
         const polyline = L.polyline(routecoords, { color: '#6C3483', weight: 4 }).addTo(map);
+        console.log("fitting route bounds");
         map.fitBounds(polyline.getBounds());
     }
 
@@ -521,7 +524,7 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
         //----Set the bounds of the map so that all the markers are displayed.
         //----Only do so when there is no route or track data
         if (trackdata == null && routedata == null) {
-
+            console.log("fitting ascent bounds");
             map.fitBounds(
                 [
                     transformCoords([mineasting, minnorthing]),

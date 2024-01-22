@@ -5,7 +5,7 @@
     using System.Collections.Specialized;
     using System.Data;
     using System.Linq;
-
+    using System.Text;
     using GeoUK;
     using GeoUK.Coordinates;
     using GeoUK.Ellipsoids;
@@ -926,7 +926,121 @@
         {
             IEnumerable<Hill> hillsFound = new List<Hill>();
 
-            return hillsFound;
+            StringBuilder oSB = new StringBuilder();
+            bool bWhereAdded = false;
+
+            oSB.Append("SELECT TOP 50 * FROM dbo.Hills");
+
+            //---Hill name-----
+            if (oSearchForm["SearchHillname"]!="")
+            {
+                oSB.Append(" WHERE Hillname like '%" + oSearchForm["SearchHillname"] + "%'");
+                bWhereAdded = true;
+              
+            }
+
+            //----Searching on FirstClimbedDate FROM -----------
+            if (oSearchForm["FirstClimbedDateFromDay"] != "" && oSearchForm["FirstClimbedDateFromMonth"] != "" && oSearchForm["FirstClimbedDateFromYear"] != "")
+            {
+                try
+                {
+                    DateTime dFirstClimbedFrom = DateTime.Parse(oSearchForm["FirstClimbedDateFromDay"] + " " + oSearchForm["FirstClimbedDateFromMonth"] + " " + oSearchForm["FirstClimbedDateFromYear"]);
+                    if (bWhereAdded)
+                    {
+                        oSB.Append(" AND FirstClimbedDate >= '" + dFirstClimbedFrom.ToString("dd MMM yyyy") + "'");
+                    }else
+                    {
+                        oSB.Append(" WHERE FirstClimbedDate >= '" + dFirstClimbedFrom.ToString("dd MMM yyyy") + "'");
+                        bWhereAdded=true;
+                    }
+                }catch (Exception)
+                {
+                    // Return errors found in a string?
+                }
+            }
+
+            //----Searching on FirstClimbedDate TO -----------
+            if (oSearchForm["FirstClimbedDateToDay"] != "" && oSearchForm["FirstClimbedDateToMonth"] != "" && oSearchForm["FirstClimbedDateToYear"] != "")
+            {
+                try
+                {
+                    DateTime dFirstClimbedFrom = DateTime.Parse(oSearchForm["FirstClimbedDateToDay"] + " " + oSearchForm["FirstClimbedDateToMonth"] + " " + oSearchForm["FirstClimbedDateToYear"]);
+                    if (bWhereAdded)
+                    {
+                        oSB.Append(" AND FirstClimbedDate <= '" + dFirstClimbedFrom.ToString("dd MMM yyyy") + "'");
+                    }
+                    else
+                    {
+                        oSB.Append(" WHERE FirstClimbedDate <= '" + dFirstClimbedFrom.ToString("dd MMM yyyy") + "'");
+                        bWhereAdded = true;
+                    }
+                }
+                catch (Exception)
+                {
+                    // Return errors found in a string?
+                }
+            }
+
+            //----Search on Height----------
+            if (oSearchForm["SearchHeightGtLt"] != "" && oSearchForm["SearchHeight"] != "")
+            {
+                string strOperator="";
+                if (oSearchForm["SearchHeightGtLt"] == ">")
+                {
+                    strOperator = ">";
+                }else if (oSearchForm["SearchHeightGtLt"] == "=")
+                {
+                    strOperator = "=";
+                }else if (oSearchForm["SearchHeightGtLt"] == "<")
+                {
+                    strOperator = "<";
+                }
+
+                bool bHeightValid = true;
+                if (strOperator != "")
+                {
+                    try
+                    {
+                        int i = Int32.Parse(oSearchForm["SearchHeight"]);
+
+                    }
+                    catch (Exception)
+                    {
+                        bHeightValid = false;
+                    }
+                }
+
+                if (bHeightValid && strOperator !="")
+                {
+                    if (!bWhereAdded)
+                    {
+                        oSB.Append(" WHERE Metres " + strOperator + oSearchForm["SearchHeight"]);
+                        bWhereAdded = true;
+                    }else
+                    {
+                        oSB.Append(" AND Metres " + strOperator + oSearchForm["SearchHeight"]);
+                    }
+                }
+
+            }
+
+            //---Hill class CANNOT be specified without other "main" search items - it will be a inner join on dbo.Classlink-----
+            if (oSearchForm["HillClass"] != "" && bWhereAdded)
+            {
+  
+
+            }
+
+            //---Hill area CANNOT be specified without other "main" search items - it will be a inner join on dbo.Arealink-----
+            if (oSearchForm["HillArea"] != "" && bWhereAdded)
+            {
+
+
+            }
+
+            hillsFound = this.myWalkingDB.ExecuteQuery<Hill>(oSB.ToString());
+
+            return hillsFound.ToList();
         }
 
     }

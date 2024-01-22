@@ -1081,8 +1081,21 @@
             return strGridRef10;
         }
 
-        public static List<Trackpoint> LoadDataFromGPXFile(string strRelPath, string strRootPath, string strGPXNode)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strRelPath"></param>
+        /// <param name="strRootPath"></param>
+        /// <param name="strGPXNode"></param>
+        /// <returns></returns>
+        public static List<Trackpoint> LoadTrackFromGPXFile(string strRelPath, string strRootPath)
         {
+            const string strOSMaps_Route_node = "//x:wpt";
+            const string strOSMaps_Track_node = "//x:trkpt";
+            const string strGarmin_Track_node = "//x:wpt";
+            string strGPXNode = strOSMaps_Track_node;    //---Try OS MAps version first where the track ponts are 
+
+
             List<Trackpoint> trackpoints = new List<Trackpoint>();
 
             string strCleanedUpRelPath;
@@ -1090,12 +1103,10 @@
             if (strRelPath.StartsWith("/Content/images/"))
             {
                 strCleanedUpRelPath = strRelPath.Replace("/Content/images/", "");
-               // strCleanedUpRelPath = res2.Replace("/", @"\");
             }
             else if (strRelPath.StartsWith("Content/images/"))
             {
                 strCleanedUpRelPath = strRelPath.Replace("Content/images/", "");
-               // strCleanedUpRelPath = res2.Replace("/", @"\");
             }
             else
             {
@@ -1152,6 +1163,124 @@
             return trackpoints;
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strRelPath"></param>
+        /// <param name="strRootPath"></param>
+        /// <param name="strGPXNode"></param>
+        /// <returns></returns>
+        public static List<Trackpoint> LoadRouteFromGPXFile(string strRelPath, string strRootPath)
+        {
+            const string strWaypoint_node = "//x:wpt";
+    
+            const string strGarmin_Track_node = "//x:rtept";
+            string strGPXNode = strGarmin_Track_node;    //---Try looking for rtept nodes first
+
+
+            List<Trackpoint> routepoints = new List<Trackpoint>();
+
+            string strCleanedUpRelPath;
+
+            if (strRelPath.StartsWith("/Content/images/"))
+            {
+                strCleanedUpRelPath = strRelPath.Replace("/Content/images/", "");
+            }
+            else if (strRelPath.StartsWith("Content/images/"))
+            {
+                strCleanedUpRelPath = strRelPath.Replace("Content/images/", "");
+            }
+            else
+            {
+                strCleanedUpRelPath = strRelPath;
+            }
+
+
+            string strFullPath = strRootPath + strCleanedUpRelPath;
+            strFullPath = strFullPath.Replace("/", @"\");
+
+            //----Load the GPX file as an XML Document
+            XmlDocument gpxDoc = new XmlDocument();
+
+            try
+            {
+                gpxDoc.Load(strFullPath);
+            }
+            catch (Exception)
+            {
+                return routepoints;
+            }
+
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(gpxDoc.NameTable);
+            nsmgr.AddNamespace("x", "http://www.topografix.com/GPX/1/1");
+            XmlNodeList nl = gpxDoc.SelectNodes(strGPXNode, nsmgr);
+
+            //---Pull out the trackpoints
+            foreach (XmlElement xelement in nl)
+            {
+                Trackpoint oTP = new Trackpoint
+                {
+                    latitude = float.Parse(xelement.GetAttribute("lat")),
+                    longtitude = float.Parse(xelement.GetAttribute("lon"))
+                };
+
+                if (xelement.HasChildNodes)
+                {
+                    for (int i = 0; i < xelement.ChildNodes.Count; i++)
+                    {
+                        if (xelement.ChildNodes[i].Name == "ele")
+                        {
+                            oTP.elevation = float.Parse(xelement.ChildNodes[i].InnerText);
+                        }
+                        else if (xelement.ChildNodes[i].Name == "time")
+                        {
+                            oTP.time = DateTime.Parse(xelement.ChildNodes[i].InnerText);
+                        }
+                    }
+                }
+
+                routepoints.Add(oTP);
+            }
+
+
+            // If no route points were found, see if any waypoint are found in the file
+            if (routepoints.Count == 0) {
+                nl = gpxDoc.SelectNodes(strWaypoint_node, nsmgr);
+
+                //---Pull out the trackpoints
+                foreach (XmlElement xelement in nl)
+                {
+                    Trackpoint oTP = new Trackpoint
+                    {
+                        latitude = float.Parse(xelement.GetAttribute("lat")),
+                        longtitude = float.Parse(xelement.GetAttribute("lon"))
+                    };
+
+                    if (xelement.HasChildNodes)
+                    {
+                        for (int i = 0; i < xelement.ChildNodes.Count; i++)
+                        {
+                            if (xelement.ChildNodes[i].Name == "ele")
+                            {
+                                oTP.elevation = float.Parse(xelement.ChildNodes[i].InnerText);
+                            }
+                            else if (xelement.ChildNodes[i].Name == "time")
+                            {
+                                oTP.time = DateTime.Parse(xelement.ChildNodes[i].InnerText);
+                            }
+                        }
+                    }
+
+                    routepoints.Add(oTP);
+                }
+
+            }
+
+            return routepoints;
+
+        }
+
 
         /// <summary>
         /// Given map bounds defined by the SW and NE lat/long coordinates of a rectangle map area

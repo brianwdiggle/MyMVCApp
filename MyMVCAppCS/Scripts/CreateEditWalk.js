@@ -355,6 +355,11 @@ $(document).ready(function () {
         $('#walkform').submit();
     });
 
+    /*----Create event for main button click----*/
+    $('#submitwalkbuttonbottom').button().click(function () {
+        $('#walkform').submit();
+    });
+
     /*----Associate a date picker with the marker left date----*/
     $("#MarkerDateLeft").datepicker({ dateFormat: 'dd MM yy' });
 

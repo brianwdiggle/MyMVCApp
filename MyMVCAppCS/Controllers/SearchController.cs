@@ -161,17 +161,34 @@ namespace MyMVCAppCS.Controllers
 
         public ActionResult HillSearch()
         {
+            ViewData["OrderResultsBy"] = "Name";
+            ViewData["OrderResultsByAscDesc"] = "Asc";
 
-            var searchViewModel = new HillSearchViewModel(this.repository.GetAllHillClassifications(), repository.GetAllWalkingAreas());
+            var searchViewModel = new HillSearchViewModel(repository.GetAllHillClassifications(), repository.GetAllWalkingAreas());
             return View(searchViewModel);
         }
+
+        /// <summary>
+        /// Hill search (POST)
+        /// </summary>
+        /// <param name="searchViewModel"></param>
+        /// <returns></returns>
         [ValidateInput(false)]
         [HttpPost]
         public ActionResult HillSearch(HillSearchViewModel searchViewModel)
         {
+
             if (!ModelState.IsValid)
             {
-                return this.View(searchViewModel);
+                // would be good here to return an errors in the model in ViewState
+                var errors = ModelState
+                     .Where(x => x.Value.Errors.Count > 0)
+                     .Select(x => new { x.Key, x.Value.Errors })
+                      .ToArray();
+
+                //    var searchFreshVM = new HillSearchViewModel(repository.GetAllHillClassifications(), repository.GetAllWalkingAreas());
+                //    return this.View(searchFreshVM);
+                return View(searchViewModel);
             }
 
             searchViewModel.HillsFound = this.repository.HillSearch(Request.Form);
@@ -185,7 +202,7 @@ namespace MyMVCAppCS.Controllers
             List<MapMarker> lstHillMarkers = new List<MapMarker>();
             foreach (Hill oHill in searchViewModel.HillsFound)
             {
-                if (oHill.Gridref10.Trim() != "")
+                if (oHill.Gridref10 !=null && oHill.Gridref10.Trim() != "")
                 {
                     MapMarker oMM = new MapMarker
                     {
@@ -210,7 +227,10 @@ namespace MyMVCAppCS.Controllers
             ViewData["ShowMap"] = iShowMap;
             ViewData["MarkerMarkers"] = lstHillMarkers;
 
-            return this.View(searchViewModel);
+            //    var searchFreshVM = new HillSearchViewModel(repository.GetAllHillClassifications(), repository.GetAllWalkingAreas());
+            //    return this.View(searchFreshVM);
+            return View(searchViewModel);
+
         }
 
 

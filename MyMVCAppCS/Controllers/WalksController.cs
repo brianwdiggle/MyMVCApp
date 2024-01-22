@@ -1,6 +1,5 @@
 ﻿
 using System.Web.Mvc;
-using System.Web.UI;
 using System.Linq;
 
 namespace MyMVCAppCS.Controllers
@@ -524,12 +523,13 @@ namespace MyMVCAppCS.Controllers
 
                 foreach (Walk_AssociatedFile waf in oGPXs)
                 {
-                    lstTrackpoints = WalkingStick.LoadDataFromGPXFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"), "//x:trkpt");
+                    lstTrackpoints = WalkingStick.LoadTrackFromGPXFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"));
                 }
-
-                ViewData["TrackPoints"] = lstTrackpoints;
-
-                iShowMap = 1;
+                if (lstTrackpoints.Count > 0)
+                {
+                    ViewData["TrackPoints"] = lstTrackpoints;
+                    iShowMap = 1;
+                 }
             }
 
 
@@ -542,12 +542,15 @@ namespace MyMVCAppCS.Controllers
 
                 foreach (Walk_AssociatedFile waf in oGPXs)
                 {
-                    lstTrackpoints = WalkingStick.LoadDataFromGPXFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"), "//x:wpt");
+                    lstTrackpoints = WalkingStick.LoadRouteFromGPXFile(waf.Walk_AssociatedFile_Name, this.Server.MapPath("~/Content/images/").Replace("\\", "/"));
                 }
 
-                ViewData["RouteWaypoints"] = lstTrackpoints;
-
-                iShowMap = 1;
+                if (lstTrackpoints.Count > 0)
+                {
+                    ViewData["RouteWaypoints"] = lstTrackpoints;
+                    iShowMap = 1;
+                }
+     
             }
 
 

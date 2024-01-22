@@ -1,14 +1,19 @@
 ﻿
 namespace MyMVCAppCS.ViewModels
 {
-    using DotNetOpenAuth.Messaging;
     using MyMVCApp.DAL;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Web.Mvc;
 
     public class HillSearchViewModel
     {
+
+        public HillSearchViewModel()
+        {
+
+        }
 
         public HillSearchViewModel(IQueryable<Class> hillClasses, IQueryable<Area> hillAreas)
         {
@@ -18,35 +23,48 @@ namespace MyMVCAppCS.ViewModels
             //this.FieldCombinationList = new SelectList(new string[] { "AND", "OR" }.Select(x => new { value = x, text = x }), "value", "text", "AND");
             this.FirstClimbedDateFromMonthList = new SelectList(new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }.Select(x => new { value = x, text = x }), "value", "text", "Jan");
             this.FirstClimbedDateToMonthList = new SelectList(new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }.Select(x => new { value = x, text = x }), "value", "text", "Jan");
-            this.SearchHeightGtLtList = new SelectList(new string[] { ">", "<" }.Select(x => new { value = x, text = x }), "value", "text", ">");
-            this.NumberOfAscentsGtLtEqList = new SelectList(new string[] { ">", "<", "=" }.Select(x => new { value = x, text = x }), "value", "text", ">");
+            this.SearchHeightGtLtList = new SelectList(new string[] { "", ">", "<" }.Select(x => new { value = x, text = x }), "value", "text", "");
+            this.NumberOfAscentsGtLtEqList = new SelectList(new string[] { "", ">", "<", "=" }.Select(x => new { value = x, text = x }), "value", "text", "");
+            this.OrderByList = new SelectList(new string[] { "Name", "Height" }.Select(x => new { value = x, text = x }), "value", "text", "");
+            this.OrderByAscDescList = new SelectList(new string[] { "Asc", "Desc" }.Select(x => new { value = x, text = x }), "value", "text", "");
         }
 
         // Form fields-------------
 
         // Hill name
+
         public string SearchHillName { get; set; }
 
         // Height (metres)
-        public float SearchHeight { get; set; }
+        [Range(0, 8850)]
+        public float? SearchHeight { get; set; }
         public SelectList SearchHeightGtLtList { get; set; }
-        public bool SearchHeightGtLt { get; set; }
+        public bool? SearchHeightGtLt { get; set; }
 
         // Number of ascents
-        public int NumberOfAscents { get; set; }
+        [Range(0,100)]
+        public int? NumberOfAscents { get; set; }
         public SelectList NumberOfAscentsGtLtEqList { get; set; }
         public string NumberOfAscentsGtLtEq { get; set; }
 
         // First climbed date from
+        [StringLength(2, ErrorMessage = "Day must be no more than 2 characters long")]
+        [Range(0,31, ErrorMessage = "Day must be numeric value between 0 and 31")]
         public string FirstClimbedDateFromDay { get; set; }
         public SelectList FirstClimbedDateFromMonthList { get; set; }
         public string FirstClimbedDateFromMonth { get; set; }
+
+        [Range(1968, 2968, ErrorMessage = "First climbed year cannot be before I was born :-)")]
         public string FirstClimbedDateFromYear { get; set; }
 
         // First climbed date from
+        [StringLength(2, ErrorMessage = "Day must be no more than 2 characters long")]
+        [Range(0, 31, ErrorMessage = "Day must be numeric value between 0 and 31")]
         public string FirstClimbedDateToDay { get; set; }
         public SelectList FirstClimbedDateToMonthList { get; set; }
         public string FirstClimbedDateToMonth { get; set; }
+
+        [Range(1968, 2968, ErrorMessage = "First climbed year cannot be before I was born :-)")]
         public string FirstClimbedDateToYear { get; set; }
 
         //Hill area
@@ -59,6 +77,15 @@ namespace MyMVCAppCS.ViewModels
 
         // Show climbed, unclimbed, all
         public string ShowOption {  get; set; }
+
+        // Order by
+        public string OrderBy { get; set; }
+        public SelectList OrderByList { get; set; }
+
+
+        // Order by Asc/Desc
+        public string OrderByAscDesc { get; set; }
+        public SelectList OrderByAscDescList { get; set; }
 
         // Results below
         public string SearchSummary { get; set; }
@@ -84,7 +111,7 @@ namespace MyMVCAppCS.ViewModels
                 }
             }
 
-            SelectList hillClassesSL = new SelectList(items, "Value", "Text", 1);
+            SelectList hillClassesSL = new SelectList(items, "Value", "Text");
 
             return hillClassesSL;
         }

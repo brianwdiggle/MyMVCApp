@@ -14,8 +14,17 @@
 }
 
 <script type="text/javascript" src="../../Scripts/CreateEditWalk.js"></script>
+
+<div class="details">
+    <table>
+        <tr>
+            <td colspan="3"><div class="heading2">Edit <em>@Model.WalkTitle</em></div></td>
+            <td class="column4"><input type="button" id="submitwalkbutton" value=" Update Walk " /></td>
+        </tr>
+    </table>
+</div>
  
-    <h2>Edit <em>@Model.WalkTitle</em></h2>
+    <h2><span align="left"></span><span align="right"></span></h2>
 
     @using (Html.BeginForm("Edit", "Walks", FormMethod.Post, new { id = "walkform", name = "walkform" }))
     {
@@ -283,7 +292,7 @@
     </div>
     <div id="walksubmit">
         <br />
-        <input type="button" id="submitwalkbutton" value=" Update Walk " />
+        <input type="button" id="submitwalkbuttonbottom" value=" Update Walk " />
     </div>
 
 </fieldset>
