@@ -22,7 +22,9 @@
         </tr>
         <tr>
             <td class="column1">First ascent:</td>
-            <td class="column2">@Model.FirstClimbedDate</td>
+            <td class="column2">@if (@Model.FirstClimbedDate != null) {
+                @Model.FirstClimbedDate.ToString("dd MMMM yyyy");
+            }</td>
             <td class="column3">Number of ascents: </td>
             <td class="column4">@Model.NumberOfAscents</td>
         </tr>
