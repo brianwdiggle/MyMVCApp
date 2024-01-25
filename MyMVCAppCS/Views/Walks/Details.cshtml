@@ -178,24 +178,7 @@
                     <td>@oHillAscent.Hill.Metres.ToString(Thread.CurrentThread.CurrentCulture) m, @oHillAscent.Hill.Feet.ToString() ft</td>
                     <td>@oHillAscent.Hill.Classification </td>
                     <td>
-                        @switch (oHillAscent.Hill.HillAscents.Count)
-                        {
-                            case 1:
-                                <em>First ascent</em>
-                                break;
-                            case 2:
-                                <em>Second ascent</em>
-                                break;
-                            case 3:
-                                <em>Third ascent</em>
-                                break;
-                            case 4:
-                                <em>Fourth ascent</em>
-                                break;
-                            default:
-                                <em>@oHillAscent.Hill.HillAscents.Count.ToString()th ascent</em>
-                                break;
-                        }
+                        @ViewData["AscentNumber"]
                         &nbsp;
                     </td>
                 </tr>

@@ -573,6 +573,7 @@ namespace MyMVCAppCS.Controllers
                 }
        
             }
+            string strAscentNumber = WalkingStick.HillAscentNumber(oWalk.HillAscents[0].Hill.HillAscents.ToList(), oWalk.WalkDate);
 
             ///----Prepare data about marker markers associated the walk
             List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
@@ -612,6 +613,7 @@ namespace MyMVCAppCS.Controllers
             ViewData["MarkerMarkers"] = lstMarkerMarkers;
             ViewData["AscentMarkers"] = lstAscentMarkers;
             ViewData["ShowMap"] = iShowMap;
+            ViewData["AscentNumber"] = strAscentNumber;
 
             return this.View(oWalk);
         }

@@ -24,7 +24,9 @@
         <td>Left on Hill</td>
         <td>
             @if (Model.Hill != null)
-            {@Model.Hill.Hillname}
+            {
+                @Html.ActionLink(Model.Hill.Hillname, "HillDetails", "Walks", new { id = Model.Hillnumber }, null)
+            }
         </td>
     </tr>
     <tr>
@@ -57,8 +59,7 @@
 <div class="spacerdiv"></div>
 <div id="hillmap"></div>
 <div class="spacerdiv"></div>
-<div><input type="button" id="getallmarkers" value="Show all markers in map bounds" onclick="getAllMarkersInBounds();" /></div>
-<div class="spacerdiv"></div>
+
 <table class="datatable">
     <tr>
         <td colspan="4"><h2>Observations</h2></td>

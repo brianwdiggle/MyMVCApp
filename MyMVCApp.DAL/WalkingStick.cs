@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Xml;
@@ -92,6 +93,53 @@
                         + (iBVal.ToString("X")));
         }
 
+        /// <summary>
+        /// Given the hillascents associated with a hill, and a date - indicate which ascent number corresponds to this date
+        /// </summary>
+        /// <param name="oHill"></param>
+        /// <returns></returns>
+        public static string HillAscentNumber(List<HillAscent> oHillAscents, DateTime dDate)
+        {
+            string strAscentNumber="";
+
+            List<HillAscent> orderedAscents = oHillAscents.OrderBy(o => o.AscentDate).ToList();
+
+            for (int i = 0; i < orderedAscents.Count; i++)
+            {
+                if (orderedAscents[i].AscentDate == dDate)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            strAscentNumber = "First";
+                            break;
+                        case 1:
+                            strAscentNumber = "Second";
+                            break;
+                        case 2:
+                            strAscentNumber = "Third";
+                            break;
+                        case 3:
+                            strAscentNumber = "Fourth";
+                            break;
+                        default:
+                            strAscentNumber = i.ToString() + "th";
+                            break;
+                    }
+
+                }
+            }
+
+            if (orderedAscents[orderedAscents.Count - 1].AscentDate != dDate)
+            {
+                strAscentNumber = strAscentNumber + " of " + orderedAscents.Count.ToString() + " ascents.";
+            } else
+            {
+                strAscentNumber = strAscentNumber + " (and most recent) ascent.";
+            }
+
+            return strAscentNumber;
+        }
     
         public static string FormatHillSummaryAsLine(Hill oHill)
         {
@@ -1049,7 +1097,7 @@
                     iEastingOfMarker += 3;
                 }
 
-                strGridref10 = oHill.Gridref10.Substring(0, 3) + iEastingOfMarker.ToString() + oHill.Gridref10.Substring(8, 6);
+                strGridref10 = oHill.Gridref10.Substring(0, 3) + iEastingOfMarker.ToString().PadLeft(5,'0') + oHill.Gridref10.Substring(8, 6);
             }else if (oHill.Gridref!= null && oHill.Gridref.Trim() != "")
             {
                 // Not worth changing this

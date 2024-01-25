@@ -109,9 +109,10 @@
         public IQueryable<HillAscent> GetHillAscents(int iHillId)
         {
 
-	        IQueryable<HillAscent> oAscents = from ascent in this.myWalkingDB.HillAscents 
-                              where ascent.Hillnumber == iHillId
-                              select ascent;
+            IQueryable<HillAscent> oAscents = from ascent in this.myWalkingDB.HillAscents
+                                              where ascent.Hillnumber == iHillId
+                                              orderby ascent.AscentDate ascending
+                                              select ascent;
 
 	        return oAscents;
 
