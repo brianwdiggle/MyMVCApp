@@ -384,7 +384,7 @@ if (routedata != null || trackdata != null || ascentdata != null || markedata !=
 
     if (trackdata != null) {
         //  Add the track to the map
-        const polyline = L.polyline(trackcoords, { color: '#C0392B', weight: 4 }).addTo(map);
+        const polyline = L.polyline(trackcoords, { color: '#f54242', weight: 5 }).addTo(map);
         console.log("fitting track bounds");
         map.fitBounds(polyline.getBounds());
         console.log("completed fitting track bounds");
