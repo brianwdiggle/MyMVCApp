@@ -19,75 +19,75 @@
 @using (Html.BeginForm("CreateAuto", "Walks", FormMethod.Post, new { id = "walkform", name = "walkform" }))
 {
     @Html.ValidationSummary(true)
-    <fieldset>
+<fieldset>
 
-        <div>
-            @Html.LabelFor(walk => walk.WalkDate)
+    <div>
+        @Html.LabelFor(walk => walk.WalkDate)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkDate, new { size = 40 })
+    </div>&nbsp;
+
+    <div>
+        @Html.LabelFor(walk => walk.WalkTitle)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkTitle, new { size = 80 })
+    </div>&nbsp;
+
+    <!--- Section: Walk Area with jQuery Autocomplete ----------------------------------------------------------------------------->
+
+    <div>
+        @Html.LabelFor(walk => walk.WalkAreaName)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkAreaName, new { size = 80 }) @Html.Hidden("WalkAreaID")
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkSummary)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkSummary, new { size = 80, maxlength = 1000 }) Auto: <input type="checkbox" name="summary_auto" id="summary_auto" checked="checked" />
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkConditions)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkConditions, new { size = 80 })
+    </div>&nbsp;
+
+    <!-- Section: Summits Visited --------------------------------------------------------------------------------------------------->
+
+    <div>
+        @Html.LabelFor(walk => walk.HillAscents)
+    </div>
+    @for (int iHillVisitedCounter = 1; iHillVisitedCounter <= 15; iHillVisitedCounter++)
+    {
+
+        <div id="DivVisitedSummit@(iHillVisitedCounter.ToString(Thread.CurrentThread.CurrentCulture))">
+            @Html.TextBox("VisitedSummit" + iHillVisitedCounter, "", new { size = 80 }) @Html.Hidden("VisitedSummit" + iHillVisitedCounter + "HillID")
         </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkDate, new { size = 40 })
-        </div>&nbsp;
+    }
+    &nbsp;
 
-        <div>
-            @Html.LabelFor(walk => walk.WalkTitle)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkTitle, new { size = 80 })
-        </div>&nbsp;
+    <!-- Section: Add New Marker ---------------------------------------------------------------------------------------------------->
 
-        <!--- Section: Walk Area with jQuery Autocomplete ----------------------------------------------------------------------------->
+    <!--<div id="WalkMarkers">
+        <button id="CreateMarkerButton" type="button">Create New Marker</button><input type="hidden" id="markers_added" name="markers_added" value="" />
+    </div>&nbsp;-->
+    <div>
+        @Html.LabelFor(walk => walk.WalkDescription)
+    </div>
+    <div>
+        @Html.TextAreaFor(walk => walk.WalkDescription, 8, 100, new { @class = "formtextarea"})
+    </div>&nbsp;
 
-        <div>
-            @Html.LabelFor(walk => walk.WalkAreaName)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkAreaName, new { size = 80 }) @Html.Hidden("WalkAreaID")
-        </div>&nbsp;
-        <div>
-            @Html.LabelFor(walk => walk.WalkSummary)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkSummary, new { size = 80, maxlength = 1000 }) Auto: <input type="checkbox" name="summary_auto" id="summary_auto" checked="checked" />
-        </div>&nbsp;
-        <div>
-            @Html.LabelFor(walk => walk.WalkConditions)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkConditions, new { size = 80 })
-        </div>&nbsp;
+    <!-- Section: Add Walk Files---------------------------------------------------------------------->
 
-        <!-- Section: Summits Visited --------------------------------------------------------------------------------------------------->
-
-        <div>
-            @Html.LabelFor(walk => walk.HillAscents)
-        </div>
-        @for (int iHillVisitedCounter = 1; iHillVisitedCounter <= 15; iHillVisitedCounter++)
-        {
-
-            <div id="DivVisitedSummit@(iHillVisitedCounter.ToString(Thread.CurrentThread.CurrentCulture))">
-                @Html.TextBox("VisitedSummit" + iHillVisitedCounter, "", new { size = 80 }) @Html.Hidden("VisitedSummit" + iHillVisitedCounter + "HillID")
-            </div>
-        }
-        &nbsp;
-
-        <!-- Section: Add New Marker ---------------------------------------------------------------------------------------------------->
-
-        <div id="WalkMarkers">
-            <button id="CreateMarkerButton" type="button">Create New Marker</button><input type="hidden" id="markers_added" name="markers_added" value="" />
-        </div>&nbsp;
-        <div>
-            @Html.LabelFor(walk => walk.WalkDescription)
-        </div>
-        <div>
-            @Html.TextAreaFor(walk => walk.WalkDescription, 8, 100, new { @class = "formtextarea" })
-        </div>&nbsp;
-
-        <!-- Section: Add Walk Files---------------------------------------------------------------------->
-
-        <div>
-            <label for="images_path"><strong>Walk Files</strong><br />RELATIVE path underneath the images directory where all the files exist followed by a standard name prefix</label>
-            as follows: 
-            <pre>
+    <div>
+        <label for="images_path"><strong>Walk Files</strong><br />RELATIVE path underneath the images directory where all the files exist followed by a standard name prefix</label>
+        as follows:
+        <pre>
 This works on configuration by convention. Arrange the files in the directory before using this form as follows:
 
 Images:                  {directories}/{WalkName}_{DDMMMYYYY}_{N}  (underscore)
@@ -106,79 +106,79 @@ dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006
 
 A GPX route file would be called dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006-Route.gpx is a GPX route
 </pre>
-        </div>
-        <div>
-            <input type="text" name="walkfiles_reldir" id="walkfiles_reldir" size="80" maxlength="160" value="" />
-        </div>
- 
-        <!-- Section: Walk Type------------------------------------------------------------------------------>
-        &nbsp;
-        <div>
-            @Html.LabelFor(walk => walk.WalkType)
-        </div>
-        <div>
-            @Html.DropDownList("WalkTypes")
-        </div>&nbsp;
+    </div>
+    <div>Walk file name prefix according the pattern {WalkName}_{DDMMMYYYY}. E.g. blubberhouses_25Aug2006</div> 
+    <div>
+        <input type="text" name="walkfiles_nameprefix" id="walkfiles_nameprefix" size="80" maxlength="160" />
+    </div>
+    <!-- Section: Walk Type------------------------------------------------------------------------------>
+    &nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkType)
+    </div>
+    <div>
+        @Html.DropDownList("WalkTypes")
+    </div>&nbsp;
 
-        <div>
-            @Html.LabelFor(walk => walk.WalkStartPoint)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkStartPoint, new { size = 80, maxlength = 100 })
-        </div>&nbsp;
-        <div>
-            @Html.LabelFor(walk => walk.WalkEndPoint)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkEndPoint, new { size = 80, maxlength = 100 })
-        </div>&nbsp;
-        <div>
-            @Html.LabelFor(walk => walk.WalkCompanions)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkCompanions, new { size = 50, maxlength = 50 })
-        </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkStartPoint)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkStartPoint, new { size = 80, maxlength = 100 })
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkEndPoint)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkEndPoint, new { size = 80, maxlength = 100 })
+    </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkCompanions)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkCompanions, new { size = 50, maxlength = 50 })
+    </div>&nbsp;
 
-        <div>
-            @Html.LabelFor(walk => walk.CartographicLength)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.CartographicLength)
-        </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.CartographicLength)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.CartographicLength)
+    </div>&nbsp;
 
-        <div>
-            @Html.LabelFor(walk => walk.MetresOfAscent)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.MetresOfAscent)
-        </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.MetresOfAscent)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.MetresOfAscent)
+    </div>&nbsp;
 
-        <div>
-            @Html.LabelFor(walk => walk.WalkTotalTime)
-        </div>
-        <div>
-            Hours: <input type="text" name="total_time_hours" size="3" maxlength="3" id="total_time_hours" /> Mins:<input type="text" name="total_time_mins" size="3" maxlength="2" id="total_time_mins" />
-        </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkTotalTime)
+    </div>
+    <div>
+        Hours: <input type="text" name="total_time_hours" size="3" maxlength="3" id="total_time_hours" /> Mins:<input type="text" name="total_time_mins" size="3" maxlength="2" id="total_time_mins" />
+    </div>&nbsp;
 
-        <div>
-            @Html.LabelFor(walk => walk.WalkAverageSpeedKmh)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.WalkAverageSpeedKmh)
-        </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.WalkAverageSpeedKmh)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.WalkAverageSpeedKmh)
+    </div>&nbsp;
 
-        <div>
-            @Html.LabelFor(walk => walk.MovingAverageKmh)
-        </div>
-        <div>
-            @Html.TextBoxFor(walk => walk.MovingAverageKmh)
-        </div>&nbsp;
+    <div>
+        @Html.LabelFor(walk => walk.MovingAverageKmh)
+    </div>
+    <div>
+        @Html.TextBoxFor(walk => walk.MovingAverageKmh)
+    </div>&nbsp;
 
-        <div id="walksubmit">
-            <br />
-            <input type="button" id="submitwalkbutton" class=" formsubmit" value=" Add New Walk " />
-        </div>
-    </fieldset>
+    <div id="walksubmit">
+        <br />
+        <input type="button" id="submitwalkbutton" class=" formsubmit" value=" Add New Walk " />
+    </div>
+</fieldset>
 
 
 }

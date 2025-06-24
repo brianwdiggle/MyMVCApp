@@ -19,6 +19,7 @@ namespace MyMVCAppCS.Controllers
     using GeoUK.Ellipsoids;
     using GeoUK.Projections;
     using GeoUK;
+    using System.Configuration;
 
 
     #region "Page Actions"
@@ -202,15 +203,21 @@ namespace MyMVCAppCS.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult HillDetails(int id)
+        public ActionResult HillDetails(int? id=null)
         {
             int iShowMap = 1;
             bool bDisplayMapSummitMarker = true;
             List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
 
-            var oHillDetails = this.repository.GetHillDetails(id);
+            if (id == null)
+            {
+                return Redirect("/");
+            }
 
-            var oHillAscents = this.repository.GetHillAscents(id).OrderBy(hill => hill.AscentDate);
+            int hillID = (int)id;
+            var oHillDetails = this.repository.GetHillDetails(hillID);
+
+            var oHillAscents = this.repository.GetHillAscents(hillID).OrderBy(hill => hill.AscentDate);
 
             ViewData["HillAscents"] = oHillAscents.AsEnumerable().ToList();
 
@@ -748,12 +755,11 @@ namespace MyMVCAppCS.Controllers
             List<HillAscent> arHillAscents = WalkingStick.FillHillAscentsFromFormVariables(iWalkID, this.Request.Form);
             repository.AddWalkSummitsVisited(arHillAscents);
 
-            // ---Add the associated files-----
-            // --TODO - this needs to change to pull files from disk rather than form variable
-            List<Walk_AssociatedFile> arWalkAssociatedFiles = WalkingStick.FillWalkAssociatedFilesByExaminingDirectory(
+            List<Walk_AssociatedFile> arWalkAssociatedFiles = WalkingStick.FillWalkAssociatedFilesUsingNameTemplate(
                 iWalkID,
                 this.Request.Form,
                 this.Server.MapPath("~/Content/images/").Replace("\\", "/"));
+
             repository.AddWalkAssociatedFiles(arWalkAssociatedFiles);
 
             //---Redirect to the newly created walk to continue editing

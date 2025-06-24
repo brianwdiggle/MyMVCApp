@@ -145,8 +145,22 @@ else
     map.setView(new L.LatLng(@Model.Latitude, @Model.Longitude));
 
     // Finally load and display ZXY tile layer on the map.
-    const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
+    const basemapOS = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
 
+    //--Opentopomap base layer----
+    const basemapopentopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    });
+
+    // Create an array to hold all the possible base maps
+    basemaps = {
+        'OS Grid': basemapOS,
+        'OpenTopo': basemapopentopo
+    };
+
+    // Add the layers and the layer switching control to the map
+    L.control.layers(basemaps).addTo(map);
 </script>
 
 

@@ -37,7 +37,7 @@ const transformCoords = function (arr) {
 };
 
 
-// Define the options associated with the Leaflet map which will be created
+// Define the options associated with the Leaflet map which will be created for the British National Grid
 const mapOptions = {
     crs: crs,
     minZoom: 0,
@@ -48,6 +48,19 @@ const mapOptions = {
         transformCoords([-238375.0, 0.0]),
         transformCoords([900000.0, 1376256.0])
     ],
+    attributionControl: true
+};
+
+const mapOptionsOpenTopo = {
+    //crs: crs,
+    //minZoom: 0,
+    //maxZoom: 9,
+    //center: map_center,
+    zoom: 8,   // 8 this is the first 1:25000 zoom level
+    //maxBounds: [    // as defined by the EPSG:27000 coordinate system
+    //    transformCoords([-238375.0, 0.0]),
+    //    transformCoords([900000.0, 1376256.0])
+    //],
     attributionControl: true
 };
 

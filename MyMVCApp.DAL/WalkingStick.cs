@@ -255,7 +255,11 @@
         }
 
 
-    
+    /// <summary>
+    /// Called from CreateAuto
+    /// </summary>
+    /// <param name="oWalk"></param>
+    /// <param name="oForm"></param>
         public static void FillWalkFromFormVariables(ref Walk oWalk, NameValueCollection oForm) {
 
             int iLoc = 0;
@@ -346,6 +350,7 @@
                 oWalk.WalkTotalTime = iWalkTotalTime;
             }
 
+            //----Generate a summary of the walk based on the start, summits ascended, then the end.
             if (oForm["summary_auto"] != null) 
             {
                 var oSB = new StringBuilder();
@@ -521,31 +526,40 @@
         }
 
         /// <summary>
-        /// Given the walk details form, prepare the DAL objects for insertion
-        /// TODO: In particular, given a directory in which the walk associated files have been prepared, examine the directory and add the files 
-        /// found to the walk
+        /// In particular, given a walk file name template, find the directory in which the files exist, and fill in the DAL objects
         /// </summary>
         /// <param name="iWalkID"></param>
         /// <param name="oForm"></param>
         /// <param name="strRootpath"></param>
         /// <returns></returns>
-        public static List<Walk_AssociatedFile> FillWalkAssociatedFilesByExaminingDirectory(int iWalkID, NameValueCollection oForm, string strRootPath)
+        public static List<Walk_AssociatedFile> FillWalkAssociatedFilesUsingNameTemplate(int iWalkID, NameValueCollection oForm, string strRootPath)
         {
             var collWalkAssociatedFiles = new List<Walk_AssociatedFile>();
- 
+
             short siFileSequenceCounter = 1;
 
-            string walkfiles_fullpathprefix = oForm["walkfiles_reldir"];
-            string walkfiles_nameprefix;
+            string walkfiles_fullpathprefix;
+            string walkfiles_nameprefix = oForm["walkfiles_nameprefix"];
 
-            if (walkfiles_fullpathprefix.Trim().Length==0)
+            // Return an empty collection if the name prefix is not specified.
+            if (walkfiles_nameprefix.Trim().Length == 0)
             {
                 return collWalkAssociatedFiles;
             }
 
-            walkfiles_fullpathprefix = walkfiles_fullpathprefix.Replace("\\", "/");
+            //---Look for the first file which matches the name prefix within the web root
+            string[] strAssociatedFiles = Directory.GetFiles(strRootPath,walkfiles_nameprefix + "*.*", SearchOption.AllDirectories);
+ 
+            // Return an empty collection if the name prefix is not specified.
+            if (strAssociatedFiles.Length == 0)
+            {
+                return collWalkAssociatedFiles;
+            }
+
+            walkfiles_fullpathprefix = strAssociatedFiles[0].Replace("\\", "/");
             int iLoc;
 
+            //Use the first found file to get the path to the directory.
             try
             {
                 iLoc = walkfiles_fullpathprefix.LastIndexOf("/", StringComparison.Ordinal);
@@ -553,31 +567,35 @@
             catch (Exception)
             {
                 iLoc = 0;
+                return collWalkAssociatedFiles;
             }
 
-            string strRelPath = walkfiles_fullpathprefix.Substring(0, iLoc);
-            walkfiles_nameprefix = walkfiles_fullpathprefix.Substring(iLoc + 1, walkfiles_fullpathprefix.Length - iLoc - 1);
+            string strPathToWalkFiles = walkfiles_fullpathprefix.Substring(0, iLoc);
+          //  walkfiles_nameprefix = walkfiles_fullpathprefix.Substring(iLoc + 1, walkfiles_fullpathprefix.Length - iLoc - 1);
 
             // -----Check that the path specified is valid------------------------
-            if (!WalkingStick.DetermineIfDirectoryExists(strRootPath + strRelPath))
+            if (!WalkingStick.DetermineIfDirectoryExists(strPathToWalkFiles))
             {
-                throw new Exception("Could not find directory when looking for image files: dir:[" + strRootPath + strRelPath + "]" + " strRootPath = [" + strRootPath + "]");
+                throw new Exception("Could not find directory when looking for image files: dir:[" + strPathToWalkFiles + "]" + " strRootPath = [" + strRootPath + "]");
             }
 
-            //-----First add all the walk image files----
-            string[] filesindir= Directory.GetFiles(strRootPath + strRelPath, walkfiles_nameprefix + "_*");
-            
+
+            //---Should be the same from this point----------
+
+            //-----First add all the walk image files-------PROBELM HEre - no files found
+            string[] filesindir = Directory.GetFiles(strPathToWalkFiles, walkfiles_nameprefix + "_*");
+
             // go through looking for each number, assigning an order number to the unsorted list
-            for (int imageNumber =1; imageNumber< filesindir.Length+1; imageNumber++)
+            for (int imageNumber = 1; imageNumber < filesindir.Length + 1; imageNumber++)
             {
                 // Look for image number imageNumber in the unordered list
                 for (int iCount = 0; iCount < filesindir.Length; iCount++)
                 {
                     // Construct full file name to look for - jpgs and pngs are allowed, either case
-                    if (filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".jpg") ||
-                        filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".JPG") ||
-                        filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".png") ||
-                        filesindir[iCount].Equals(strRootPath + strRelPath + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".PNG"))
+                    if (filesindir[iCount].Equals(strPathToWalkFiles + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".jpg") ||
+                        filesindir[iCount].Equals(strPathToWalkFiles + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".JPG") ||
+                        filesindir[iCount].Equals(strPathToWalkFiles + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".png") ||
+                        filesindir[iCount].Equals(strPathToWalkFiles + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".PNG"))
                     {
                         // filesindir[iCount] = filesindir[iCount].Replace("\\","/");
                         int iLocFileExtStart = 0;
@@ -587,7 +605,7 @@
                         var oHillAssociateFile = new Walk_AssociatedFile
                         {
                             WalkID = iWalkID,
-                            Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + walkfiles_nameprefix + "_" + imageNumber.ToString() + strImageFileExt, "Content/images/"),
+                            Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strPathToWalkFiles + "/" + walkfiles_nameprefix + "_" + imageNumber.ToString() + strImageFileExt, "Content/images/"),
                             Walk_AssociatedFile_Type = "Image",
                             Walk_AssociatedFile_Sequence = siFileSequenceCounter++
                         };
@@ -599,7 +617,7 @@
             }
 
             // Look for any auxilliary files (not walk images) present matching the nameprefix plus a hyphen
-            filesindir = Directory.GetFiles(strRootPath + strRelPath, walkfiles_nameprefix + "-*");
+            filesindir = Directory.GetFiles(strPathToWalkFiles, walkfiles_nameprefix + "-*");
 
             // for each aux file, create object and add to result list.
             for (int iCount = 0; iCount < filesindir.Length; iCount++)
@@ -615,11 +633,11 @@
                 var oHillAssociateFile = new Walk_AssociatedFile
                 {
                     WalkID = iWalkID,
-                    Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strRelPath + "/" + filesindir[iCount], "Content/images/")
+                    Walk_AssociatedFile_Name = CleanUpAssociateFilePath(strPathToWalkFiles + "/" + filesindir[iCount], "Content/images/")
                 };
                 strAuxFileType = DetermineAuxFileType(filesindir[iCount], walkfiles_nameprefix, ref strDesc);
 
-                if (strAuxFileType.Length>0)
+                if (strAuxFileType.Length > 0)
                 {
                     oHillAssociateFile.Walk_AssociatedFile_Type = strAuxFileType;
                     oHillAssociateFile.Walk_AssociatedFile_Sequence = siFileSequenceCounter++;
@@ -631,11 +649,12 @@
                 {
                     Console.WriteLine("Unexpected auxilliary file of unknown type not added to walk: " + oHillAssociateFile.Walk_AssociatedFile_Name);
                 }
-  
+
             }
-            
+
             return collWalkAssociatedFiles;
         }
+
 
         public static string DetermineAuxFileType(string filename, string name_prefix, ref string strDescription)
         {
