@@ -717,3 +717,9 @@ FodyWeavers.xsd
 /MyMVCAppCS/bin/WebMatrix.Data.dll
 /MyMVCAppCS/bin/WebMatrix.WebData.dll
 /MyMVCAppCS/obj/Debug/MyMVCAppCS.csproj.CoreCompileInputs.cache
+/MyMVCApp.DAL/obj/Debug/MyMVCApp.DAL.csproj.CoreCompileInputs.cache
+/MyMVCApp.Model/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/MyMVCApp.Model/obj/Debug/MyMVCApp.Model.csproj.CoreCompileInputs.cache
+/MyMVCApp.Model/obj/Debug/MyMVCApp.Model.csproj.FileListAbsolute.txt
+/SeleniumTests/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/MyMVCApp.DAL/obj/Debug/MyMVCApp.DAL.csproj.FileListAbsolute.txt
