@@ -70,47 +70,52 @@
     }
     &nbsp;
 
-    <!-- Section: Add New Marker ---------------------------------------------------------------------------------------------------->
-
-    <!--<div id="WalkMarkers">
-        <button id="CreateMarkerButton" type="button">Create New Marker</button><input type="hidden" id="markers_added" name="markers_added" value="" />
-    </div>&nbsp;-->
+    <!-- Section: Walk Description ---------------------------------------------------------------------------------------------------->
     <div>
         @Html.LabelFor(walk => walk.WalkDescription)
     </div>
     <div>
-        @Html.TextAreaFor(walk => walk.WalkDescription, 8, 100, new { @class = "formtextarea"})
+        @Html.TextAreaFor(walk => walk.WalkDescription, 8, 100, new { @class = "formtextarea" })
     </div>&nbsp;
 
     <!-- Section: Add Walk Files---------------------------------------------------------------------->
 
+    <div>Walk images source directory - where the unprocessed images are found</div>
     <div>
-        <label for="images_path"><strong>Walk Files</strong><br />RELATIVE path underneath the images directory where all the files exist followed by a standard name prefix</label>
-        as follows:
+        <input type="text" name="walkimages_sourcedir" id="walkimages_sourcedir" size="80" maxlength="160" value="C:\PhotosVideo\2025\202504__\CrossFell_29April2025"/> e.g. C:\PhotosVideo\2025\202504__\CrossFell_29April2025
+    </div>&nbsp
+    <div>Walk images destination relative directory - where the processed images are found</div>
+    <div>
+        <input type="text" name="walkimages_destinationdir" id="walkimages_destinationdir" size="80" maxlength="160" value="dalespennines\CrossFell"/> e.g. dalespennines\CrossFell
+    </div>
+    &nbsp;
+    <div>
+        Walk file name prefix according the pattern {WalkName}_{DDMMMYYYY}. 
+    </div>
+    <div>
+        <input type="text" name="walkfiles_nameprefix" id="walkfiles_nameprefix" size="80" maxlength="160"/> e.g. CrossFell_29April2025
+    </div>
+    <div>
         <pre>
 This works on configuration by convention. Arrange the files in the directory before using this form as follows:
 
-Images:                  {directories}/{WalkName}_{DDMMMYYYY}_{N}  (underscore)
-GPX Route:               {directories}/{WalkName}_{DDMMMYYYY}-Track{desc}.gpx
-GPX Track:               {directories}/{WalkName}_{DDMMMYYYY}-Route{desc}.gpx
-GPX Route and Track:     {directories}/{WalkName}_{DDMMMYYYY}-RouteTrack{desc}.gpx
-GPX Marker Waypoint:     {directories}/{WalkName}_{DDMMMYYYY}-Marker{desc}.gpx
-Route Map:               {directories}/{WalkName}_{DDMMMYYYY}-MapRoute{desc}.jpg
-Track Map:               {directories}/{WalkName}_{DDMMMYYYY}-MapTrack{desc}.jpg
-Stats image:             {directories}/{WalkName}_{DDMMMYYYY}-Stats{desc}.jpg
-Altitude profile image:  {directories}/{WalkName}_{DDMMMYYYY}-AltitudeProfile{desc}.jpg
-Video:                   {directories}/{WalkName}_{DDMMMYYYY}-Vid{desc}.mov
+GPX Route:               {WalkName}_{DDMMMYYYY}-Track{desc}.gpx
+GPX Track:               {WalkName}_{DDMMMYYYY}-Route{desc}.gpx
+GPX Route and Track:     {WalkName}_{DDMMMYYYY}-RouteTrack{desc}.gpx
+GPX Marker Waypoint:     {WalkName}_{DDMMMYYYY}-Marker{desc}.gpx
+Route Map:               {WalkName}_{DDMMMYYYY}-MapRoute{desc}.jpg
+Track Map:               {WalkName}_{DDMMMYYYY}-MapTrack{desc}.jpg
+Stats image:             {WalkName}_{DDMMMYYYY}-Stats{desc}.jpg
+Altitude profile image:  {WalkName}_{DDMMMYYYY}-AltitudeProfile{desc}.jpg
+Video:                   /{WalkName}_{DDMMMYYYY}-Vid{desc}.mov
 
-E.g. enter:
-dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006
+E.g. blubberhouses_25Aug2006
 
-A GPX route file would be called dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006-Route.gpx is a GPX route
+A GPX route file would be called dalespennines\blubberhousesharrogate\blubberhouses_25Aug2006-Route.gpx
 </pre>
+
     </div>
-    <div>Walk file name prefix according the pattern {WalkName}_{DDMMMYYYY}. E.g. blubberhouses_25Aug2006</div> 
-    <div>
-        <input type="text" name="walkfiles_nameprefix" id="walkfiles_nameprefix" size="80" maxlength="160" />
-    </div>
+
     <!-- Section: Walk Type------------------------------------------------------------------------------>
     &nbsp;
     <div>

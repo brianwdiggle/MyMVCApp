@@ -36,7 +36,7 @@
                         <sup>@Html.ActionLink("DEV", "Index", "Config")</sup>
                     }
                 </li>
-                <li class="right">@Html.ActionLink("Auto", "CreateAuto", "Walks")</li>
+                <li class="right">@Html.ActionLink("Add Walk", "CreateAuto", "Walks")</li>
                 <li class="right">@Html.ActionLink("Progress", "Index", "Progress")</li>
                 <li class="right">@Html.ActionLink("Ascents", "Index", "HillAscent", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
                 <li class="right">@Html.ActionLink("Markers", "Index", "Marker")</li>
@@ -46,7 +46,6 @@
                 <li class="right">@Html.ActionLink("Outlying", "HillsInClassification", "Walks", new { id = "WO" }, new { dummy = 0 }) </li>
                 <li class="right">@Html.ActionLink("Birketts", "HillsInClassification", "Walks", new { id = "B" }, new { dummy = 0 })</li>
                 <li class="right">@Html.ActionLink("Walks", "WalksByDate", "Walks", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Add Walk", "Create", "Walks")</li>
                 <li class="right">@Html.ActionLink("Search", "Index", "Search")</li>
             </ul>
         </div>
@@ -68,7 +67,7 @@
                         <sup>@Html.ActionLink("DEV", "Index", "Config")</sup>
                     }
                 </li>
-                <li class="right">@Html.ActionLink("Auto", "CreateAuto", "Walks")</li>
+                <li class="right">@Html.ActionLink("Add Walk", "CreateAuto", "Walks")</li>
                 <li class="right">@Html.ActionLink("Progress", "Index", "Progress")</li>
                 <li class="right">@Html.ActionLink("Ascents", "Index", "HillAscent", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
                 <li class="right">@Html.ActionLink("Markers", "Index", "Marker")</li>
@@ -78,14 +77,13 @@
                 <li class="right">@Html.ActionLink("Outlying", "HillsInClassification", "Walks", new { id = "WO" }, new { dummy = 0 }) </li>
                 <li class="right">@Html.ActionLink("Birketts", "HillsInClassification", "Walks", new { id = "B" }, new { dummy = 0 })</li>
                 <li class="right">@Html.ActionLink("Walks", "WalksByDate", "Walks", new { OrderBy = "DateDesc" }, new { dummy = 0 })</li>
-                <li class="right">@Html.ActionLink("Add Walk", "Create", "Walks")</li>
                 <li class="right">@Html.ActionLink("Search", "Index", "Search")</li>
             </ul>
         </div>
     </div>
     <div class="spacerdiv"></div>
     <div class="sitefooter">
-        &copy;2010,2011,2022,2023,2024 BWD, C# version 2013<br />
+        &copy;2010,2011,2022,2023,2024,2025 BWD, C# version 2013<br />
         Usage Location= @SessionSingleton.Current.UsageLocation<br />
     </div>
 

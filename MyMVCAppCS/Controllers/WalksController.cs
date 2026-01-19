@@ -517,7 +517,7 @@ namespace MyMVCAppCS.Controllers
             int iShowMap = 0;
 
             Walk oWalk = this.repository.GetWalkDetails(id);
-            
+
             string strTotalTime = WalkingStick.ConvertTotalTimeToString(oWalk.WalkTotalTime, false);
             ViewData["TotalTime"] = strTotalTime;
 
@@ -881,17 +881,83 @@ namespace MyMVCAppCS.Controllers
             return Json(oRes, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CreateAutoCheckFiles(string reldir)
+        /// <summary>
+        /// Checks the directory in the web root which will hold the walk files
+        /// </summary>
+        /// <param name="reldir"></param>
+        /// <returns></returns>
+        public JsonResult CreateAutoCheckDestinationDir(string relativedir)
         {
             string strPathToRoot = Server.MapPath("~/Content/images/");
-            string strFullPathToNamePrefix = strPathToRoot + reldir;
-            int iLoc = strFullPathToNamePrefix.LastIndexOf('\\');
-            string strFullPathToDir = strFullPathToNamePrefix.Substring(0, iLoc);
+            string strFullPathDestDir = strPathToRoot + relativedir.Trim();
+     
             
-            bool bIsInPath = System.IO.Directory.Exists(strFullPathToDir);
+            bool bIsInPath = System.IO.Directory.Exists(strFullPathDestDir);
             if (!bIsInPath)
             {
-                var oRes = new { error = "The directory could not be found or does not exist in the website root" };
+                Directory.CreateDirectory(strFullPathDestDir);
+                var oRes = new { error = "The directory could not be found or does not exist in the website root - it was created" };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var oRes = new { error = "", };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        /// <summary>
+        /// Checks the directory in the web root which will hold the walk files to see if there are 
+        /// any files which map 
+        /// </summary>
+        /// <param name="reldir"></param>
+        /// <returns></returns>
+        public JsonResult CreateAutoCheckNamePrefix(string relativedir, string nameprefix)
+        {
+            string strPathToRoot = Server.MapPath("~/Content/images/");
+            string strFullPathDestDir = strPathToRoot + relativedir;
+            string strFullPathToNamePrefix = strFullPathDestDir + "\\" + nameprefix;
+
+            //-----Are there any files in the directory matching the specified name prefix?----
+
+            string[] filesindir;
+
+            try
+            {
+                filesindir = Directory.GetFiles(strFullPathDestDir,nameprefix + "*");
+            }
+            catch (Exception e)
+            {
+                var oRes = new { error = "An error occurred when checking destination directory" + e.Message };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }
+
+            if (filesindir.Length == 0)
+            {
+                var oRes = new { warning = "No files matching the name prefix were found in the destination directory. Have you forgotten the GPX file?" };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var oRes = new { error = "", };
+                return Json(oRes, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /// <summary>
+        /// Checks the directory which holds the source image files to be prepared for the web.
+        /// </summary>
+        /// <param name="absoluteDir"></param>
+        /// <returns>JsonResult</returns>
+        public JsonResult CreateAutoCheckImageSourceFiles(string absolutedir)
+        {
+
+            bool bIsInPath = System.IO.Directory.Exists(absolutedir);
+            if (!bIsInPath)
+            {
+                var oRes = new { error = "The iamge source directory could not be found or does not exist." };
                 return Json(oRes, JsonRequestBehavior.AllowGet);
             }
 
@@ -901,19 +967,20 @@ namespace MyMVCAppCS.Controllers
 
             try
             {
-                filesindir = Directory.GetFiles(strFullPathToDir, strFullPathToNamePrefix.Substring(iLoc + 1, strFullPathToNamePrefix.Length - iLoc - 1) + "*");
+                filesindir = Directory.GetFiles(absolutedir, "*");
             }
             catch (Exception e)
             {
-                var oRes = new { error = "An error occurred when checking directory" + e.Message };
+                var oRes = new { error = "An error occurred when checking iamge source directory: " + e.Message };
                 return Json(oRes, JsonRequestBehavior.AllowGet);
             }
-            
-             if (filesindir.Length==0)
+
+            if (filesindir.Length == 0)
             {
-                var oRes = new { error = "No files matching the name prefix were found in the directory." };
+                var oRes = new { error = "No image source files were found int the web site root." };
                 return Json(oRes, JsonRequestBehavior.AllowGet);
-            }else
+            }
+            else
             {
                 var oRes = new { error = "" };
                 return Json(oRes, JsonRequestBehavior.AllowGet);

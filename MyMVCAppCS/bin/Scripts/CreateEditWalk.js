@@ -41,7 +41,7 @@ $(function () {
         }
     });
 
-    //---This function is used to populate the hidden html field WalkAreaID which is used by the summit autocomplete to narrow suggestions to the right area
+    //---function is used to populate the hidden html field WalkAreaID which is used by the summit autocomplete to narrow suggestions to the right area
     function extractareaid(walkareaname) {
 
         if (walkareaname.indexOf("|") > 0) {
@@ -154,17 +154,46 @@ $(function () {
         return "";
     }
 
-    //---Function used in CreateAuto to check that files exist in the specified directory
-    $('#walkfiles_reldir').change(function (e) {
+    //---Function used in CreateAuto to check that files source image files exist in the specified absoute directory
+    $('#walkimages_sourcedir').change(function (e) {
 
-        $.getJSON(getHome() + 'Walks/CreateAutoCheckFiles', { reldir: $('#walkfiles_reldir').val() }, function (oResults) {
+        $.getJSON(getHome() + 'Walks/CreateAutoCheckImageSourceFiles', { absolutedir: $('#walkimages_sourcedir').val(), filenameprefix: $('#walkfiles_nameprefix').val() }, function (oResults) {
             if (oResults.error.length > 0) {
                 alert(oResults.error);
-                $('#walkfiles_reldir').focus();
+                $('#walkimages_sourcedir').focus();
             }
         });
 
     });
+
+    //---Function used in CreateAuto to check that the destination relative directory exists
+    $('#walkimages_destinationdir').change(function (e) {
+
+        $.getJSON(getHome() + 'Walks/CreateAutoCheckDestinationDir', { relativedir: $('#walkimages_destinationdir').val() }, function (oResults) {
+            if (oResults.error.length > 0) {
+                alert(oResults.error);
+                $('#walkimages_destinationdir').focus();
+            }
+        });
+
+    });
+
+    //---Function used in CreateAuto to check that the destination relative directory contains some files matching the name prefix
+    $('#walkfiles_nameprefix').change(function (e) {
+
+        $.getJSON(getHome() + 'Walks/CreateAutoCheckNamePrefix', { relativedir: $('#walkimages_destinationdir').val(), nameprefix: $('#walkfiles_nameprefix').val() }, function (oResults) {
+            if (oResults.error != null && oResults.error.length > 0) {
+                alert(oResults.error);
+                $('#walkfiles_nameprefix').focus();            
+            } else if(oResults.warning != null)
+            {
+                alert(oResults.warning);
+                $('#walkfiles_nameprefix').focus();
+            }
+        });
+
+    });
+
 
     /*----Associate a AJAX call (AJAJ in fact as it returns JSON) with the blur event of the auxilliary_file1 */
     /*----How to write a generic handler?------------------------------*/
@@ -411,6 +440,18 @@ $(document).ready(function () {
             MovingAverageKmh: {
                 number: true,
                 range: [0, 8]
+            },
+            walkimages_sourcedir: {
+                required: true,
+                minlength: 10
+            },
+            walkimages_destinationdir: {
+                required: true,
+                minlength: 10
+            },
+            walkfiles_nameprefix: {
+                required: true,
+                minlength: 10
             }
         }
     });

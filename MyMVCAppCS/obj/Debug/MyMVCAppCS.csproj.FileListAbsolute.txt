@@ -120,6 +120,6 @@ C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\bin\Mono.Math.xml
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.App.config
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.AssemblyReference.cache
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.CoreCompileInputs.cache
-C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.CopyComplete
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.dll
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.pdb
+C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.Up2Date
