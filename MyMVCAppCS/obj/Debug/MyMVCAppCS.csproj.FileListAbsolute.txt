@@ -123,3 +123,5 @@ C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.CoreCompileInp
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.dll
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.pdb
 C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\obj\Debug\MyMVCAppCS.csproj.Up2Date
+C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\bin\ImagePreparer.dll
+C:\WalkingWebSite\MyMVCApp\MyMVCAppCS\bin\ImagePreparer.pdb

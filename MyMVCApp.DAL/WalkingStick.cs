@@ -571,16 +571,12 @@
             }
 
             string strPathToWalkFiles = walkfiles_fullpathprefix.Substring(0, iLoc);
-          //  walkfiles_nameprefix = walkfiles_fullpathprefix.Substring(iLoc + 1, walkfiles_fullpathprefix.Length - iLoc - 1);
-
+ 
             // -----Check that the path specified is valid------------------------
             if (!WalkingStick.DetermineIfDirectoryExists(strPathToWalkFiles))
             {
                 throw new Exception("Could not find directory when looking for image files: dir:[" + strPathToWalkFiles + "]" + " strRootPath = [" + strRootPath + "]");
             }
-
-
-            //---Should be the same from this point----------
 
             //-----First add all the walk image files-------PROBELM HEre - no files found
             string[] filesindir = Directory.GetFiles(strPathToWalkFiles, walkfiles_nameprefix + "_*");
@@ -597,7 +593,7 @@
                         filesindir[iCount].Equals(strPathToWalkFiles + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".png") ||
                         filesindir[iCount].Equals(strPathToWalkFiles + "\\" + walkfiles_nameprefix + "_" + imageNumber.ToString() + ".PNG"))
                     {
-                        // filesindir[iCount] = filesindir[iCount].Replace("\\","/");
+    
                         int iLocFileExtStart = 0;
                         iLocFileExtStart = filesindir[iCount].LastIndexOf(".");
                         string strImageFileExt = filesindir[iCount].Substring(iLocFileExtStart, 4);
@@ -1157,9 +1153,9 @@
         /// <returns></returns>
         public static List<Trackpoint> LoadTrackFromGPXFile(string strRelPath, string strRootPath)
         {
-            const string strOSMaps_Route_node = "//x:wpt";
+
             const string strOSMaps_Track_node = "//x:trkpt";
-            const string strGarmin_Track_node = "//x:wpt";
+
             string strGPXNode = strOSMaps_Track_node;    //---Try OS MAps version first where the track ponts are 
 
 

@@ -11,3 +11,16 @@ C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\obj\Debug\Seleni
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\obj\Debug\SeleniumTests.csproj.CoreCompileInputs.cache
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\obj\Debug\SeleniumTests.csproj.CopyComplete
 C:\WalkingWebSite\MyMVCApp-master\MyMVCApp-master\SeleniumTests\obj\Debug\SeleniumTests.csprojAssemblyReference.cache
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\bin\Debug\SeleniumTests.dll
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\bin\Debug\SeleniumTests.pdb
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\bin\Debug\nunit.framework.dll
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\bin\Debug\WebDriver.dll
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\bin\Debug\WebDriver.Support.dll
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\bin\Debug\nunit.framework.xml
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\bin\Debug\WebDriver.xml
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\bin\Debug\WebDriver.Support.xml
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\obj\Debug\SeleniumTests.csproj.AssemblyReference.cache
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\obj\Debug\SeleniumTests.csproj.CoreCompileInputs.cache
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\obj\Debug\Selenium.65C3BE7E.Up2Date
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\obj\Debug\SeleniumTests.dll
+C:\WalkingWebSite\MyMVCApp\SeleniumTests\obj\Debug\SeleniumTests.pdb

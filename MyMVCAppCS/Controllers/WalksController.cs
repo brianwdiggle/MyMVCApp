@@ -755,6 +755,9 @@ namespace MyMVCAppCS.Controllers
             List<HillAscent> arHillAscents = WalkingStick.FillHillAscentsFromFormVariables(iWalkID, this.Request.Form);
             repository.AddWalkSummitsVisited(arHillAscents);
 
+            //--Todo call ImageResizer for each source image
+
+            //--TODO change this based on new form values for template name etc
             List<Walk_AssociatedFile> arWalkAssociatedFiles = WalkingStick.FillWalkAssociatedFilesUsingNameTemplate(
                 iWalkID,
                 this.Request.Form,
