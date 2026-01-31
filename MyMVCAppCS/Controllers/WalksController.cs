@@ -12,6 +12,7 @@ namespace MyMVCAppCS.Controllers
 
     using MyMVCApp.DAL;
     using MyMVCApp.Model;
+    using MyMVCApp.ImagePreparer;
 
     using MyMVCAppCS.Models;
     using MyMVCAppCS.ViewModels;
@@ -756,6 +757,18 @@ namespace MyMVCAppCS.Controllers
             repository.AddWalkSummitsVisited(arHillAscents);
 
             //--Todo call ImageResizer for each source image
+            string strsourceDir = Request.Form["walkimages_sourcedir"];
+            string strDestinationDir = this.Server.MapPath("~/Content/images/") + Request.Form["walkimages_destinationdir"] + "\\";
+            string strImageNamePrefix = Request.Form["walkfiles_nameprefix"];
+
+            // These values correct for display onto 15' lenovo laptop at 1920 x 1080 resolution - to give space for browser
+            // bars and windows task bar.
+            short shCanvasWidth = 1454;
+            short shCanvasHeight = 655;
+
+            ImageResizer imgResizer = new ImageResizer(Request.Form["walkimages_sourcedir"], strDestinationDir, strImageNamePrefix, shCanvasWidth, shCanvasHeight);
+            imgResizer.WalkTitle = Request.Form["WalkTitle"];
+            bool b = imgResizer.ResizeImagesInDirectory();
 
             //--TODO change this based on new form values for template name etc
             List<Walk_AssociatedFile> arWalkAssociatedFiles = WalkingStick.FillWalkAssociatedFilesUsingNameTemplate(
