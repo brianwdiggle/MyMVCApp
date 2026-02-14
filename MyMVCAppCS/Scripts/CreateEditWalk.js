@@ -447,7 +447,7 @@ $(document).ready(function () {
             },
             walkimages_destinationdir: {
                 required: true,
-                minlength: 10
+                minlength: 6
             },
             walkfiles_nameprefix: {
                 required: true,
