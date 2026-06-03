@@ -140,14 +140,21 @@ namespace MyMVCAppCS.Controllers
             return RedirectToAction("Index"); 
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+            int markerId = id ?? 0;
+
+            if (!id.HasValue)
+            {
+                return RedirectToAction("Index"); // Redirect to the markers index page if no id specified.
+            }
+
             ViewData["AT_WORK"] = System.Web.Configuration.WebConfigurationManager.AppSettings["atwork"];
             int iShowMap = 0;
 
             List<MapMarker> lstMarkerMarkers = new List<MapMarker>();
 
-            var oMarker = this.repository.GetMarkerDetails(id);
+            var oMarker = this.repository.GetMarkerDetails(markerId);
 
             if (oMarker.GPS_Reference.Trim() != "")
             {

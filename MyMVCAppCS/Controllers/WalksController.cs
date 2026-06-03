@@ -513,11 +513,19 @@ namespace MyMVCAppCS.Controllers
         //  URL     : /Walks/WalksByDate/OrderBy/{page}
         //  Descr   : Return a list of walks by date, order as per the OrderBy parameter
         // --------------------------------------------------------------------------------------
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+            int walkId = id ?? 0;
+
+            if (!id.HasValue)
+            {
+                return RedirectToAction("Index"); // Redirect to the markers index page if no id specified.
+            }
+
+
             int iShowMap = 0;
 
-            Walk oWalk = this.repository.GetWalkDetails(id);
+            Walk oWalk = this.repository.GetWalkDetails(walkId);
 
             string strTotalTime = WalkingStick.ConvertTotalTimeToString(oWalk.WalkTotalTime, false);
             ViewData["TotalTime"] = strTotalTime;
