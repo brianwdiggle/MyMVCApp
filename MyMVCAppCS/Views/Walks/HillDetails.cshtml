@@ -161,6 +161,9 @@ else
 
     // Add the layers and the layer switching control to the map
     L.control.layers(basemaps).addTo(map);
+
+    // Add a fullscreen control to the map using the leaflet.fullscreen plugin
+    map.addControl(new L.Control.FullScreen());
 </script>
 
 

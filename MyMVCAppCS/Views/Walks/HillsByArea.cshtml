@@ -228,6 +228,9 @@
     // Finally load and display ZXY tile layer on the map.
     const basemap = L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + OSapiKey).addTo(map);
 
+    // Add a fullscreen control to the map using the leaflet.fullscreen plugin
+    map.addControl(new L.Control.FullScreen());
+
     </script>
 
 
